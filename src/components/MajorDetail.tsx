@@ -1,12 +1,12 @@
-const MajorDetail = () => {
+import { Major } from '../models/Major'
+
+const MajorDetail = ({ major }: { major: Major }) => {
   return (
     <div className="w-full shadow-md rounded-md p-4 flex flex-col gap-2">
-      <h1 className="text-lg font-montserrat font-semibold">
-        Công nghệ thông tin
-      </h1>
+      <h1 className="text-lg font-montserrat font-semibold">{major.name}</h1>
       <div>
         <span>Mã ngành: </span>
-        <span>7480201</span>
+        <span>{major.code}</span>
       </div>
       <div className="flex gap-20">
         <div>
@@ -14,7 +14,7 @@ const MajorDetail = () => {
             href="/"
             className="font-montserrat text-primary_color hover:text-primary_color_hover hover:underline"
           >
-            Chương trình đào tạo (120){' '}
+            {`Chương trình đào tạo (${major.numberOfProgramEducations})`}
           </a>
         </div>
         <div>

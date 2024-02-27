@@ -1,11 +1,17 @@
 import MajorDetail from './components/MajorDetail'
 import Navbar from './components/Navbar'
+import { useFetchPagination } from './hooks/useFetchPagination'
+import { MajorService } from './service/MajorService'
 
 function App() {
+  const { data, page, total } = useFetchPagination(MajorService.getAll)
+  console.log(data, page, total)
+
   return (
-    <div className="px-4 py-2">
+    <div className="px-4 py-2 w-full h-full">
       <Navbar />
-      <main className="px-10 flex gap-10 w-full ">
+
+      <main className="px-10 flex gap-10 w-full h-full ">
         <div>
           <h1 className="font-semibold text-primary_color">Tìm kiếm</h1>
           <form className="flex flex-col gap-8 mt-4">
@@ -54,10 +60,15 @@ function App() {
           <h1 className="text-2xl text-primary_color font-bold">
             Ngành đào tạo
           </h1>
-          <div className="flex flex-col gap-8 mt-4">
-            <MajorDetail />
-            <MajorDetail />
-            <MajorDetail />
+          <div className="flex flex-col gap-8 mt-4 overflow-scroll h-full no-scrollbar">
+            {data.map((major) => {
+              return (
+                <MajorDetail
+                  major={major}
+                  key={major.id}
+                />
+              )
+            })}
           </div>
         </div>
       </main>
