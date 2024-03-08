@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom'
+import Paths from '../../constants/paths'
+
 const Navbar = () => {
   return (
     <div className="flex items-center border-b-[1px] border-gray-200 mb-10">
@@ -13,12 +16,18 @@ const Navbar = () => {
         />
       </a>
       <div className="flex gap-4 flex-1 text-lg ml-8">
-        <button className="font-bold  text-primary_color hover:text-primary_color_hover">
+        <Link
+          to={Paths.HOME}
+          className="font-semibold font-montserrat text-primary_color hover:text-primary_color_hover"
+        >
           Ngành đào tạo
-        </button>
-        <button className="font-bold  text-primary_color hover:text-primary_color_hover">
+        </Link>
+        <Link
+          to={Paths.PROGRAM_EDUCATIONS}
+          className="font-semibold font-montserrat  text-primary_color hover:text-primary_color_hover"
+        >
           Chương trình đào tạo
-        </button>
+        </Link>
         <button className="font-bold  text-primary_color hover:text-primary_color_hover">
           Môn học
         </button>

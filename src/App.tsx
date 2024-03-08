@@ -1,78 +1,41 @@
-import MajorDetail from './components/MajorDetail'
-import Navbar from './components/Navbar'
-import { useFetchPagination } from './hooks/useFetchPagination'
-import { MajorService } from './service/MajorService'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import routers from './constants/routers'
+import NotFound from './pages/NotFound'
+// import your icons
 
 function App() {
-  const { data, page, total } = useFetchPagination(MajorService.getAll)
-  console.log(data, page, total)
-
   return (
-    <div className="px-4 py-2 w-full h-full">
-      <Navbar />
-
-      <main className="px-10 flex gap-10 w-full h-full ">
-        <div>
-          <h1 className="font-semibold text-primary_color">Tìm kiếm</h1>
-          <form className="flex flex-col gap-8 mt-4">
-            <div>
-              <label
-                htmlFor="major_name"
-                className="font-montserrat"
-              >
-                Tên ngành đào tạo
-              </label>
-              <br />
-              <input
-                type="text"
-                id="major_name"
-                className="outline-none border-[1px] border-gray-300 rounded-md px-2 py-1 w-80 focus:border-primary_color "
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="major_name"
-                className="font-montserrat"
-              >
-                Mã ngành đào tạo
-              </label>
-              <br />
-              <input
-                type="text"
-                id="major_name"
-                className="p-2 outline-none border-[1px] border-gray-300 rounded-md px-2 py-1 w-80 focus:border-primary_color "
-              />
-            </div>
-            <div className="text-sm flex justify-between">
-              <button className=" text-primary_color border-button rounded-md px-2 py-1 hover:bg-white_hover">
-                Đặt lại
-              </button>
-              <button
-                type="submit"
-                className="bg-primary_color text-white rounded-md px-2 py-1 hover:bg-primary_color_hover"
-              >
-                Tìm kiếm
-              </button>
-            </div>
-          </form>
-        </div>
-        <div className="flex-1">
-          <h1 className="text-2xl text-primary_color font-bold">
-            Ngành đào tạo
-          </h1>
-          <div className="flex flex-col gap-8 mt-4 overflow-scroll h-full no-scrollbar">
-            {data.map((major) => {
-              return (
-                <MajorDetail
-                  major={major}
-                  key={major.id}
-                />
-              )
-            })}
-          </div>
-        </div>
-      </main>
-    </div>
+    <BrowserRouter>
+      {/* <Routes>
+        <Route
+          path={Paths.HOME}
+          element={<Home />}
+        />
+      </Routes>
+      <Routes>
+        <Route
+          path={Paths.PROGRAM_EDUCATIONS}
+          element={<ProgramEducations />}
+        />
+      </Routes> */}
+      <Routes>
+        {routers.map((router, index) => {
+          const Layout = router.layout
+          const Page = router.component
+          return (
+            <Route
+              key={index}
+              path={router.path}
+              element={<Layout>{Page && <Page />}</Layout>}
+            ></Route>
+          )
+        })}
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

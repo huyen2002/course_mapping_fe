@@ -27,6 +27,11 @@ body {
 .border-button {
   border: 1px solid;
 }
+main {
+  height: calc(100vh - 4rem);
+  width: 100%;
+  padding: 0 2.5rem 0 2.5rem;
+}
 
 h1,
 h2,
