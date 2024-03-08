@@ -6,18 +6,6 @@ import NotFound from './pages/NotFound'
 function App() {
   return (
     <BrowserRouter>
-      {/* <Routes>
-        <Route
-          path={Paths.HOME}
-          element={<Home />}
-        />
-      </Routes>
-      <Routes>
-        <Route
-          path={Paths.PROGRAM_EDUCATIONS}
-          element={<ProgramEducations />}
-        />
-      </Routes> */}
       <Routes>
         {routers.map((router, index) => {
           const Layout = router.layout
