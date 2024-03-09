@@ -1,11 +1,12 @@
+import { Outlet } from 'react-router-dom'
 import Navbar from './Navbar'
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = () => {
   return (
     <div className=" px-4 py-2 w-full h-full">
       <Navbar />
 
-      {children}
+      <Outlet />
     </div>
   )
 }

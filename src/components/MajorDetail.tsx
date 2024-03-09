@@ -12,7 +12,7 @@ const MajorDetail = ({ major }: { major: Major }) => {
         <div>
           <a
             href="/"
-            className="font-montserrat text-primary_color hover:text-primary_color_hover hover:underline"
+            className="font-montserrat text-primary_color hover:text-primary_color_hover hover:underline "
           >
             {`Chương trình đào tạo (${major.numberOfProgramEducations})`}
           </a>
@@ -20,7 +20,7 @@ const MajorDetail = ({ major }: { major: Major }) => {
         <div>
           <a
             href="/"
-            className="font-montserrat text-primary_color hover:text-primary_color_hover hover:underline"
+            className="font-montserrat text-primary_color hover:text-primary_color_hover hover:underline "
           >
             Trường đào tạo (50)
           </a>

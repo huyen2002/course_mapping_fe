@@ -58,7 +58,9 @@ const Home = () => {
         </form>
       </div>
       <div className="flex-1">
-        <h1 className="text-2xl text-primary_color font-bold">Ngành đào tạo</h1>
+        <h1 className="text-2xl text-primary_color ml-4 font-bold">
+          Ngành đào tạo
+        </h1>
         <div className=" h-[500px]">
           {!isFetching ? (
             <div className="relative flex flex-col gap-8 mt-4 pb-8 overflow-y-scroll h-[500px] no-scrollbar">

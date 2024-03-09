@@ -1,17 +1,22 @@
 import { Major, MajorUtils } from './Major'
 import { University, UniversityUtils } from './University'
 
+export enum LevelOfEducation {
+  BACHELOR = 'Cử nhân' as any,
+  MASTER = 'Thạc sĩ' as any,
+  DOCTOR = 'Tiến sĩ' as any,
+}
 export interface ProgramEducation {
   id: number
   name: string
   language: string
   introduction: string
   duration_year: number
-  level_of_education: string
-  num_credits: number
+  levelOfEducation: keyof LevelOfEducation
+  numCredits: number
   outline: string
-  start_year: number
-  end_year: number
+  startYear: number
+  endYear: number
   major: Major
   university: University
 }
@@ -24,11 +29,11 @@ export const ProgramEducationUtils = {
       language: dto.language,
       introduction: dto.introduction,
       duration_year: dto.duration_year,
-      level_of_education: dto.level_of_education,
-      num_credits: dto.num_credits,
+      levelOfEducation: dto.level_of_education as keyof LevelOfEducation,
+      numCredits: dto.num_credits,
       outline: dto.outline,
-      start_year: dto.start_year,
-      end_year: dto.end_year,
+      startYear: dto.start_year,
+      endYear: dto.end_year,
       major: MajorUtils.toEntity(dto.major),
       university: UniversityUtils.toEntity(dto.university),
     } as ProgramEducation
