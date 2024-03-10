@@ -1,26 +1,81 @@
-import { useForm } from 'react-hook-form'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect, useState } from 'react'
 import MajorDetail from '../components/MajorDetail'
 import LoadingScreen from '../components/common/LoadingScreen'
 import Pagination from '../components/common/Pagination'
-import { useFetchPagination } from '../hooks/useFetchPagination'
+import { Major } from '../models/Major'
 import { defaultParams } from '../models/QueryParams'
-import { MajorService, SearchMajorParams } from '../service/MajorService'
+import { MajorService } from '../service/MajorService'
 
 const Home = () => {
-  const { data, page, total, isFetching, changePage } = useFetchPagination(
-    MajorService.getAll
-  )
-  // console.log(data, page, total)
-  const { register, handleSubmit, reset } = useForm<SearchMajorParams>()
+  // const { data, page, total, isFetching, changePage } = useFetchPagination(
+  //   MajorService.getAll
+  // )
 
-  const onSubmit = async (data: SearchMajorParams) => {
-    console.log('data', data)
-    try {
-      const response = await MajorService.search({ page: 0, size: 5 }, data)
-      console.log('response', response)
-    } catch (error) {
-      console.log(error)
+  const [data, setData] = useState<Major[]>([])
+  const [page, setPage] = useState<number>(defaultParams.page)
+  const [isFetching, setIsFetching] = useState<boolean>(false)
+  const [total, setTotal] = useState<number>(0)
+  const [nameParam, setNameParam] = useState<string | null>(null)
+  const [codeParam, setCodeParam] = useState<string | null>(null)
+
+  const handleResetInput = (e: any) => {
+    e.preventDefault()
+    setNameParam('')
+    setCodeParam('')
+    fetchData()
+  }
+  useEffect(() => {
+    if (nameParam?.trim() === '') {
+      setNameParam(null)
     }
+    if (codeParam?.trim() === '') {
+      setCodeParam(null)
+    }
+  }, [nameParam, codeParam])
+
+  const fetchData = async () => {
+    if (!nameParam && !codeParam) {
+      try {
+        setIsFetching(true)
+        const response = await MajorService.getAll({
+          page: page - 1,
+          size: defaultParams.size,
+        })
+        setData([...response.data])
+        setTotal(response.meta.total)
+      } catch (e: any) {
+        console.log('Error: ' + e)
+      } finally {
+        setIsFetching(false)
+      }
+    } else {
+      try {
+        setIsFetching(true)
+        const response = await MajorService.search(
+          { page: page - 1, size: defaultParams.size },
+          { name: nameParam, code: codeParam }
+        )
+        setData([...response.data])
+        setTotal(response.meta.total)
+      } catch (e: any) {
+        console.log('Error: ' + e)
+      } finally {
+        setIsFetching(false)
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [page])
+
+  const changePage = (page: number) => {
+    setPage(page)
+  }
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    fetchData()
   }
   return (
     <main className="flex gap-10 h-full">
@@ -38,7 +93,8 @@ const Home = () => {
             <input
               type="text"
               id="major_name"
-              {...register('name')}
+              value={nameParam as string}
+              onChange={(e) => setNameParam(e.target.value)}
               className="outline-none border-[1px] border-gray-300 rounded-md px-2 py-1 w-80 focus:border-primary_color "
             />
           </div>
@@ -53,20 +109,21 @@ const Home = () => {
             <input
               type="text"
               id="major_name"
-              {...register('code')}
+              value={codeParam as string}
+              onChange={(e) => setCodeParam(e.target.value)}
               className="p-2 outline-none border-[1px] border-gray-300 rounded-md px-2 py-1 w-80 focus:border-primary_color "
             />
           </div>
           <div className="text-sm flex justify-between">
             <button
-              onClick={() => reset()}
+              onClick={handleResetInput}
               className=" text-primary_color border-button rounded-md px-2 py-1 hover:bg-white_hover"
             >
               Đặt lại
             </button>
             <button
               type="submit"
-              onClick={handleSubmit(onSubmit)}
+              onClick={handleSubmit}
               className="bg-primary_color text-white rounded-md px-2 py-1 hover:bg-primary_color_hover"
             >
               Tìm kiếm

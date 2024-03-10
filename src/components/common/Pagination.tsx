@@ -11,7 +11,6 @@ const Pagination = ({
 }) => {
   const totalPages = Math.ceil(total / size)
 
-  console.log('currentPage', currentPage)
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       changePage(currentPage - 1)

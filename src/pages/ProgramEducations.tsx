@@ -6,7 +6,7 @@ import { defaultParams } from '../models/QueryParams'
 import ProgramEducationService from '../service/ProgramEducationService'
 
 const ProgramEducations = () => {
-  const { data, page, total, isFetching } = useFetchPagination(
+  const { data, page, total, isFetching, changePage } = useFetchPagination(
     ProgramEducationService.getAll
   )
   return (
@@ -107,6 +107,7 @@ const ProgramEducations = () => {
                   total={total}
                   currentPage={page}
                   size={defaultParams.size}
+                  changePage={changePage}
                 />
               </div>
             </div>
