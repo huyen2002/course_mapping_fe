@@ -14,7 +14,7 @@ export const useFetchPagination = (fetchAPI: any) => {
         page: page - 1,
         size: defaultParams.size,
       })
-      setData(response.data)
+      setData([...response.data])
       setTotal(response.meta.total)
     } catch (e: any) {
       console.log('Error: ' + e)
@@ -24,7 +24,6 @@ export const useFetchPagination = (fetchAPI: any) => {
   }
   const changePage = (page: number) => {
     setPage(page)
-    fetchData()
   }
   useEffect(() => {
     fetchData()

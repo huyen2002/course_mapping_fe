@@ -1,16 +1,27 @@
+import { useForm } from 'react-hook-form'
 import MajorDetail from '../components/MajorDetail'
 import LoadingScreen from '../components/common/LoadingScreen'
 import Pagination from '../components/common/Pagination'
 import { useFetchPagination } from '../hooks/useFetchPagination'
 import { defaultParams } from '../models/QueryParams'
-import { MajorService } from '../service/MajorService'
+import { MajorService, SearchMajorParams } from '../service/MajorService'
 
 const Home = () => {
-  const { data, page, total, isFetching } = useFetchPagination(
+  const { data, page, total, isFetching, changePage } = useFetchPagination(
     MajorService.getAll
   )
-  console.log(data, page, total)
+  // console.log(data, page, total)
+  const { register, handleSubmit, reset } = useForm<SearchMajorParams>()
 
+  const onSubmit = async (data: SearchMajorParams) => {
+    console.log('data', data)
+    try {
+      const response = await MajorService.search({ page: 0, size: 5 }, data)
+      console.log('response', response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <main className="flex gap-10 h-full">
       <div>
@@ -27,6 +38,7 @@ const Home = () => {
             <input
               type="text"
               id="major_name"
+              {...register('name')}
               className="outline-none border-[1px] border-gray-300 rounded-md px-2 py-1 w-80 focus:border-primary_color "
             />
           </div>
@@ -41,15 +53,20 @@ const Home = () => {
             <input
               type="text"
               id="major_name"
+              {...register('code')}
               className="p-2 outline-none border-[1px] border-gray-300 rounded-md px-2 py-1 w-80 focus:border-primary_color "
             />
           </div>
           <div className="text-sm flex justify-between">
-            <button className=" text-primary_color border-button rounded-md px-2 py-1 hover:bg-white_hover">
+            <button
+              onClick={() => reset()}
+              className=" text-primary_color border-button rounded-md px-2 py-1 hover:bg-white_hover"
+            >
               Đặt lại
             </button>
             <button
               type="submit"
+              onClick={handleSubmit(onSubmit)}
               className="bg-primary_color text-white rounded-md px-2 py-1 hover:bg-primary_color_hover"
             >
               Tìm kiếm
@@ -79,6 +96,7 @@ const Home = () => {
                   total={total}
                   currentPage={page}
                   size={defaultParams.size}
+                  changePage={changePage}
                 />
               </div>
             </div>
