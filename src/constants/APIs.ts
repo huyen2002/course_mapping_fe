@@ -4,4 +4,5 @@ export const MajorAPIs = {
 }
 export const ProgramEducationAPIs = {
   GET_ALL: 'program_educations/all',
+  SEARCH: 'program_educations/search',
 }
