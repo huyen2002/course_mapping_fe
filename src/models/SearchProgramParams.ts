@@ -8,6 +8,7 @@ export enum LevelOfEducationParams {
   BACHELOR = 'BACHELOR',
   MASTER = 'MASTER',
   DOCTOR = 'DOCTOR',
+  ENGINEER = 'ENGINEER',
 }
 export interface SearchProgramParams {
   name?: string

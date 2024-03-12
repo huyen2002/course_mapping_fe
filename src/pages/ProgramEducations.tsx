@@ -140,22 +140,16 @@ const ProgramEducations = () => {
               className="p-2 font-montserrat outline-none border-[1px] border-gray-300 rounded-md w-80 focus:border-primary_color "
             >
               <option value={LevelOfEducationParams.ALL}>Tất cả</option>
-              <option
-                value={LevelOfEducationParams.BACHELOR}
-                className=""
-              >
+              <option value={LevelOfEducationParams.BACHELOR}>
                 {LevelOfEducation.BACHELOR}
               </option>
-              <option
-                value={LevelOfEducationParams.MASTER}
-                className=""
-              >
+              <option value={LevelOfEducationParams.ENGINEER}>
+                {LevelOfEducation.ENGINEER}
+              </option>
+              <option value={LevelOfEducationParams.MASTER}>
                 {LevelOfEducation.MASTER}
               </option>
-              <option
-                value={LevelOfEducationParams.DOCTOR}
-                className=""
-              >
+              <option value={LevelOfEducationParams.DOCTOR}>
                 {LevelOfEducation.DOCTOR}
               </option>
             </select>
@@ -175,18 +169,8 @@ const ProgramEducations = () => {
               className="p-2 font-montserrat outline-none border-[1px] border-gray-300 rounded-md w-80 focus:border-primary_color "
             >
               <option value={ProgramStatus.ALL}>Tất cả</option>
-              <option
-                value={ProgramStatus.ACTIVE}
-                className=""
-              >
-                Hoạt động
-              </option>
-              <option
-                value={ProgramStatus.CLOSED}
-                className=""
-              >
-                Đã đóng
-              </option>
+              <option value={ProgramStatus.ACTIVE}>Hoạt động</option>
+              <option value={ProgramStatus.CLOSED}>Đã đóng</option>
             </select>
           </div>
           <div className="text-sm flex justify-between">

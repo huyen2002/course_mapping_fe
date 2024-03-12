@@ -6,18 +6,13 @@ import Pagination from '../components/common/Pagination'
 import { Major } from '../models/Major'
 import { defaultParams } from '../models/QueryParams'
 import { MajorService } from '../service/MajorService'
-
 const Home = () => {
-  // const { data, page, total, isFetching, changePage } = useFetchPagination(
-  //   MajorService.getAll
-  // )
-
   const [data, setData] = useState<Major[]>([])
   const [page, setPage] = useState<number>(defaultParams.page)
   const [isFetching, setIsFetching] = useState<boolean>(false)
   const [total, setTotal] = useState<number>(0)
-  const [nameParam, setNameParam] = useState<string | null>(null)
-  const [codeParam, setCodeParam] = useState<string | null>(null)
+  const [nameParam, setNameParam] = useState<string>('')
+  const [codeParam, setCodeParam] = useState<string>('')
 
   const handleResetInput = (e: any) => {
     e.preventDefault()
@@ -25,26 +20,22 @@ const Home = () => {
     setCodeParam('')
     fetchData()
   }
-  useEffect(() => {
-    if (nameParam?.trim() === '') {
-      setNameParam(null)
-    }
-    if (codeParam?.trim() === '') {
-      setCodeParam(null)
-    }
-  }, [nameParam, codeParam])
 
   const fetchData = async () => {
-    if (!nameParam && !codeParam) {
+    const searchParams = {
+      name: nameParam.trim() === '' ? null : nameParam.trim(),
+      code: codeParam.trim() === '' ? null : codeParam.trim(),
+    }
+    if (Object.values(searchParams).every((value) => value === null)) {
       try {
         setIsFetching(true)
         const response = await MajorService.getAll({
           page: page - 1,
           size: defaultParams.size,
         })
-        setData([...response.data])
+        setData(response.data)
         setTotal(response.meta.total)
-      } catch (e: any) {
+      } catch (e: unknown) {
         console.log('Error: ' + e)
       } finally {
         setIsFetching(false)
@@ -54,9 +45,9 @@ const Home = () => {
         setIsFetching(true)
         const response = await MajorService.search(
           { page: page - 1, size: defaultParams.size },
-          { name: nameParam, code: codeParam }
+          searchParams
         )
-        setData([...response.data])
+        setData(response.data)
         setTotal(response.meta.total)
       } catch (e: any) {
         console.log('Error: ' + e)
@@ -91,7 +82,6 @@ const Home = () => {
             </label>
             <br />
             <input
-              type="text"
               id="major_name"
               value={nameParam as string}
               onChange={(e) => setNameParam(e.target.value)}
@@ -107,7 +97,6 @@ const Home = () => {
             </label>
             <br />
             <input
-              type="text"
               id="major_name"
               value={codeParam as string}
               onChange={(e) => setCodeParam(e.target.value)}

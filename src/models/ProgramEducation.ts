@@ -5,6 +5,7 @@ export enum LevelOfEducation {
   BACHELOR = 'Cử nhân' as any,
   MASTER = 'Thạc sĩ' as any,
   DOCTOR = 'Tiến sĩ' as any,
+  ENGINEER = 'Kỹ sư' as any,
 }
 export interface ProgramEducation {
   id: number

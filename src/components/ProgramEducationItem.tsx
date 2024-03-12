@@ -17,7 +17,7 @@ const ProgramEducationItem = ({
       </div>
       <div className="flex gap-5">
         <Tooltip
-          title="Cấp bậc"
+          title="Trình độ"
           placement="top"
         >
           <span className="bg-blue-100 text-blue-600 rounded-2xl px-3 py-1 font-semibold text-sm">
