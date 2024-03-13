@@ -6,6 +6,7 @@ import NotFound from '../pages/NotFound'
 import ProgramEducations from '../pages/ProgramEducations'
 import UniversityHome from '../pages/university/UniversityHome'
 import Paths from './paths'
+import ProgramEducationDetail from '../pages/ProgramEducationDetail'
 
 const routers = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const routers = createBrowserRouter([
     children: [
       { path: Paths.HOME, element: <Home /> },
       { path: Paths.PROGRAM_EDUCATIONS, element: <ProgramEducations /> },
+      {
+        path: Paths.PROGRAM_EDUCATION_DETAIL,
+        element: <ProgramEducationDetail />,
+      },
     ],
     errorElement: <NotFound />,
   },

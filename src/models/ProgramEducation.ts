@@ -10,6 +10,7 @@ export enum LevelOfEducation {
 export interface ProgramEducation {
   id: number
   name: string
+  code: string
   language: string
   introduction: string
   duration_year: number
@@ -27,6 +28,7 @@ export const ProgramEducationUtils = {
     return {
       id: dto.id,
       name: dto.name,
+      code: dto.code,
       language: dto.language,
       introduction: dto.introduction,
       duration_year: dto.duration_year,

@@ -98,7 +98,6 @@ const ProgramEducations = () => {
             </label>
             <br />
             <input
-              type="text"
               id="name"
               value={nameParam}
               onChange={(e) => setNameParam(e.target.value)}
@@ -114,7 +113,6 @@ const ProgramEducations = () => {
             </label>
             <br />
             <input
-              type="text"
               id="majorCode"
               value={majorCodeParam}
               onChange={(e) => setMajorCodeParam(e.target.value)}
