@@ -33,12 +33,12 @@ const ProgramEducationDetail = () => {
     fetchData()
   }, [id])
   return (
-    <div className="w-full">
+    <div className="w-full h-[calc(100vh-150px)] pb-8 overflow-y-scroll no-scrollbar">
       {isFetching ? (
         <LoadingScreen />
       ) : (
-        <div className="mx-10 flex gap-8 w-full">
-          <div className="w-2/3">
+        <div className="mx-10 flex gap-8">
+          <div className="w-3/4">
             <h1 className="text-2xl font-bold text-primary_color">
               {programEducation?.name} - (
               {programEducation?.university.user.name})
@@ -92,12 +92,13 @@ const ProgramEducationDetail = () => {
                   Giới thiệu chung về chương trình đào tạo:
                 </span>
                 <span>{programEducation?.introduction}</span>
+                <span>{programEducation?.introduction}</span>
               </div>
             </div>
           </div>
-          <div className="pr-10">
+          <div className="">
             {similarPrograms.length > 0 && (
-              <div className="flex flex-col gap-4 h-screen overflow-scroll">
+              <div className="flex flex-col gap-4">
                 <h2 className="text-xl font-bold text-primary_color pl-4">
                   Chương trình đào tạo tương tự
                 </h2>

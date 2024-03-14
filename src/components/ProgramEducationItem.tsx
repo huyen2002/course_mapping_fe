@@ -10,12 +10,12 @@ const ProgramEducationItem = ({
   hideInfo?: boolean
 }) => {
   return (
-    <div className="w-full shadow-md rounded-md p-4 flex flex-col gap-2">
+    <div className="shadow-md rounded-md p-4 flex flex-col gap-2">
       <Link
         to={`/program_education/${programEducation.id}`}
         className={
           hideInfo
-            ? 'font-montserrat  font-semibold text-text_color'
+            ? 'font-montserrat font-semibold text-text_color'
             : 'font-montserrat text-lg font-bold text-text_color'
         }
       >
