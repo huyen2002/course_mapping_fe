@@ -5,9 +5,11 @@ import { LevelOfEducation, ProgramEducation } from '../models/ProgramEducation'
 const ProgramEducationItem = ({
   programEducation,
   hideInfo,
+  comparedProgramEducationId,
 }: {
   programEducation: ProgramEducation
   hideInfo?: boolean
+  comparedProgramEducationId?: number
 }) => {
   return (
     <div className="shadow-md rounded-md p-4 flex flex-col gap-2">
@@ -63,7 +65,7 @@ const ProgramEducationItem = ({
             Chi tiết
           </Link>
           <Link
-            to={'/'}
+            to={`/compare_program_educations/${programEducation.id}/and/${comparedProgramEducationId}`}
             className="text-primary_color hover:text-primary_color_hover hover:underline font-montserrat"
           >
             So sánh

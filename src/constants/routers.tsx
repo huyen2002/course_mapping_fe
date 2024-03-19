@@ -1,12 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom'
+import DetailLayout from '../layouts/DetailLayout'
 import Layout from '../layouts/Layout'
 import UniversityLayout from '../layouts/UniversityLayout'
+import CompareProgramEducations from '../pages/CompareProgramEducations'
 import Home from '../pages/Home'
 import NotFound from '../pages/NotFound'
+import ProgramEducationDetail from '../pages/ProgramEducationDetail'
 import ProgramEducations from '../pages/ProgramEducations'
 import UniversityHome from '../pages/university/UniversityHome'
 import Paths from './paths'
-import ProgramEducationDetail from '../pages/ProgramEducationDetail'
 
 const routers = createBrowserRouter([
   {
@@ -15,10 +17,6 @@ const routers = createBrowserRouter([
     children: [
       { path: Paths.HOME, element: <Home /> },
       { path: Paths.PROGRAM_EDUCATIONS, element: <ProgramEducations /> },
-      {
-        path: Paths.PROGRAM_EDUCATION_DETAIL,
-        element: <ProgramEducationDetail />,
-      },
     ],
     errorElement: <NotFound />,
   },
@@ -32,6 +30,20 @@ const routers = createBrowserRouter([
       },
     ],
     errorElement: <NotFound />,
+  },
+  {
+    path: '/',
+    element: <DetailLayout />,
+    children: [
+      {
+        path: Paths.PROGRAM_EDUCATION_DETAIL,
+        element: <ProgramEducationDetail />,
+      },
+      {
+        path: Paths.COMPARE_PROGRAM_EDUCATIONS,
+        element: <CompareProgramEducations />,
+      },
+    ],
   },
 ])
 export default routers

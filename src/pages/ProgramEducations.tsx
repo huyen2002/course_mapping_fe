@@ -85,7 +85,7 @@ const ProgramEducations = () => {
     fetchData()
   }, [page])
   return (
-    <main className="flex gap-10 h-full">
+    <main className="flex gap-10 h-full lg:flex-row flex-col overflow-auto no-scrollbar lg:overflow-hidden">
       <div>
         <h1 className="font-semibold text-primary_color">Tìm kiếm</h1>
         <form className="flex flex-col gap-8 mt-4">
@@ -192,9 +192,9 @@ const ProgramEducations = () => {
         <h1 className="text-2xl ml-4 text-primary_color font-bold">
           Chương trình đào tạo
         </h1>
-        <div className=" h-[500px]">
+        <div className="h-full lg:h-[500px]">
           {!isFetching ? (
-            <div className="relative flex flex-col gap-8 mt-4 pb-8 overflow-y-scroll h-[500px] no-scrollbar">
+            <div className="relative flex flex-col h-full gap-8 mt-4 pb-8 overflow-auto lg:overflow-y-scroll lg:h-[500px] no-scrollbar">
               <div>
                 {data.map((programEducation) => {
                   return (

@@ -33,12 +33,12 @@ const ProgramEducationDetail = () => {
     fetchData()
   }, [id])
   return (
-    <div className="w-full h-[calc(100vh-150px)] pb-8 overflow-y-scroll no-scrollbar">
+    <div>
       {isFetching ? (
         <LoadingScreen />
       ) : (
-        <div className="mx-10 flex gap-8">
-          <div className="w-3/4">
+        <div className="lg:mx-10 flex gap-8 lg:flex-row flex-col">
+          <div className="lg:w-3/4">
             <h1 className="text-2xl font-bold text-primary_color">
               {programEducation?.name} - (
               {programEducation?.university.user.name})
@@ -92,20 +92,20 @@ const ProgramEducationDetail = () => {
                   Giới thiệu chung về chương trình đào tạo:
                 </span>
                 <span>{programEducation?.introduction}</span>
-                <span>{programEducation?.introduction}</span>
               </div>
             </div>
           </div>
           <div className="">
             {similarPrograms.length > 0 && (
               <div className="flex flex-col gap-4">
-                <h2 className="text-xl font-bold text-primary_color pl-4">
+                <h2 className="text-xl font-bold text-primary_color lg:pl-4">
                   Chương trình đào tạo tương tự
                 </h2>
                 {similarPrograms.map((item, index) => (
                   <ProgramEducationItem
                     key={index}
                     programEducation={item}
+                    comparedProgramEducationId={programEducation?.id}
                     hideInfo
                   />
                 ))}

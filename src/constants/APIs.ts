@@ -8,4 +8,10 @@ export const ProgramEducationAPIs = {
   GET_BY_ID: (id: number) => `program_education/${id}`,
   GET_COURSES_BY_PROGRAM_ID: (id: number) => `program_education/${id}/courses`,
   GET_SIMILAR_PROGRAMS: (id: number) => `program_education/${id}/top_similar`,
+  COMPARE_COURSE_LISTS: (firstProgramId: number, secondProgramId: number) =>
+    `/compare_courses_of_program_educations/${firstProgramId}/and/${secondProgramId}`,
+}
+
+export const DocumentAPIs = {
+  COMPARE_TWO_DOCUMENTS: '/compare_two_documents',
 }

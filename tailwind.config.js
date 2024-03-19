@@ -12,8 +12,8 @@ export default {
         primary_color: '#4B9BDB',
         primary_color_hover: '#3D8BCC',
         white_hover: '#F5F5F5',
-        text_color: '#4F4F4F',
-        text_color_hover: '#333333',
+        text_color: '#313131',
+        text_color_hover: '#1d1c1c',
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],

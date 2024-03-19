@@ -1,4 +1,5 @@
 import { ProgramEducationAPIs } from '../constants/APIs'
+import { ComparedCoursesUtils } from '../models/ComparedCourses'
 import { ProgramEducationUtils } from '../models/ProgramEducation'
 import { ProgramEducationCourseUtils } from '../models/ProgramEducationCourse'
 import { SearchProgramParams } from '../models/SearchProgramParams'
@@ -80,6 +81,26 @@ const ProgramEducationService = {
         message: response.message,
       },
       data: ProgramEducationUtils.toEntities(response.data),
+    }
+  },
+  compareCourseLists: async (
+    firstProgramId: number,
+    secondProgramId: number
+  ) => {
+    const response = (
+      await http.get(
+        ProgramEducationAPIs.COMPARE_COURSE_LISTS(
+          firstProgramId,
+          secondProgramId
+        )
+      )
+    ).data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: ComparedCoursesUtils.toEntities(response.data),
     }
   },
 }
