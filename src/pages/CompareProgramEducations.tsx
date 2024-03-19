@@ -17,13 +17,21 @@ const CompareProgramEducations = () => {
 
   const fetchData = async () => {
     try {
+      if (!id_1 || !id_2) return
       setIsFetching(true)
-      const firstProgramResponse = await ProgramEducationService.getById(id_1)
+      const firstProgramResponse = await ProgramEducationService.getById(
+        parseInt(id_1)
+      )
       setFirstProgram(firstProgramResponse.data)
-      const secondProgramResponse = await ProgramEducationService.getById(id_2)
+      const secondProgramResponse = await ProgramEducationService.getById(
+        parseInt(id_2)
+      )
       setSecondProgram(secondProgramResponse.data)
       const comparedCoursesResponse =
-        await ProgramEducationService.compareCourseLists(id_1, id_2)
+        await ProgramEducationService.compareCourseLists(
+          parseInt(id_1),
+          parseInt(id_2)
+        )
       setComparedCourses(comparedCoursesResponse.data)
     } catch (e: any) {
       console.log('Error: ', e)
@@ -185,10 +193,14 @@ const CompareProgramEducations = () => {
                     className="bg-white"
                   >
                     <Table.Cell className="whitespace-nowrap"></Table.Cell>
-                    <Table.Cell className={item?.firstCourse || 'text-center'}>
+                    <Table.Cell
+                      className={item?.firstCourse ? '' : 'text-center'}
+                    >
                       {item?.firstCourse?.name || '_'}
                     </Table.Cell>
-                    <Table.Cell className={item?.secondCourse || 'text-center'}>
+                    <Table.Cell
+                      className={item?.secondCourse ? '' : 'text-center'}
+                    >
                       {item?.secondCourse?.name || '_'}
                     </Table.Cell>
 
