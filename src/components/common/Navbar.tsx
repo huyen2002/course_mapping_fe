@@ -36,9 +36,12 @@ const Navbar = () => {
         <button className=" hover:bg-white_hover text-primary_color rounded-3xl py-1 px-2  border-primary_color border-button">
           Đăng ký
         </button>
-        <button className=" bg-primary_color text-white py-1 rounded-3xl px-2 hover:bg-primary_color_hover ">
-          Đăng nhập
-        </button>
+        <Link to={Paths.LOGIN}>
+          <button className=" bg-primary_color text-white py-1 rounded-3xl px-2 hover:bg-primary_color_hover ">
+            Đăng nhập
+          </button>
+        </Link>
+
         <button className="hover:bg-white_hover text-primary_color  border-button rounded-3xl py-1 px-2">
           Trang nhân viên
         </button>

@@ -4,7 +4,7 @@ export interface User {
   email: string
   createAt: Date
   updateAt: Date
-  role: string
+  role: Role
   enabled: boolean
 }
 export const UserUtils = {
@@ -15,8 +15,19 @@ export const UserUtils = {
       email: dto.email,
       createAt: new Date(dto.create_at),
       updateAt: new Date(dto.update_at),
-      role: dto.role,
+      role: dto.role as Role,
       enabled: dto.enabled,
     }
   },
+}
+
+export interface UserLoginInput {
+  email: string
+  password: string
+}
+
+export enum Role {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+  UNIVERSITY = 'UNIVERSITY',
 }

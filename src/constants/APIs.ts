@@ -1,3 +1,8 @@
+export const AuthAPIs = {
+  LOGIN: '/auth/login',
+  REGISTER: '/auth/register',
+  LOGOUT: '/auth/logout',
+}
 export const MajorAPIs = {
   GET_ALL: '/majors/all',
   SEARCH: 'majors/search',

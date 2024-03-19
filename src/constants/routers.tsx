@@ -7,6 +7,7 @@ import Home from '../pages/Home'
 import NotFound from '../pages/NotFound'
 import ProgramEducationDetail from '../pages/ProgramEducationDetail'
 import ProgramEducations from '../pages/ProgramEducations'
+import SignIn from '../pages/auth/Login'
 import UniversityHome from '../pages/university/UniversityHome'
 import Paths from './paths'
 
@@ -44,6 +45,10 @@ const routers = createBrowserRouter([
         element: <CompareProgramEducations />,
       },
     ],
+  },
+  {
+    path: Paths.LOGIN,
+    element: <SignIn />,
   },
 ])
 export default routers
