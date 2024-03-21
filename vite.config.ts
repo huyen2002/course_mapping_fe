@@ -7,4 +7,9 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  resolve: {
+    alias: {
+      'react-windowed-select': 'react-windowed-select/dist/main.js',
+    },
+  },
 })

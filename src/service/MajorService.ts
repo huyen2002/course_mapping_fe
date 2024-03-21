@@ -42,4 +42,14 @@ export const MajorService = {
       data: MajorUtils.toEntities(response.data),
     }
   },
+  getList: async () => {
+    const response = (await http.get(MajorAPIs.GET_LIST)).data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: MajorUtils.toEntities(response.data),
+    }
+  },
 }

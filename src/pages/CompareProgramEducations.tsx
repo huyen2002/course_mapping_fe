@@ -139,11 +139,10 @@ const CompareProgramEducations = () => {
                   <Table.Cell className="whitespace-nowrap font-semibold ">
                     Thời gian đào tạo
                   </Table.Cell>
-                  <Table.Cell>{firstProgram?.duration_year} năm</Table.Cell>
-                  <Table.Cell>{secondProgram?.duration_year} năm</Table.Cell>
+                  <Table.Cell>{firstProgram?.durationYear} năm</Table.Cell>
+                  <Table.Cell>{secondProgram?.durationYear} năm</Table.Cell>
                   <Table.Cell className="font-semibold text-center">
-                    {firstProgram?.duration_year ===
-                    secondProgram?.duration_year
+                    {firstProgram?.durationYear === secondProgram?.durationYear
                       ? '100%'
                       : '_'}
                   </Table.Cell>

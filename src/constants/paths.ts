@@ -7,5 +7,6 @@ const Paths = {
   COMPARE_PROGRAM_EDUCATIONS: '/compare_program_educations/:id_1/and/:id_2',
 
   UNIVERSITY_HOME: '/university/home',
+  NEW_PROGRAM_EDUCATION: '/university/new_program_education',
 }
 export default Paths

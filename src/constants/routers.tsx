@@ -8,6 +8,7 @@ import NotFound from '../pages/NotFound'
 import ProgramEducationDetail from '../pages/ProgramEducationDetail'
 import ProgramEducations from '../pages/ProgramEducations'
 import SignIn from '../pages/auth/Login'
+import NewProgramEducation from '../pages/university/NewProgramEducation'
 import UniversityHome from '../pages/university/UniversityHome'
 import Paths from './paths'
 
@@ -28,6 +29,10 @@ const routers = createBrowserRouter([
       {
         path: Paths.UNIVERSITY_HOME,
         element: <UniversityHome />,
+      },
+      {
+        path: Paths.NEW_PROGRAM_EDUCATION,
+        element: <NewProgramEducation />,
       },
     ],
     errorElement: <NotFound />,

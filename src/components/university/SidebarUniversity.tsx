@@ -1,11 +1,14 @@
 'use client'
 
 import { CustomFlowbiteTheme, Sidebar } from 'flowbite-react'
+import { AiOutlineHome } from 'react-icons/ai'
 import { BsDatabaseAdd } from 'react-icons/bs'
 import { FaUniversity } from 'react-icons/fa'
 import { FaAlignLeft, FaBookOpen } from 'react-icons/fa6'
 import { HiArrowSmRight } from 'react-icons/hi'
 import { PiGraduationCapFill } from 'react-icons/pi'
+import Paths from '../../constants/paths'
+
 const SidebarUniversity = () => {
   const theme: CustomFlowbiteTheme['sidebar'] = {
     root: {
@@ -37,7 +40,7 @@ const SidebarUniversity = () => {
               Danh sách
             </Sidebar.Item>
             <Sidebar.Item
-              href="#"
+              href={Paths.NEW_PROGRAM_EDUCATION}
               icon={BsDatabaseAdd}
             >
               Thêm mới
@@ -60,6 +63,12 @@ const SidebarUniversity = () => {
               Thêm mới
             </Sidebar.Item>
           </Sidebar.Collapse>
+          <Sidebar.Item
+            icon={AiOutlineHome}
+            href={Paths.HOME}
+          >
+            Trang chính
+          </Sidebar.Item>
           <Sidebar.Item
             href="#"
             icon={FaUniversity}

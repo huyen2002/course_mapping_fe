@@ -42,7 +42,7 @@ const ProgramEducationItem = ({
             placement="top"
           >
             <span className="bg-green-100 text-green-600 rounded-2xl px-3 py-1 font-semibold text-sm">
-              {programEducation.duration_year} năm
+              {programEducation.durationYear} năm
             </span>
           </Tooltip>
           <Tooltip

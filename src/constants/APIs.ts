@@ -6,6 +6,7 @@ export const AuthAPIs = {
 export const MajorAPIs = {
   GET_ALL: '/majors/all',
   SEARCH: 'majors/search',
+  GET_LIST: 'majors/list',
 }
 export const ProgramEducationAPIs = {
   GET_ALL: 'program_educations/all',
