@@ -17,7 +17,6 @@ const ProgramEducationDetail = () => {
     try {
       setIsFetching(true)
       const response = await ProgramEducationService.getById(idValue)
-      console.log('response: ', response)
       setProgramEducation(response.data)
       const similarProgramsResponse =
         await ProgramEducationService.getSimilarPrograms(idValue)
@@ -75,7 +74,7 @@ const ProgramEducationDetail = () => {
               </div>
               <div>
                 <span className="font-semibold mr-2">Thời gian đào tạo:</span>
-                <span>{programEducation?.duration_year} năm</span>
+                <span>{programEducation?.durationYear} năm</span>
               </div>
               <div>
                 <span className="font-semibold mr-2">Số tín chỉ:</span>
@@ -92,6 +91,23 @@ const ProgramEducationDetail = () => {
                   Giới thiệu chung về chương trình đào tạo:
                 </span>
                 <span>{programEducation?.introduction}</span>
+              </div>
+              <div>
+                <h1 className="font-semibold mr-2">Nguồn thông tin:</h1>
+                <div className="flex flex-col gap-2 mt-2">
+                  {programEducation?.sourceLinks.map((item, index) => (
+                    <div key={index}>
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-primary_color hover:underline font-montserrat"
+                      >
+                        {item.name}
+                      </a>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

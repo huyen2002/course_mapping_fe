@@ -1,4 +1,5 @@
 import { Major, MajorUtils } from './Major'
+import { SourceLink } from './SourceLink'
 import { University, UniversityUtils } from './University'
 
 export enum LevelOfEducation {
@@ -13,12 +14,14 @@ export interface ProgramEducation {
   code: string
   language: string
   introduction: string
-  duration_year: number
+  durationYear: number
   levelOfEducation: keyof LevelOfEducation
   numCredits: number
   outline: string
   startYear: number
   endYear: number
+  sourceLinks: SourceLink[]
+  majorId?: number
   major: Major
   university: University
 }
@@ -31,12 +34,13 @@ export const ProgramEducationUtils = {
       code: dto.code,
       language: dto.language,
       introduction: dto.introduction,
-      duration_year: dto.duration_year,
+      durationYear: dto.duration_year,
       levelOfEducation: dto.level_of_education as keyof LevelOfEducation,
       numCredits: dto.num_credits,
       outline: dto.outline,
       startYear: dto.start_year,
       endYear: dto.end_year,
+      sourceLinks: JSON.parse(dto.source_links),
       major: MajorUtils.toEntity(dto.major),
       university: UniversityUtils.toEntity(dto.university),
     } as ProgramEducation
