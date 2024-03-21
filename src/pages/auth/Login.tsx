@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { FaAsterisk } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import Paths from '../../constants/paths'
 import { Role, UserLoginInput } from '../../models/User'
 import { AuthService } from '../../service/AuthService'
@@ -30,12 +31,15 @@ const Login = () => {
           navigate(Paths.HOME)
           break
       }
+      toast.success('Đăng nhập thành công')
     } catch (e) {
       console.log('Error: ', e)
+      toast.error('Tài khoản hoặc mật khẩu chưa đúng')
     } finally {
       setIsFetching(false)
     }
   }
+
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -49,6 +53,7 @@ const Login = () => {
             alt="logo"
           />
         </a>
+
         <div className="w-full bg-white rounded-lg shadow-md dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-text_color md:text-2xl dark:text-white">

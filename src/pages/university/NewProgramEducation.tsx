@@ -200,7 +200,7 @@ const NewProgramEducation = () => {
             <div className="w-1/2 mr-10 flex flex-col gap-4">
               <div className="flex gap-8">
                 <div className="">
-                  <div className="flex gap-2 items-center">
+                  <div className="flex gap-2 items-center mb-2">
                     <Label
                       htmlFor="startYear"
                       value="Năm bắt đầu"
@@ -222,7 +222,7 @@ const NewProgramEducation = () => {
                   />
                 </div>
                 <div className="">
-                  <div className="flex gap-2 items-center">
+                  <div className="flex gap-2 items-center mb-2">
                     <Label
                       htmlFor="endYear"
                       value="Năm kết thúc"
