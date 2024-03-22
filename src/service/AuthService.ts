@@ -9,4 +9,14 @@ export const AuthService = {
     localStorage.setItem('tokenType', response.tokenType)
     return UserUtils.toEntity(response.user)
   },
+  me: async () => {
+    const response = (await http.get(AuthAPIs.ME)).data
+    return {
+      meta: {
+        message: response.message,
+        status: response.status,
+      },
+      data: UserUtils.toEntity(response.data),
+    }
+  },
 }

@@ -18,7 +18,7 @@ const SidebarUniversity = () => {
         off: 'w-74',
       },
       inner:
-        'h-full overflow-y-auto overflow-x-hidden rounded bg-white py-4 px-3 shadow-lg',
+        'h-full overflow-y-auto overflow-x-hidden rounded bg-white py-4 px-3 shadow-lg no-scrollbar',
     },
   }
   return (
@@ -34,7 +34,7 @@ const SidebarUniversity = () => {
             label="Chương trình đào tạo"
           >
             <Sidebar.Item
-              href="#"
+              href={Paths.PROGRAM_EDUCATION_LIST}
               icon={FaAlignLeft}
             >
               Danh sách

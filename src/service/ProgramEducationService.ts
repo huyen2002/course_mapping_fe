@@ -1,9 +1,9 @@
 import { ProgramEducationAPIs } from '../constants/APIs'
 import { ComparedCoursesUtils } from '../models/ComparedCourses'
-import { ProgramEducationUtils } from '../models/ProgramEducation'
 import { ProgramEducationCourseUtils } from '../models/ProgramEducationCourse'
 import { SearchProgramParams } from '../models/SearchProgramParams'
 import { http } from '../server/http'
+import { ProgramEducationUtils } from './../models/ProgramEducation'
 import { QueryParams } from './../models/QueryParams'
 
 const ProgramEducationService = {
@@ -101,6 +101,23 @@ const ProgramEducationService = {
         message: response.message,
       },
       data: ComparedCoursesUtils.toEntities(response.data),
+    }
+  },
+  getAllByUser: async (params?: QueryParams) => {
+    const response = (
+      await http.get(ProgramEducationAPIs.GET_ALL_BY_USER, {
+        params,
+      })
+    ).data
+    return {
+      meta: {
+        total: response.total,
+        message: response.message,
+        status: response.status,
+        page: response.page,
+        size: response.size,
+      },
+      data: ProgramEducationUtils.toEntities(response.data),
     }
   },
 }

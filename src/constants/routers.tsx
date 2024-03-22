@@ -9,6 +9,7 @@ import ProgramEducationDetail from '../pages/ProgramEducationDetail'
 import ProgramEducations from '../pages/ProgramEducations'
 import SignIn from '../pages/auth/Login'
 import NewProgramEducation from '../pages/university/NewProgramEducation'
+import ProgramEducationList from '../pages/university/ProgramEducationList'
 import UniversityHome from '../pages/university/UniversityHome'
 import Paths from './paths'
 
@@ -33,6 +34,10 @@ const routers = createBrowserRouter([
       {
         path: Paths.NEW_PROGRAM_EDUCATION,
         element: <NewProgramEducation />,
+      },
+      {
+        path: Paths.PROGRAM_EDUCATION_LIST,
+        element: <ProgramEducationList />,
       },
     ],
     errorElement: <NotFound />,

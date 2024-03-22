@@ -8,5 +8,6 @@ const Paths = {
 
   UNIVERSITY_HOME: '/university/home',
   NEW_PROGRAM_EDUCATION: '/university/new_program_education',
+  PROGRAM_EDUCATION_LIST: '/university/program_education_list',
 }
 export default Paths
