@@ -3,7 +3,10 @@ import { ComparedCoursesUtils } from '../models/ComparedCourses'
 import { ProgramEducationCourseUtils } from '../models/ProgramEducationCourse'
 import { SearchProgramParams } from '../models/SearchProgramParams'
 import { http } from '../server/http'
-import { ProgramEducationUtils } from './../models/ProgramEducation'
+import {
+  ProgramEducation,
+  ProgramEducationUtils,
+} from './../models/ProgramEducation'
 import { QueryParams } from './../models/QueryParams'
 
 const ProgramEducationService = {
@@ -118,6 +121,16 @@ const ProgramEducationService = {
         size: response.size,
       },
       data: ProgramEducationUtils.toEntities(response.data),
+    }
+  },
+  create: async (data: ProgramEducation) => {
+    const response = (await http.post(ProgramEducationAPIs.CREATE, data)).data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: ProgramEducationUtils.toEntity(response.data),
     }
   },
 }

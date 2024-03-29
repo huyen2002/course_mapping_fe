@@ -18,6 +18,7 @@ export const ProgramEducationAPIs = {
   COMPARE_COURSE_LISTS: (firstProgramId: number, secondProgramId: number) =>
     `/compare_courses_of_program_educations/${firstProgramId}/and/${secondProgramId}`,
   GET_ALL_BY_USER: 'me/program_educations/all',
+  CREATE: 'program_education/create',
 }
 
 export const DocumentAPIs = {

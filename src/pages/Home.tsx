@@ -44,7 +44,7 @@ const Home = () => {
       try {
         setIsFetching(true)
         const response = await MajorService.search(
-          { page: page - 1, size: defaultParams.size },
+          { page: page, size: defaultParams.size },
           searchParams
         )
         setData(response.data)

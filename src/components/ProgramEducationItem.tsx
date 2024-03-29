@@ -1,5 +1,4 @@
 import { Tooltip } from '@mui/material'
-import { MdOutlineMoreHoriz } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { LevelOfEducation, ProgramEducation } from '../models/ProgramEducation'
 const ProgramEducationItem = ({
@@ -29,7 +28,7 @@ const ProgramEducationItem = ({
             <span> {` (${programEducation.university.user.name})`}</span>
           )}
         </Link>
-        <div>
+        {/* <div>
           <button
             data-popover-target="popover-bottom"
             data-popover-placement="bottom"
@@ -53,7 +52,7 @@ const ProgramEducationItem = ({
             </div>
             <div data-popper-arrow></div>
           </div>{' '}
-        </div>
+        </div> */}
       </div>
 
       <div>

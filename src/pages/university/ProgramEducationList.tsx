@@ -10,16 +10,17 @@ const ProgramEducationList = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false)
   const [data, setData] = useState<ProgramEducation[]>([])
   const [total, setTotal] = useState<number>(0)
-  const [page, setPage] = useState<number>(0)
+  const [page, setPage] = useState<number>(defaultParams.page)
 
   const changePage = (page: number) => {
     setPage(page)
+    console.log('Page: ', page)
   }
   const fetchData = async () => {
     try {
       setIsFetching(false)
       const response = await ProgramEducationService.getAllByUser({
-        page: page,
+        page: page - 1,
         size: defaultParams.size,
       })
       setData(response.data)
@@ -32,8 +33,14 @@ const ProgramEducationList = () => {
     }
   }
   useEffect(() => {
-    fetchData()
+    console.log('fetch', page)
+    if (page > 0) {
+      fetchData()
+    }
   }, [page])
+  // useEffect(() => {
+  //   fetchData()
+  // }, [])
 
   return (
     <div className="overflow-y-auto">
