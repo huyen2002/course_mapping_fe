@@ -1,6 +1,6 @@
 export interface User {
   id: number
-  name: string
+  username: string
   email: string
   createAt: Date
   updateAt: Date
@@ -11,7 +11,7 @@ export const UserUtils = {
   toEntity: (dto: any) => {
     return {
       id: dto.id,
-      name: dto.name,
+      username: dto.username,
       email: dto.email,
       createAt: new Date(dto.create_at),
       updateAt: new Date(dto.update_at),

@@ -3,17 +3,17 @@ import { useEffect, useState } from 'react'
 import MajorDetail from '../components/MajorDetail'
 import LoadingScreen from '../components/common/LoadingScreen'
 import Pagination from '../components/common/Pagination'
-import { Major } from '../models/Major'
+import { useFetchPagination } from '../hooks/useFetchPagination'
 import { defaultParams } from '../models/QueryParams'
+import { SearchMajorParams } from '../models/SearchMajorParams'
 import { MajorService } from '../service/MajorService'
 const Home = () => {
-  const [data, setData] = useState<Major[]>([])
-  const [page, setPage] = useState<number>(defaultParams.page)
-  const [isFetching, setIsFetching] = useState<boolean>(false)
-  const [total, setTotal] = useState<number>(0)
   const [nameParam, setNameParam] = useState<string>('')
   const [codeParam, setCodeParam] = useState<string>('')
+  const [searchParams, setSearchParams] = useState<SearchMajorParams>({})
 
+  const { data, page, total, isFetching, fetchData, changePage } =
+    useFetchPagination(MajorService.getAll, MajorService.search, searchParams)
   const handleResetInput = (e: any) => {
     e.preventDefault()
     setNameParam('')
@@ -21,49 +21,13 @@ const Home = () => {
     fetchData()
   }
 
-  const fetchData = async () => {
-    const searchParams = {
+  useEffect(() => {
+    setSearchParams({
       name: nameParam.trim() === '' ? null : nameParam.trim(),
       code: codeParam.trim() === '' ? null : codeParam.trim(),
-    }
-    if (Object.values(searchParams).every((value) => value === null)) {
-      try {
-        setIsFetching(true)
-        const response = await MajorService.getAll({
-          page: page - 1,
-          size: defaultParams.size,
-        })
-        setData(response.data)
-        setTotal(response.meta.total)
-      } catch (e: unknown) {
-        console.log('Error: ' + e)
-      } finally {
-        setIsFetching(false)
-      }
-    } else {
-      try {
-        setIsFetching(true)
-        const response = await MajorService.search(
-          { page: page, size: defaultParams.size },
-          searchParams
-        )
-        setData(response.data)
-        setTotal(response.meta.total)
-      } catch (e: any) {
-        console.log('Error: ' + e)
-      } finally {
-        setIsFetching(false)
-      }
-    }
-  }
+    })
+  }, [nameParam, codeParam])
 
-  useEffect(() => {
-    fetchData()
-  }, [page])
-
-  const changePage = (page: number) => {
-    setPage(page)
-  }
   const handleSubmit = (e: any) => {
     e.preventDefault()
     fetchData()

@@ -18,6 +18,7 @@ const ProgramEducationDetail = () => {
       setIsFetching(true)
       const response = await ProgramEducationService.getById(idValue)
       setProgramEducation(response.data)
+      console.log(programEducation?.sourceLinks)
       const similarProgramsResponse =
         await ProgramEducationService.getSimilarPrograms(idValue)
       setSimilarPrograms(similarProgramsResponse.data)
@@ -39,8 +40,7 @@ const ProgramEducationDetail = () => {
         <div className="lg:mx-10 flex gap-8 lg:flex-row flex-col">
           <div className="lg:w-3/4">
             <h1 className="text-2xl font-bold text-primary_color">
-              {programEducation?.name} - (
-              {programEducation?.university.user.name})
+              {programEducation?.name} - ({programEducation?.university.name})
             </h1>
             <div className="mt-8 flex flex-col gap-2">
               <div>
@@ -49,7 +49,7 @@ const ProgramEducationDetail = () => {
               </div>
               <div>
                 <span className="font-semibold mr-2">Trường:</span>
-                <span>{programEducation?.university.user.name}</span>
+                <span>{programEducation?.university.name}</span>
               </div>
               <div>
                 <span className="font-semibold mr-2">Mã trường:</span>
@@ -83,30 +83,39 @@ const ProgramEducationDetail = () => {
               <div>
                 <span className="font-semibold mr-2">Thời gian hoạt động:</span>
                 <span>
-                  {programEducation?.startYear} - {programEducation?.endYear}
+                  {programEducation?.startYear && programEducation?.endYear
+                    ? `${programEducation?.startYear} - ${programEducation?.endYear}`
+                    : 'Chưa có thông tin'}
                 </span>
               </div>
               <div>
                 <span className="font-semibold mr-2">
                   Giới thiệu chung về chương trình đào tạo:
                 </span>
-                <span>{programEducation?.introduction}</span>
+                <span>
+                  {programEducation?.introduction || 'Chưa có thông tin'}
+                </span>
               </div>
               <div>
                 <h1 className="font-semibold mr-2">Nguồn thông tin:</h1>
                 <div className="flex flex-col gap-2 mt-2">
-                  {programEducation?.sourceLinks.map((item, index) => (
-                    <div key={index}>
-                      <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-primary_color hover:underline font-montserrat"
-                      >
-                        {item.name}
-                      </a>
-                    </div>
-                  ))}
+                  {!programEducation?.sourceLinks ||
+                  programEducation?.sourceLinks.length === 0 ? (
+                    <span>Chưa có thông tin</span>
+                  ) : (
+                    programEducation?.sourceLinks?.map((item, index) => (
+                      <div key={index}>
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-primary_color hover:underline font-montserrat"
+                        >
+                          {item.name}
+                        </a>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>

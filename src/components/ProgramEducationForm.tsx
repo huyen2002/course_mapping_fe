@@ -6,21 +6,32 @@ import { toast } from 'react-toastify'
 import WindowedSelect from 'react-windowed-select'
 import { Major } from '../models/Major'
 import { LevelOfEducation, ProgramEducation } from '../models/ProgramEducation'
+import { University } from '../models/University'
 import { MajorService } from '../service/MajorService'
 import ProgramEducationService from '../service/ProgramEducationService'
+import { UniversityService } from '../service/UniversityService'
 import LoadingScreen from './common/LoadingScreen'
 
-const ProgramEducationForm = () => {
+const ProgramEducationForm = ({
+  isShowUniversity,
+}: {
+  isShowUniversity?: boolean
+}) => {
   const { register, handleSubmit } = useForm<ProgramEducation>()
   const [majors, setMajors] = useState<Major[]>([])
   const [majorOptions, setMajorOptions] = useState<any[]>([])
   const [major, setMajor] = useState<any>(majorOptions[0])
   const [isFetching, setIsFetching] = useState<boolean>(false)
+  const [universities, setUniversities] = useState<University[]>([])
+  const [universityOptions, setUniversityOptions] = useState<any[]>([])
+  const [university, setUniversity] = useState<any>(universityOptions[0])
   const fetchData = async () => {
     try {
       setIsFetching(true)
       const response = await MajorService.getList()
       setMajors(response.data)
+      const universityResponse = await UniversityService.getList()
+      setUniversities(universityResponse.data)
     } catch (e) {
       console.log('Error', e)
     } finally {
@@ -35,6 +46,7 @@ const ProgramEducationForm = () => {
       ProgramEducationService.create({
         ...data,
         majorId: major?.value,
+        universityId: university?.value,
       })
       toast.success('Thêm mới chương trình đào tạo thành công')
     } catch (e: any) {
@@ -54,6 +66,17 @@ const ProgramEducationForm = () => {
     })
     setMajorOptions(options)
   }, [majors])
+
+  useEffect(() => {
+    const options: any[] = []
+    universities.map((university) => {
+      options.push({
+        label: university.name,
+        value: university.id,
+      })
+    })
+    setUniversityOptions(options)
+  }, [universities])
 
   useEffect(() => {
     fetchData()
@@ -85,6 +108,7 @@ const ProgramEducationForm = () => {
                     />
                   </div>
                 </div>
+
                 <TextInput
                   id="name"
                   placeholder="Công nghệ thông tin"
@@ -93,6 +117,31 @@ const ProgramEducationForm = () => {
                   })}
                 />
               </div>
+              {isShowUniversity && (
+                <div className="max-w-md">
+                  <div className="mb-2 flex gap-2 items-center">
+                    <Label
+                      htmlFor="majorId"
+                      value="Trường đào tạo"
+                    />
+                    <FaAsterisk
+                      color="red"
+                      fontSize="0.6rem"
+                      align="center"
+                    />
+                  </div>
+                  <WindowedSelect
+                    windowThreshold={10}
+                    options={universityOptions}
+                    defaultValue={universityOptions[0]}
+                    onChange={(selectedOption: any) => {
+                      console.log(selectedOption)
+                      setUniversity(selectedOption)
+                    }}
+                  />
+                </div>
+              )}
+
               <div>
                 <div className="mb-2 block">
                   <div className="flex gap-2 items-center">

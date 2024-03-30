@@ -24,3 +24,8 @@ export const ProgramEducationAPIs = {
 export const DocumentAPIs = {
   COMPARE_TWO_DOCUMENTS: '/compare_two_documents',
 }
+
+export const UniversityAPIs = {
+  GET_LIST: '/universities/list',
+  GET_ALL: '/universities/all',
+}

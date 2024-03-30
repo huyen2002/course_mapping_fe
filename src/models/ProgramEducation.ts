@@ -23,11 +23,13 @@ export interface ProgramEducation {
   sourceLinks: SourceLink[]
   majorId?: number
   major: Major
+  universityId?: number
   university: University
 }
 
 export const ProgramEducationUtils = {
   toEntity: (dto: any) => {
+    console.log('links', dto)
     return {
       id: dto.id,
       name: dto.name,
@@ -40,7 +42,7 @@ export const ProgramEducationUtils = {
       outline: dto.outline,
       startYear: dto.startYear,
       endYear: dto.endYear,
-      sourceLinks: dto.source_links ? JSON.parse(dto.source_links) : null,
+      sourceLinks: dto.sourceLinks ? JSON.parse(dto.sourceLinks) : null,
       major: MajorUtils.toEntity(dto.major),
       university: UniversityUtils.toEntity(dto.university),
     } as ProgramEducation

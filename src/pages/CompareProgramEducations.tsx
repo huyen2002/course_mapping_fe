@@ -74,11 +74,10 @@ const CompareProgramEducations = () => {
               <Table.Head className="text-primary_color font-extrabold text-sm">
                 <Table.HeadCell></Table.HeadCell>
                 <Table.HeadCell>
-                  {firstProgram?.name} - ({firstProgram?.university.user.name})
+                  {firstProgram?.name} - ({firstProgram?.university.name})
                 </Table.HeadCell>
                 <Table.HeadCell>
-                  {secondProgram?.name} - ({secondProgram?.university.user.name}
-                  )
+                  {secondProgram?.name} - ({secondProgram?.university.name})
                 </Table.HeadCell>
                 <Table.HeadCell>
                   Độ tương đồng

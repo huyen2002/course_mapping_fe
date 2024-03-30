@@ -25,7 +25,7 @@ const ProgramEducationItem = ({
         >
           <span>{programEducation.name} </span>
           {!hideUniversity && (
-            <span> {` (${programEducation.university.user.name})`}</span>
+            <span> {` (${programEducation.university.name})`}</span>
           )}
         </Link>
         {/* <div>
@@ -82,7 +82,8 @@ const ProgramEducationItem = ({
             placement="top"
           >
             <span className="bg-red-100 text-red-600 rounded-2xl px-3 py-1 font-semibold text-sm">
-              {programEducation.endYear > new Date().getFullYear()
+              {!programEducation.endYear ||
+              programEducation.endYear > new Date().getFullYear()
                 ? 'Hoạt động'
                 : 'Đã đóng'}
             </span>

@@ -27,8 +27,14 @@ const Login = () => {
         case Role.UNIVERSITY:
           navigate(Paths.UNIVERSITY_HOME)
           break
-        default:
+        case Role.ADMIN:
+          navigate(Paths.ADMIN_HOME)
+          break
+        case Role.USER:
           navigate(Paths.HOME)
+          break
+        default:
+          window.location.reload()
           break
       }
       toast.success('Đăng nhập thành công')
