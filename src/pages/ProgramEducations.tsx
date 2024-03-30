@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import ProgramEducationItem from '../components/ProgramEducationItem'
 import LoadingScreen from '../components/common/LoadingScreen'
 import Pagination from '../components/common/Pagination'
-import { LevelOfEducation, ProgramEducation } from '../models/ProgramEducation'
+import { useFetchPagination } from '../hooks/useFetchPagination'
+import { LevelOfEducation } from '../models/ProgramEducation'
 import { defaultParams } from '../models/QueryParams'
 import {
   LevelOfEducationParams,
@@ -12,10 +13,6 @@ import {
 import ProgramEducationService from '../service/ProgramEducationService'
 
 const ProgramEducations = () => {
-  const [data, setData] = useState<ProgramEducation[]>([])
-  const [page, setPage] = useState<number>(1)
-  const [total, setTotal] = useState<number>(0)
-  const [isFetching, setIsFetching] = useState<boolean>(false)
   const [nameParam, setNameParam] = useState<string>('')
   const [majorCodeParam, setMajorCodeParam] = useState<string>('')
   const [levelOfEducationParam, setLevelOfEducationParam] =
@@ -23,9 +20,25 @@ const ProgramEducations = () => {
   const [statusParam, setStatusParam] = useState<ProgramStatus>(
     ProgramStatus.ALL
   )
-  const changePage = (page: number) => {
-    setPage(page)
-  }
+  const [searchParams, setSearchParams] = useState<SearchProgramParams>({})
+  const { data, page, total, isFetching, fetchData, changePage } =
+    useFetchPagination(
+      ProgramEducationService.getAll,
+      ProgramEducationService.search,
+      searchParams
+    )
+  useEffect(() => {
+    setSearchParams({
+      name: nameParam.trim() === '' ? null : nameParam.trim(),
+      majorCode: majorCodeParam.trim() === '' ? null : majorCodeParam.trim(),
+      levelOfEducation:
+        levelOfEducationParam === LevelOfEducationParams.ALL
+          ? null
+          : levelOfEducationParam,
+      status: statusParam === ProgramStatus.ALL ? null : statusParam,
+    } as SearchProgramParams)
+  }, [nameParam, majorCodeParam, levelOfEducationParam, statusParam])
+
   const resetAllFields = (e: any) => {
     e.preventDefault()
     setNameParam('')
@@ -39,51 +52,6 @@ const ProgramEducations = () => {
     fetchData()
   }
 
-  const fetchData = async () => {
-    const searchParams: SearchProgramParams = {
-      name: nameParam.trim() === '' ? null : nameParam.trim(),
-      majorCode: majorCodeParam.trim() === '' ? null : majorCodeParam.trim(),
-      levelOfEducation:
-        levelOfEducationParam === LevelOfEducationParams.ALL
-          ? null
-          : levelOfEducationParam,
-      status: statusParam === ProgramStatus.ALL ? null : statusParam,
-    } as SearchProgramParams
-    console.log(searchParams)
-    if (Object.values(searchParams).some((value) => value !== null)) {
-      try {
-        setIsFetching(true)
-        const response = await ProgramEducationService.search(
-          { page: page - 1, size: defaultParams.size },
-          searchParams as SearchProgramParams
-        )
-        setTotal(response.meta.total)
-        setData(response.data)
-      } catch (error) {
-        console.log(error)
-      } finally {
-        setIsFetching(false)
-      }
-    } else {
-      try {
-        setIsFetching(true)
-        const response = await ProgramEducationService.getAll({
-          page: page - 1,
-          size: defaultParams.size,
-        })
-        setTotal(response.meta.total)
-        setData(response.data)
-      } catch (error) {
-        console.log(error)
-      } finally {
-        setIsFetching(false)
-      }
-    }
-  }
-
-  useEffect(() => {
-    fetchData()
-  }, [page])
   return (
     <main className="flex gap-10 h-full lg:flex-row flex-col overflow-auto no-scrollbar lg:overflow-hidden">
       <div>
