@@ -1,9 +1,11 @@
-import { Label, Select, TextInput, Textarea } from 'flowbite-react'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { FileInput, Label, Select, TextInput, Textarea } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaAsterisk } from 'react-icons/fa6'
 import { toast } from 'react-toastify'
 import WindowedSelect from 'react-windowed-select'
+import { storage } from '../config/firebase'
 import { Major } from '../models/Major'
 import { LevelOfEducation, ProgramEducation } from '../models/ProgramEducation'
 import { University } from '../models/University'
@@ -11,7 +13,7 @@ import { MajorService } from '../service/MajorService'
 import ProgramEducationService from '../service/ProgramEducationService'
 import { UniversityService } from '../service/UniversityService'
 import LoadingScreen from './common/LoadingScreen'
-
+import { useNavigate } from 'react-router-dom'
 const ProgramEducationForm = ({
   isShowUniversity,
 }: {
@@ -25,6 +27,9 @@ const ProgramEducationForm = ({
   const [universities, setUniversities] = useState<University[]>([])
   const [universityOptions, setUniversityOptions] = useState<any[]>([])
   const [university, setUniversity] = useState<any>(universityOptions[0])
+  const [fileUpload, setFileUpload] = useState<File | null>(null)
+
+  const navigate = useNavigate()
   const fetchData = async () => {
     try {
       setIsFetching(true)
@@ -39,16 +44,30 @@ const ProgramEducationForm = ({
     }
   }
 
-  const onSubmit = (data: ProgramEducation) => {
+  const onSubmit = async (data: ProgramEducation) => {
     console.log(data)
+    if (!fileUpload) return
+    const filesFolderRef = ref(storage, `program_educations/${fileUpload.name}`)
+
+    try {
+      await uploadBytes(filesFolderRef, fileUpload)
+    } catch (err) {
+      console.error(err)
+    }
+
     try {
       setIsFetching(true)
-      ProgramEducationService.create({
-        ...data,
-        majorId: major?.value,
-        universityId: university?.value,
-      })
+      const response = (
+        await ProgramEducationService.create({
+          ...data,
+          majorId: major?.value,
+          universityId: university?.value,
+          outline: await getDownloadURL(filesFolderRef),
+        })
+      ).data
       toast.success('Thêm mới chương trình đào tạo thành công')
+
+      navigate(`/program_education/${response.id}`)
     } catch (e: any) {
       console.log('Error', e)
       toast.error('Thêm mới chương trình đào tạo thất bại')
@@ -104,7 +123,6 @@ const ProgramEducationForm = ({
                     <FaAsterisk
                       color="red"
                       fontSize="0.6rem"
-                      align="center"
                     />
                   </div>
                 </div>
@@ -127,7 +145,6 @@ const ProgramEducationForm = ({
                     <FaAsterisk
                       color="red"
                       fontSize="0.6rem"
-                      align="center"
                     />
                   </div>
                   <WindowedSelect
@@ -152,7 +169,6 @@ const ProgramEducationForm = ({
                     <FaAsterisk
                       color="red"
                       fontSize="0.6rem"
-                      align="center"
                     />
                   </div>
                 </div>
@@ -174,7 +190,6 @@ const ProgramEducationForm = ({
                   <FaAsterisk
                     color="red"
                     fontSize="0.6rem"
-                    align="center"
                   />
                 </div>
                 <WindowedSelect
@@ -197,7 +212,6 @@ const ProgramEducationForm = ({
                     <FaAsterisk
                       color="red"
                       fontSize="0.6rem"
-                      align="center"
                     />
                   </div>
                 </div>
@@ -222,7 +236,6 @@ const ProgramEducationForm = ({
                     <FaAsterisk
                       color="red"
                       fontSize="0.6rem"
-                      align="center"
                     />
                   </div>
                   <TextInput
@@ -246,7 +259,6 @@ const ProgramEducationForm = ({
                     <FaAsterisk
                       color="red"
                       fontSize="0.6rem"
-                      align="center"
                     />
                   </div>
                   <TextInput
@@ -304,7 +316,6 @@ const ProgramEducationForm = ({
                     <FaAsterisk
                       color="red"
                       fontSize="0.6rem"
-                      align="center"
                     />
                   </div>
                 </div>
@@ -327,7 +338,6 @@ const ProgramEducationForm = ({
                   <FaAsterisk
                     color="red"
                     fontSize="0.6rem"
-                    align="center"
                   />
                 </div>
                 <Textarea
@@ -344,6 +354,12 @@ const ProgramEducationForm = ({
                     htmlFor="outline"
                     value="Nội dung chương trình đào tạo"
                   />
+                  <FileInput
+                    id="outline"
+                    onChange={(e) => {
+                      e.target.files && setFileUpload(e.target.files[0])
+                    }}
+                  />
                 </div>
               </div>
               <button
@@ -354,28 +370,6 @@ const ProgramEducationForm = ({
                 Thêm mới
               </button>
             </div>
-            {/* <UploadButton<OurFileRouter>
-              endpoint="imageUploader"
-              onClientUploadComplete={(res) => {
-                // Do something with the response
-                console.log('Files: ', res)
-                alert('Upload Completed')
-              }}
-              onUploadError={(error: Error) => {
-                // Do something with the error.
-                alert(`ERROR! ${error.message}`)
-              }}
-              onBeforeUploadBegin={(files) => {
-                // Preprocess files before uploading (e.g. rename them)
-                return files.map(
-                  (f) => new File([f], 'renamed-' + f.name, { type: f.type })
-                )
-              }}
-              onUploadBegin={(name) => {
-                // Do something once upload begins
-                console.log('Uploading: ', name)
-              }}
-            /> */}
           </form>
         </div>
       )}
