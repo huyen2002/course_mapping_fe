@@ -1,7 +1,11 @@
+import { getDownloadURL, ref } from 'firebase/storage'
+import { Select } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ProgramEducationItem from '../components/ProgramEducationItem'
 import LoadingScreen from '../components/common/LoadingScreen'
+import { storage } from '../config/firebase'
+import { FilterType } from '../models/FilterParam'
 import { LevelOfEducation, ProgramEducation } from '../models/ProgramEducation'
 import ProgramEducationService from '../service/ProgramEducationService'
 
@@ -10,7 +14,10 @@ const ProgramEducationDetail = () => {
   const [programEducation, setProgramEducation] =
     useState<ProgramEducation | null>(null)
   const [isFetching, setIsFetching] = useState<boolean>(false)
-  const [similarPrograms, setSimilarPrograms] = useState<ProgramEducation[]>([])
+  const [similarPrograms, setSimilarPrograms] = useState<any[]>([])
+  const [filterType, setFilterType] = useState<FilterType>(
+    FilterType.SIMILARITY_DESC
+  )
 
   const fetchData = async () => {
     const idValue: number = Number(id)
@@ -20,7 +27,9 @@ const ProgramEducationDetail = () => {
       setProgramEducation(response.data)
       console.log(programEducation?.sourceLinks)
       const similarProgramsResponse =
-        await ProgramEducationService.getSimilarPrograms(idValue)
+        await ProgramEducationService.getSimilarPrograms(idValue, {
+          filterType: filterType,
+        })
       setSimilarPrograms(similarProgramsResponse.data)
       console.log('similarProgramsResponse: ', similarProgramsResponse)
     } catch (e: any) {
@@ -31,7 +40,23 @@ const ProgramEducationDetail = () => {
   }
   useEffect(() => {
     fetchData()
-  }, [id])
+  }, [id, filterType])
+
+  const handleDownloadFile = async (url) => {
+    getDownloadURL(ref(storage, url))
+      .then((url) => {
+        const xhr = new XMLHttpRequest()
+        xhr.responseType = 'blob'
+        xhr.onload = (event) => {
+          const blob = xhr.response
+        }
+        xhr.open('GET', url)
+        xhr.send()
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
   return (
     <div>
       {isFetching ? (
@@ -97,6 +122,18 @@ const ProgramEducationDetail = () => {
                 </span>
               </div>
               <div>
+                <span className="font-semibold mr-2">
+                  {' '}
+                  Nội dung chương trình đào tạo:
+                </span>
+                <button
+                  onClick={() => handleDownloadFile(programEducation?.outline)}
+                  className="text-primary_color hover:underline font-montserrat"
+                >
+                  {`${programEducation?.language}_${programEducation?.university.code}_${programEducation?.code}`}
+                </button>
+              </div>
+              <div>
                 <h1 className="font-semibold mr-2">Nguồn thông tin:</h1>
                 <div className="flex flex-col gap-2 mt-2">
                   {!programEducation?.sourceLinks ||
@@ -123,16 +160,41 @@ const ProgramEducationDetail = () => {
           <div className="">
             {similarPrograms.length > 0 && (
               <div className="flex flex-col gap-4">
-                <h2 className="text-xl font-bold text-primary_color lg:pl-4">
+                <h2 className="text-xl font-bold text-primary_color">
                   Chương trình đào tạo tương tự
                 </h2>
+                <div className=" flex items-center gap-4 ">
+                  <span>Sắp xếp theo:</span>
+                  <Select
+                    id="filter"
+                    value={filterType}
+                    onChange={(e) =>
+                      setFilterType(e.target.value as FilterType)
+                    }
+                    className="flex-1"
+                  >
+                    <option value={FilterType.SIMILARITY_DESC}>
+                      Độ tương tự giảm dần
+                    </option>
+                    <option value={FilterType.SIMILARITY_ASC}>
+                      Độ tương tự tăng dần
+                    </option>
+
+                    <option value={FilterType.ALPHABET_ASC}>Từ A đến Z</option>
+                    <option value={FilterType.ALPHABET_DESC}>Từ Z đến A</option>
+                  </Select>
+                </div>
+
                 {similarPrograms.map((item, index) => (
-                  <ProgramEducationItem
-                    key={index}
-                    programEducation={item}
-                    comparedProgramEducationId={programEducation?.id}
-                    hideInfo
-                  />
+                  <div>
+                    <ProgramEducationItem
+                      key={index}
+                      programEducation={item.program}
+                      comparedProgramEducationId={programEducation?.id}
+                      hideInfo
+                    />
+                    <span>{item.similarity}</span>
+                  </div>
                 ))}
               </div>
             )}
