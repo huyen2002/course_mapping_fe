@@ -1,6 +1,6 @@
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { FileInput, Label, Select, TextInput, Textarea } from 'flowbite-react'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { Label, Select, TextInput, Textarea } from 'flowbite-react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaAsterisk } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
@@ -13,6 +13,7 @@ import { University } from '../models/University'
 import { MajorService } from '../service/MajorService'
 import ProgramEducationService from '../service/ProgramEducationService'
 import { UniversityService } from '../service/UniversityService'
+import FileUploadInput from './FileUploadInput'
 import LoadingScreen from './common/LoadingScreen'
 const ProgramEducationForm = ({
   isShowUniversity,
@@ -81,18 +82,7 @@ const ProgramEducationForm = ({
       setIsFetching(false)
     }
   }
-  const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement
-    const file = target.files?.[0]
-    const maxSize = 5 * 1024 * 1024
-    if (file) {
-      if (file.size > maxSize) {
-        toast.error('File upload không được vượt quá 5MB')
-      } else {
-        setFileUpload(file)
-      }
-    }
-  }
+
   useEffect(() => {
     const options: any[] = []
     majors.map((major) => {
@@ -367,18 +357,10 @@ const ProgramEducationForm = ({
                 />
               </div>
               <div>
-                <div className="mb-2">
-                  <Label
-                    htmlFor="outline"
-                    value="Nội dung chương trình đào tạo"
-                  />
-                  <FileInput
-                    id="outline"
-                    onChange={handleFileUpload}
-                    accept=".pdf"
-                    helperText="Tải lên tệp PDF (tối đa 5MB)"
-                  />
-                </div>
+                <FileUploadInput
+                  label="Nội dung chương trình đào tạo"
+                  setFileUpload={setFileUpload}
+                />
               </div>
               <button
                 type="submit"

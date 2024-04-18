@@ -40,8 +40,6 @@ const ProgramEducationDetail = () => {
     fetchData()
   }, [id, filterType])
 
-  
-
   const handleDownloadFile = async () => {
     const storage = getStorage()
     const storageRef = ref(storage, programEducation?.outline as string)
@@ -165,6 +163,7 @@ const ProgramEducationDetail = () => {
               </div>
             </div>
           </div>
+
           <div className="">
             {similarPrograms.length > 0 && (
               <div className="flex flex-col gap-4">

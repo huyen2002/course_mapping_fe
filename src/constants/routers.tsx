@@ -9,13 +9,15 @@ import NotFound from '../pages/NotFound'
 import ProgramEducationDetail from '../pages/ProgramEducationDetail'
 import ProgramEducations from '../pages/ProgramEducations'
 import HomeAdmin from '../pages/admin/HomeAdmin'
+import NewProgramAdmin from '../pages/admin/NewProgramAdmin'
+import ProgramEducationManage from '../pages/admin/ProgramEducationManage'
 import SignIn from '../pages/auth/Login'
+import CourseList from '../pages/university/CourseList'
+import NewCourse from '../pages/university/NewCourse'
 import NewProgramEducation from '../pages/university/NewProgramEducation'
 import ProgramEducationList from '../pages/university/ProgramEducationList'
 import UniversityHome from '../pages/university/UniversityHome'
 import Paths from './paths'
-import ProgramEducationManage from '../pages/admin/ProgramEducationManage'
-import NewProgramAdmin from '../pages/admin/NewProgramAdmin'
 
 const routers = createBrowserRouter([
   {
@@ -40,9 +42,11 @@ const routers = createBrowserRouter([
         element: <NewProgramEducation />,
       },
       {
-        path: Paths.PROGRAM_EDUCATION_LIST,
+        path: Paths.UNIVERSITY_PROGRAM_EDUCATIONS,
         element: <ProgramEducationList />,
       },
+      { path: Paths.UNIVERSITY_COURSES, element: <CourseList /> },
+      { path: Paths.UNIVERSITY_NEW_COURSE, element: <NewCourse /> },
     ],
     errorElement: <NotFound />,
   },

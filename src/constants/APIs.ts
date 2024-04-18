@@ -30,3 +30,10 @@ export const UniversityAPIs = {
   GET_ALL: '/universities/all',
   GET_BY_USER: '/university/me',
 }
+
+export const CourseAPIs = {
+  GET_ALL_BY_UNIVERSITY: (id: number) => `/university/${id}/courses`,
+  SEARCH_BY_UNIVERSITY_AND_NAME: (id: number) =>
+    `/university/${id}/courses/search`,
+  CREATE: 'course/create',
+}

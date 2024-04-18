@@ -20,7 +20,7 @@ export interface ProgramEducation {
   outline: string | null
   startYear: number | null
   endYear: number | null
-  sourceLinks: SourceLink[]
+  sourceLinks: SourceLink[] | null
   majorId?: number
   major: Major
   universityId?: number

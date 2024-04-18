@@ -11,7 +11,7 @@ export enum LevelOfEducationParams {
   ENGINEER = 'ENGINEER',
 }
 export interface SearchProgramParams {
-  name?: string
+  name?: string | null
   majorCode?: string
   levelOfEducation?: LevelOfEducationParams
   status?: ProgramStatus

@@ -8,7 +8,9 @@ const Paths = {
 
   UNIVERSITY_HOME: '/university/home',
   NEW_PROGRAM_EDUCATION: '/university/new_program_education',
-  PROGRAM_EDUCATION_LIST: '/university/program_education_list',
+  UNIVERSITY_PROGRAM_EDUCATIONS: '/university/program_education/all',
+  UNIVERSITY_COURSES: '/university/:id/courses',
+  UNIVERSITY_NEW_COURSE: '/university/:id/new_course',
 
   ADMIN_HOME: '/admin/home',
   ADMIN_NEW_PROGRAM_EDUCATION: '/admin/new_program_education',

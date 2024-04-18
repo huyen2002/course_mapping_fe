@@ -13,9 +13,8 @@ export const useFetchPagination = (
   const [total, setTotal] = useState<number>(0)
 
   const fetchData = async () => {
-    console.log('search', searchParams)
     if (Object.values(searchParams).some((value) => value !== null)) {
-      console.log('search')
+      console.log('searching')
       try {
         setIsFetching(true)
         const response = await searchAPI(
@@ -30,7 +29,7 @@ export const useFetchPagination = (
         setIsFetching(false)
       }
     } else {
-      console.log('fetch')
+      console.log('fetching')
       try {
         setIsFetching(true)
         const response = await fetchAPI({
@@ -39,6 +38,7 @@ export const useFetchPagination = (
         })
         setTotal(response.meta.total)
         setData([...response.data])
+        console.log('fetch data hello', response)
       } catch (error) {
         console.log(error)
       } finally {
@@ -52,11 +52,6 @@ export const useFetchPagination = (
   useEffect(() => {
     fetchData()
   }, [page])
-
-  // useEffect(() => {
-  //   setPage(defaultParams.page)
-  //   fetchData()
-  // }, [searchParams])
 
   return {
     page,

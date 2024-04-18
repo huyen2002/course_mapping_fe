@@ -1,15 +1,26 @@
 'use client'
 
 import { CustomFlowbiteTheme, Sidebar } from 'flowbite-react'
+import { useEffect, useState } from 'react'
 import { AiOutlineHome } from 'react-icons/ai'
-import { BsDatabaseAdd } from 'react-icons/bs'
 import { FaUniversity } from 'react-icons/fa'
-import { FaAlignLeft, FaBookOpen } from 'react-icons/fa6'
+import { FaBookOpen } from 'react-icons/fa6'
 import { HiArrowSmRight } from 'react-icons/hi'
 import { PiGraduationCapFill } from 'react-icons/pi'
 import Paths from '../../constants/paths'
+import { University } from '../../models/University'
+import { UniversityService } from '../../service/UniversityService'
 
 const SidebarUniversity = () => {
+  const [university, setUniversity] = useState<University | null>(null)
+  useEffect(() => {
+    UniversityService.getByUser().then((response) => {
+      if (response.meta.status === 200) {
+        setUniversity(response.data)
+        // console.log('hello', response.data)
+      }
+    })
+  }, [])
   const theme: CustomFlowbiteTheme['sidebar'] = {
     root: {
       base: 'h-full',
@@ -29,40 +40,18 @@ const SidebarUniversity = () => {
       />
       <Sidebar.Items className="mt-4">
         <Sidebar.ItemGroup>
-          <Sidebar.Collapse
+          <Sidebar.Item
             icon={PiGraduationCapFill}
-            label="Chương trình đào tạo"
+            href={Paths.UNIVERSITY_PROGRAM_EDUCATIONS}
           >
-            <Sidebar.Item
-              href={Paths.PROGRAM_EDUCATION_LIST}
-              icon={FaAlignLeft}
-            >
-              Danh sách
-            </Sidebar.Item>
-            <Sidebar.Item
-              href={Paths.NEW_PROGRAM_EDUCATION}
-              icon={BsDatabaseAdd}
-            >
-              Thêm mới
-            </Sidebar.Item>
-          </Sidebar.Collapse>
-          <Sidebar.Collapse
+            Chương trình đào tạo
+          </Sidebar.Item>
+          <Sidebar.Item
             icon={FaBookOpen}
-            label="Môn học"
+            href={`/university/${university?.id}/courses`}
           >
-            <Sidebar.Item
-              href="#"
-              icon={FaAlignLeft}
-            >
-              Danh sách
-            </Sidebar.Item>
-            <Sidebar.Item
-              href="#"
-              icon={BsDatabaseAdd}
-            >
-              Thêm mới
-            </Sidebar.Item>
-          </Sidebar.Collapse>
+            Môn học
+          </Sidebar.Item>
           <Sidebar.Item
             icon={AiOutlineHome}
             href={Paths.HOME}
