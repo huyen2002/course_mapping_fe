@@ -1,8 +1,9 @@
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { FileInput, Label, Select, TextInput, Textarea } from 'flowbite-react'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaAsterisk } from 'react-icons/fa6'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import WindowedSelect from 'react-windowed-select'
 import { storage } from '../config/firebase'
@@ -13,7 +14,6 @@ import { MajorService } from '../service/MajorService'
 import ProgramEducationService from '../service/ProgramEducationService'
 import { UniversityService } from '../service/UniversityService'
 import LoadingScreen from './common/LoadingScreen'
-import { useNavigate } from 'react-router-dom'
 const ProgramEducationForm = ({
   isShowUniversity,
 }: {
@@ -46,13 +46,19 @@ const ProgramEducationForm = ({
 
   const onSubmit = async (data: ProgramEducation) => {
     console.log(data)
-    if (!fileUpload) return
-    const filesFolderRef = ref(storage, `program_educations/${fileUpload.name}`)
+    let outlineUrl: string | null = null
+    if (fileUpload) {
+      const filesFolderRef = ref(
+        storage,
+        `program_educations/${fileUpload.name}`
+      )
 
-    try {
-      await uploadBytes(filesFolderRef, fileUpload)
-    } catch (err) {
-      console.error(err)
+      try {
+        await uploadBytes(filesFolderRef, fileUpload)
+        outlineUrl = await getDownloadURL(filesFolderRef)
+      } catch (err) {
+        console.error(err)
+      }
     }
 
     try {
@@ -62,7 +68,7 @@ const ProgramEducationForm = ({
           ...data,
           majorId: major?.value,
           universityId: university?.value,
-          outline: await getDownloadURL(filesFolderRef),
+          outline: outlineUrl,
         })
       ).data
       toast.success('Thêm mới chương trình đào tạo thành công')
@@ -73,6 +79,18 @@ const ProgramEducationForm = ({
       toast.error('Thêm mới chương trình đào tạo thất bại')
     } finally {
       setIsFetching(false)
+    }
+  }
+  const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement
+    const file = target.files?.[0]
+    const maxSize = 5 * 1024 * 1024
+    if (file) {
+      if (file.size > maxSize) {
+        toast.error('File upload không được vượt quá 5MB')
+      } else {
+        setFileUpload(file)
+      }
     }
   }
   useEffect(() => {
@@ -356,9 +374,9 @@ const ProgramEducationForm = ({
                   />
                   <FileInput
                     id="outline"
-                    onChange={(e) => {
-                      e.target.files && setFileUpload(e.target.files[0])
-                    }}
+                    onChange={handleFileUpload}
+                    accept=".pdf"
+                    helperText="Tải lên tệp PDF (tối đa 5MB)"
                   />
                 </div>
               </div>
@@ -376,4 +394,5 @@ const ProgramEducationForm = ({
     </div>
   )
 }
+
 export default ProgramEducationForm

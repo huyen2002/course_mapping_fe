@@ -28,4 +28,5 @@ export const DocumentAPIs = {
 export const UniversityAPIs = {
   GET_LIST: '/universities/list',
   GET_ALL: '/universities/all',
+  GET_BY_USER: '/university/me',
 }

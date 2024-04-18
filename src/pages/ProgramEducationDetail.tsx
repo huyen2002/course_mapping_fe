@@ -1,10 +1,9 @@
-import { getDownloadURL, ref } from 'firebase/storage'
+import { getDownloadURL, getStorage, ref } from 'firebase/storage'
 import { Select } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ProgramEducationItem from '../components/ProgramEducationItem'
 import LoadingScreen from '../components/common/LoadingScreen'
-import { storage } from '../config/firebase'
 import { FilterType } from '../models/FilterParam'
 import { LevelOfEducation, ProgramEducation } from '../models/ProgramEducation'
 import ProgramEducationService from '../service/ProgramEducationService'
@@ -25,13 +24,12 @@ const ProgramEducationDetail = () => {
       setIsFetching(true)
       const response = await ProgramEducationService.getById(idValue)
       setProgramEducation(response.data)
-      console.log(programEducation?.sourceLinks)
       const similarProgramsResponse =
         await ProgramEducationService.getSimilarPrograms(idValue, {
           filterType: filterType,
         })
       setSimilarPrograms(similarProgramsResponse.data)
-      console.log('similarProgramsResponse: ', similarProgramsResponse)
+      // console.log('similarProgramsResponse: ', similarProgramsResponse)
     } catch (e: any) {
       console.log('Error: ', e)
     } finally {
@@ -42,20 +40,27 @@ const ProgramEducationDetail = () => {
     fetchData()
   }, [id, filterType])
 
-  const handleDownloadFile = async (url) => {
-    getDownloadURL(ref(storage, url))
-      .then((url) => {
-        const xhr = new XMLHttpRequest()
-        xhr.responseType = 'blob'
-        xhr.onload = (event) => {
-          const blob = xhr.response
-        }
-        xhr.open('GET', url)
-        xhr.send()
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+  
+
+  const handleDownloadFile = async () => {
+    const storage = getStorage()
+    const storageRef = ref(storage, programEducation?.outline as string)
+    const fileName = storageRef.name
+
+    try {
+      const url = await getDownloadURL(storageRef)
+      const response = await fetch(url)
+      const blob = await response.blob()
+      const urlBlob = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = urlBlob
+      link.download = fileName
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+    } catch (error) {
+      console.error('Error downloading file:', error)
+    }
   }
   return (
     <div>
@@ -123,15 +128,18 @@ const ProgramEducationDetail = () => {
               </div>
               <div>
                 <span className="font-semibold mr-2">
-                  {' '}
                   Nội dung chương trình đào tạo:
                 </span>
-                <button
-                  onClick={() => handleDownloadFile(programEducation?.outline)}
-                  className="text-primary_color hover:underline font-montserrat"
-                >
-                  {`${programEducation?.language}_${programEducation?.university.code}_${programEducation?.code}`}
-                </button>
+                {!programEducation?.outline ? (
+                  <span>Chưa có thông tin</span>
+                ) : (
+                  <button
+                    onClick={handleDownloadFile}
+                    className="text-primary_color hover:underline font-montserrat"
+                  >
+                    {`${programEducation?.language}_${programEducation?.university.code}_${programEducation?.code}`}
+                  </button>
+                )}
               </div>
               <div>
                 <h1 className="font-semibold mr-2">Nguồn thông tin:</h1>

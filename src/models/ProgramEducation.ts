@@ -17,9 +17,9 @@ export interface ProgramEducation {
   durationYear: number
   levelOfEducation: keyof LevelOfEducation
   numCredits: number
-  outline: string
-  startYear: number
-  endYear: number
+  outline: string | null
+  startYear: number | null
+  endYear: number | null
   sourceLinks: SourceLink[]
   majorId?: number
   major: Major
@@ -29,7 +29,6 @@ export interface ProgramEducation {
 
 export const ProgramEducationUtils = {
   toEntity: (dto: any) => {
-    console.log('links', dto)
     return {
       id: dto.id,
       name: dto.name,

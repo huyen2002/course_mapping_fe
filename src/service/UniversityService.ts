@@ -13,4 +13,14 @@ export const UniversityService = {
       data: UniversityUtils.toEntities(response.data),
     }
   },
+  getByUser: async () => {
+    const response = (await http.get(UniversityAPIs.GET_BY_USER)).data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: UniversityUtils.toEntity(response.data),
+    }
+  },
 }

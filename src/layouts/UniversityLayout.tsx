@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import SidebarUniversity from '../components/university/SidebarUniversity'
-import { User } from '../models/User'
-import { AuthService } from '../service/AuthService'
+import { University } from '../models/University'
+import { UniversityService } from '../service/UniversityService'
 
 const UniversityLayout = () => {
-  const [user, setUser] = useState<User>()
+  const [university, setUniversity] = useState<University>()
   const fetchData = async () => {
     try {
-      const response = await AuthService.me()
-      setUser(response.data)
+      const response = await UniversityService.getByUser()
+      setUniversity(response.data)
     } catch (e) {
       console.log('Error: ' + e)
     }
@@ -23,7 +23,7 @@ const UniversityLayout = () => {
       <div className="w-full mx-10">
         <div className="flex justify-end mb-4 border-b  py-4">
           <h1 className="font-bold text-primary_color text-lg ">
-            {user?.username}
+            {university?.name}
           </h1>
         </div>
 
