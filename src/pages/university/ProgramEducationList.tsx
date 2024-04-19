@@ -13,16 +13,16 @@ const ProgramEducationList = () => {
   const [searchParams, setSearchParams] = useState<SearchProgramParams>({})
   const [searchName, setSearchName] = useState<string | null>(null)
   const { data, page, total, isFetching, changePage, fetchData } =
-    useFetchPagination(
-      ProgramEducationService.getAllByUser,
-      ProgramEducationService.search,
-      searchParams
-    )
+    useFetchPagination(null, ProgramEducationService.search, searchParams)
   const navigate = useNavigate()
   const { id } = useParams()
 
   useEffect(() => {
-    setSearchParams({ ...searchParams, name: searchName })
+    setSearchParams({
+      ...searchParams,
+      name: searchName,
+      universityId: parseInt(id as string),
+    })
   }, [searchName])
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const ProgramEducationList = () => {
         />
         <button
           onClick={() => navigate(`/university/${id}/new_program_education`)}
-          className=" flex  text-white  bg-primary_color hover:bg-primary_color_hover  focus:outline-none font-medium rounded-lg  px-2 py-2 "
+          className=" flex  text-white  bg-primary_color hover:bg-primary_color_hover text-sm  focus:outline-none font-medium rounded-lg  px-2 py-2 "
         >
           <IoIosAdd size={20} />
           Thêm mới

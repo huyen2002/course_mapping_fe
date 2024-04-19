@@ -20,13 +20,12 @@ export const CourseService = {
       data: CourseUtils.toEntities(response.data),
     }
   },
-  searchByUniversityAndName: async (
-    id: number,
+  search: async (
     searchCourseParams?: SearchCourseParams,
     params?: QueryParams
   ) => {
     const response = (
-      await http.get(CourseAPIs.SEARCH_BY_UNIVERSITY_AND_NAME(id), {
+      await http.get(CourseAPIs.SEARCH, {
         params: { ...searchCourseParams, ...params },
       })
     ).data
