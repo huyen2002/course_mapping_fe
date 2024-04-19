@@ -17,6 +17,7 @@ import NewCourse from '../pages/university/NewCourse'
 import NewProgramEducation from '../pages/university/NewProgramEducation'
 import ProgramEducationList from '../pages/university/ProgramEducationList'
 import UniversityHome from '../pages/university/UniversityHome'
+import UniversityProgramDetail from '../pages/university/UniversityProgramDetail'
 import Paths from './paths'
 
 const routers = createBrowserRouter([
@@ -47,6 +48,10 @@ const routers = createBrowserRouter([
       },
       { path: Paths.UNIVERSITY_COURSES, element: <CourseList /> },
       { path: Paths.UNIVERSITY_NEW_COURSE, element: <NewCourse /> },
+      {
+        path: Paths.UNIVERSITY_PROGRAM_EDUCATION_DETAIL,
+        element: <UniversityProgramDetail />,
+      },
     ],
     errorElement: <NotFound />,
   },

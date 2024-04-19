@@ -46,7 +46,7 @@ const SearchInput = ({
         </div>
         <input
           id="default-search"
-          className="block w-full p-4 ps-10 text-sm text-gray-900 border outline-none border-gray-300 rounded-lg bg-gray-50  focus:border-primary_color "
+          className="block w-full p-2 ps-10 text-sm text-gray-900 border outline-none border-gray-300 rounded-lg bg-gray-50  focus:border-primary_color "
           placeholder={placeholder}
           required
           value={name}
@@ -55,7 +55,7 @@ const SearchInput = ({
         <button
           type="submit"
           onClick={onSubmit}
-          className="text-white absolute end-2.5 bottom-2.5 bg-primary_color hover:bg-primary_color_hover  focus:outline-none font-medium rounded-lg text-sm px-2 py-1 "
+          className="text-white absolute end-2.5 bottom-1 bg-primary_color hover:bg-primary_color_hover  focus:outline-none font-medium rounded-lg text-sm px-2 py-1 "
         >
           Tìm kiếm
         </button>

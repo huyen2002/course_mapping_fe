@@ -34,7 +34,7 @@ export const useFetchPagination = (
         setIsFetching(true)
         const response = await fetchAPI({
           page: page - 1,
-          size: size || defaultParams.size,
+          size: size ? size : defaultParams.size,
         })
         setTotal(response.meta.total)
         setData([...response.data])

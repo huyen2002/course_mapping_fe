@@ -16,7 +16,11 @@ const ProgramEducationItem = ({
     <div className="shadow-md rounded-md p-4 flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <Link
-          to={`/program_education/${programEducation.id}`}
+          to={
+            !hideUniversity
+              ? `/program_education/${programEducation.id}`
+              : `/university/program_education/${programEducation.id}`
+          }
           className={
             hideInfo
               ? 'font-montserrat font-semibold text-text_color'

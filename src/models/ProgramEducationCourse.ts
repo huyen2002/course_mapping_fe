@@ -6,17 +6,16 @@ export interface ProgramEducationCourse {
   courseId: number
   course: Course
   compulsory: boolean
-  numCredit: number
+  numCredits: number
 }
 export const ProgramEducationCourseUtils = {
   toEntity: (dto: any) => {
     return {
       id: dto.id,
-      programEducationId: dto.program_education_id,
-      courseId: dto.course_id,
+      programEducationId: dto.programEducationId,
       course: CourseUtils.toEntity(dto.course),
       compulsory: dto.compulsory,
-      numCredit: dto.num_credit,
+      numCredits: dto.numCredits,
     } as ProgramEducationCourse
   },
   toEntities: (dtos: any[]): ProgramEducationCourse[] => {

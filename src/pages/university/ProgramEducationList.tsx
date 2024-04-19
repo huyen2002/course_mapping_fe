@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import { IoIosAdd } from 'react-icons/io'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import ProgramEducationItem from '../../components/ProgramEducationItem'
 import LoadingScreen from '../../components/common/LoadingScreen'
 import Pagination from '../../components/common/Pagination'
 import SearchInput from '../../components/university/SearchInput'
-import Paths from '../../constants/paths'
 import { useFetchPagination } from '../../hooks/useFetchPagination'
 import { defaultParams } from '../../models/QueryParams'
 import { SearchProgramParams } from '../../models/SearchProgramParams'
@@ -20,6 +19,8 @@ const ProgramEducationList = () => {
       searchParams
     )
   const navigate = useNavigate()
+  const { id } = useParams()
+
   useEffect(() => {
     setSearchParams({ ...searchParams, name: searchName })
   }, [searchName])
@@ -38,7 +39,7 @@ const ProgramEducationList = () => {
           placeholder="Tên chương trình đào tạo"
         />
         <button
-          onClick={() => navigate(Paths.NEW_PROGRAM_EDUCATION)}
+          onClick={() => navigate(`/university/${id}/new_program_education`)}
           className=" flex  text-white  bg-primary_color hover:bg-primary_color_hover  focus:outline-none font-medium rounded-lg  px-2 py-2 "
         >
           <IoIosAdd size={20} />

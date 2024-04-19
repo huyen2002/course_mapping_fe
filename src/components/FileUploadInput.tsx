@@ -23,10 +23,13 @@ const FileUploadInput = ({
   }
   return (
     <div className="mb-2">
-      <Label
-        htmlFor="outline"
-        value={label}
-      />
+      <div className="mb-1">
+        <Label
+          htmlFor="outline"
+          value={label}
+        />
+      </div>
+
       <FileInput
         id="outline"
         onChange={handleFileUpload}

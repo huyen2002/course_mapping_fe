@@ -37,3 +37,9 @@ export const CourseAPIs = {
     `/university/${id}/courses/search`,
   CREATE: 'course/create',
 }
+
+export const ProgramEducationCourseAPIs = {
+  SEARCH: 'program_education_courses/search',
+  CREATE: 'program_education_course/create',
+  DELETE: (id: number) => `program_education_course/delete/${id}`,
+}

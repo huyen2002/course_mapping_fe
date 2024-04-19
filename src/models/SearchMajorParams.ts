@@ -4,4 +4,6 @@ export interface SearchMajorParams {
 }
 export interface SearchCourseParams {
   name?: string | null
+  programId?: number | null
+  universityId?: number | null
 }

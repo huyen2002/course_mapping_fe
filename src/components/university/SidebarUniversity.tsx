@@ -42,7 +42,7 @@ const SidebarUniversity = () => {
         <Sidebar.ItemGroup>
           <Sidebar.Item
             icon={PiGraduationCapFill}
-            href={Paths.UNIVERSITY_PROGRAM_EDUCATIONS}
+            href={`/university/${university?.id}/program_educations`}
           >
             Chương trình đào tạo
           </Sidebar.Item>
