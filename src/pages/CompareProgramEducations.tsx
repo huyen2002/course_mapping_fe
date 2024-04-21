@@ -27,12 +27,14 @@ const CompareProgramEducations = () => {
         parseInt(id_2)
       )
       setSecondProgram(secondProgramResponse.data)
+      console.log('compareCourseLists', id_1, id_2)
       const comparedCoursesResponse =
         await ProgramEducationService.compareCourseLists(
           parseInt(id_1),
           parseInt(id_2)
         )
-      setComparedCourses(comparedCoursesResponse.data)
+      console.log('comparedCoursesResponse', comparedCoursesResponse)
+      setComparedCourses(comparedCoursesResponse.data.coursesMapping)
     } catch (e: any) {
       console.log('Error: ', e)
     } finally {

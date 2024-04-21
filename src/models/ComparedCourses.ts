@@ -8,8 +8,8 @@ export interface ComparedCourses {
 export const ComparedCoursesUtils = {
   toEntity: (dto: any) => {
     return {
-      firstCourse: dto.course1,
-      secondCourse: dto.course2,
+      firstCourse: dto.firstCourse,
+      secondCourse: dto.secondCourse,
       similarity: dto.similarity,
     } as ComparedCourses
   },

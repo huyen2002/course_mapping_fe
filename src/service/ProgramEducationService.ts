@@ -1,5 +1,5 @@
 import { ProgramEducationAPIs } from '../constants/APIs'
-import { ComparedCoursesUtils } from '../models/ComparedCourses'
+import { ComparableProgramEducationUtils } from '../models/ComparableProgramEducation'
 import { FilterParam } from '../models/FilterParam'
 import { ProgramEducationCourseUtils } from '../models/ProgramEducationCourse'
 import { SearchProgramParams } from '../models/SearchProgramParams'
@@ -111,7 +111,7 @@ const ProgramEducationService = {
         status: response.status,
         message: response.message,
       },
-      data: ComparedCoursesUtils.toEntities(response.data),
+      data: ComparableProgramEducationUtils.toEntity(response.data),
     }
   },
   getAllByUser: async (params?: QueryParams) => {
