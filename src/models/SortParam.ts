@@ -1,7 +1,7 @@
-export interface FilterParam {
-  filterType: FilterType
+export interface SortParam {
+  sortType: SortType
 }
-export enum FilterType {
+export enum SortType {
   SIMILARITY_ASC = 'SIMILARITY_ASC',
   SIMILARITY_DESC = 'SIMILARITY_DESC',
   ALPHABET_ASC = 'ALPHABET_ASC',

@@ -39,7 +39,8 @@ h3,
 p,
 span,
 option,
-button {
+button,
+label {
   font-family: 'Montserrat', sans-serif;
   color: '#313131';
 }

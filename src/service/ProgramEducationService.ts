@@ -1,8 +1,9 @@
 import { ProgramEducationAPIs } from '../constants/APIs'
 import { ComparableProgramEducationUtils } from '../models/ComparableProgramEducation'
-import { FilterParam } from '../models/FilterParam'
+import { FilterParams } from '../models/FilterParams'
 import { ProgramEducationCourseUtils } from '../models/ProgramEducationCourse'
 import { SearchProgramParams } from '../models/SearchProgramParams'
+import { SortParam } from '../models/SortParam'
 import { http } from '../server/http'
 import {
   ProgramEducation,
@@ -75,10 +76,14 @@ const ProgramEducationService = {
       data: ProgramEducationCourseUtils.toEntities(response.data),
     }
   },
-  getSimilarPrograms: async (id: number, filterParams: FilterParam) => {
+  getSimilarPrograms: async (
+    id: number,
+    sortParam: SortParam,
+    filterParams: FilterParams
+  ) => {
     const response = (
       await http.get(ProgramEducationAPIs.GET_SIMILAR_PROGRAMS(id), {
-        params: filterParams,
+        params: { ...sortParam, ...filterParams },
       })
     ).data
     return {
