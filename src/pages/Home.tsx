@@ -105,7 +105,6 @@ const Home = () => {
                 <Pagination
                   total={total}
                   currentPage={page}
-                  size={defaultParams.size}
                   changePage={changePage}
                 />
               </div>

@@ -6,7 +6,6 @@ import LoadingScreen from '../../components/common/LoadingScreen'
 import Pagination from '../../components/common/Pagination'
 import SearchInput from '../../components/university/SearchInput'
 import { useFetchPagination } from '../../hooks/useFetchPagination'
-import { defaultParams } from '../../models/QueryParams'
 import { SearchProgramParams } from '../../models/SearchProgramParams'
 import ProgramEducationService from '../../service/ProgramEducationService'
 const ProgramEducationList = () => {
@@ -65,7 +64,6 @@ const ProgramEducationList = () => {
               <Pagination
                 total={total}
                 currentPage={page}
-                size={defaultParams.size}
                 changePage={changePage}
               />
             </div>

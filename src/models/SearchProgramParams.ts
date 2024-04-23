@@ -15,5 +15,5 @@ export interface SearchProgramParams {
   majorCode?: string
   levelOfEducation?: LevelOfEducationParams
   status?: ProgramStatus
-  universityId?: number
+  universityId?: number | null
 }

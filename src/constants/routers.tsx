@@ -8,6 +8,7 @@ import Home from '../pages/Home'
 import NotFound from '../pages/NotFound'
 import ProgramEducationDetail from '../pages/ProgramEducationDetail'
 import ProgramEducations from '../pages/ProgramEducations'
+import SearchProgramResult from '../pages/SearchProgramResult'
 import HomeAdmin from '../pages/admin/HomeAdmin'
 import NewProgramAdmin from '../pages/admin/NewProgramAdmin'
 import ProgramEducationManage from '../pages/admin/ProgramEducationManage'
@@ -27,6 +28,7 @@ const routers = createBrowserRouter([
     children: [
       { path: Paths.HOME, element: <Home /> },
       { path: Paths.PROGRAM_EDUCATIONS, element: <ProgramEducations /> },
+      { path: Paths.SEARCH_PROGRAM_RESULT, element: <SearchProgramResult /> },
     ],
     errorElement: <NotFound />,
   },

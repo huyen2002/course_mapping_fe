@@ -192,7 +192,9 @@ const CompareProgramEducations = () => {
                     key={index}
                     className="bg-white"
                   >
-                    <Table.Cell className="whitespace-nowrap"></Table.Cell>
+                    <Table.Cell className="whitespace-nowrap text-center">
+                      {index + 1}
+                    </Table.Cell>
                     <Table.Cell
                       className={item?.firstCourse ? '' : 'text-center'}
                     >

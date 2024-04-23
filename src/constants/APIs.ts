@@ -29,6 +29,7 @@ export const UniversityAPIs = {
   GET_LIST: '/universities/list',
   GET_ALL: '/universities/all',
   GET_BY_USER: '/university/me',
+  GET_BY_ID: (id: number) => `university/${id}`,
 }
 
 export const CourseAPIs = {

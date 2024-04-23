@@ -178,7 +178,7 @@ const ProgramEducationDetail = () => {
                     </RadioGroup>
                   </div>
                   <div className="flex flex-col mt-2">
-                    <h3 className=" font-semibold">Ngành học</h3>
+                    <h3 className="font-semibold">Ngành học</h3>
                     <RadioGroup
                       defaultValue={FilterType.ALL}
                       name="major"

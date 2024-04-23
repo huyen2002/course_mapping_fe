@@ -1,3 +1,5 @@
+import { defaultParams } from '../../models/QueryParams'
+
 const Pagination = ({
   total,
   currentPage,
@@ -6,10 +8,12 @@ const Pagination = ({
 }: {
   total: number
   currentPage: number
-  size: number
+  size?: number
   changePage: (page: number) => void
 }) => {
-  const totalPages = Math.ceil(total / size)
+  const totalPages = size
+    ? Math.ceil(total / size)
+    : Math.ceil(total / (defaultParams.size as number))
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
