@@ -91,7 +91,9 @@ const ProgramEducationDetail = () => {
       ) : (
         <div className="lg:mx-10 flex gap-8 lg:flex-row flex-col">
           <div className="lg:w-3/4">
-            <ProgramEducationInfo programEducation={programEducation} />
+            <ProgramEducationInfo
+              programEducation={programEducation as ProgramEducation}
+            />
           </div>
           <div>
             <h2 className="text-xl font-bold text-primary_color">

@@ -1,10 +1,10 @@
 import { Course, CourseUtils } from './Course'
 
 export interface ProgramEducationCourse {
-  id: number
+  id?: number
   programEducationId: number
   courseId: number
-  course: Course
+  course?: Course
   compulsory: boolean
   numCredits: number
 }

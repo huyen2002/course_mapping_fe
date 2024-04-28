@@ -34,7 +34,7 @@ const UniversityProgramDetail = () => {
       ) : (
         <div>
           <ProgramEducationInfo
-            programEducation={programEducation}
+            programEducation={programEducation as ProgramEducation}
             isShowUniversityAction
           >
             <div>

@@ -50,4 +50,15 @@ export const CourseService = {
       data: CourseUtils.toEntity(response.data),
     }
   },
+  getList: async () => {
+    const response = (await http.get(CourseAPIs.GET_LIST)).data
+    return {
+      meta: {
+        total: response.total,
+        message: response.message,
+        status: response.status,
+      },
+      data: CourseUtils.toEntities(response.data),
+    }
+  },
 }

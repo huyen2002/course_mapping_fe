@@ -48,7 +48,6 @@ const SearchProgramForm = ({
   return (
     <div>
       <h1 className="font-semibold text-primary_color">Tìm kiếm</h1>
-      <div>{searchParams?.majorCode}////</div>
       <form className="flex flex-col gap-8 mt-4">
         <div>
           <label

@@ -28,9 +28,22 @@ export const ProgramEducationCourseService = {
       data: ProgramEducationCourseUtils.toEntities(response.data),
     }
   },
+
   create: async (data: ProgramEducationCourse) => {
     const response = (await http.post(ProgramEducationCourseAPIs.CREATE, data))
       .data
+    return {
+      meta: {
+        message: response.message,
+        status: response.status,
+      },
+      data: ProgramEducationCourseUtils.toEntity(response.data),
+    }
+  },
+  update: async (id: number, data: ProgramEducationCourse) => {
+    const response = (
+      await http.put(ProgramEducationCourseAPIs.UPDATE(id), data)
+    ).data
     return {
       meta: {
         message: response.message,

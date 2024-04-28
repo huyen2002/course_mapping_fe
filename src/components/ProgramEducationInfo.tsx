@@ -1,28 +1,52 @@
 import { getDownloadURL, getStorage, ref } from 'firebase/storage'
-import { Table, Tooltip } from 'flowbite-react'
+import { Modal, Table, Tooltip } from 'flowbite-react'
+import { useEffect, useState } from 'react'
 import { CiEdit } from 'react-icons/ci'
 import { IoAdd } from 'react-icons/io5'
 import { MdOutlineDelete } from 'react-icons/md'
+import { toast } from 'react-toastify'
 import { useFetchPagination } from '../hooks/useFetchPagination'
+import { Course } from '../models/Course'
 import { LevelOfEducation, ProgramEducation } from '../models/ProgramEducation'
+import { ProgramEducationCourse } from '../models/ProgramEducationCourse'
+import { CourseService } from '../service/CourseService'
 import { ProgramEducationCourseService } from '../service/ProgramEducationCourseService'
 import Pagination from './common/Pagination'
+import CourseToProgramForm from './university/CourseToProgramForm'
 
 const ProgramEducationInfo = ({
   programEducation,
   isShowUniversityAction = false,
   children,
 }: {
-  programEducation: ProgramEducation | null
+  programEducation: ProgramEducation
   isShowUniversityAction?: boolean
   children?: React.ReactNode
 }) => {
-  const { data, total, changePage, page } = useFetchPagination(
+  const { data, total, changePage, page, fetchData } = useFetchPagination(
     null,
     ProgramEducationCourseService.search,
     { programEducationId: programEducation?.id },
     10
   )
+
+  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false)
+  const [courseList, setCourseList] = useState<Course[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  const fetchCourseList = async () => {
+    try {
+      setIsLoading(true)
+      const response = await CourseService.getList()
+      setCourseList(response.data)
+    } catch (e: any) {
+      console.log('Error: ' + e)
+    } finally {
+      setIsLoading(false)
+    }
+  }
   const handleDownloadFile = async () => {
     const storage = getStorage()
     const storageRef = ref(storage, programEducation?.outline as string)
@@ -43,6 +67,34 @@ const ProgramEducationInfo = ({
       console.error('Error downloading file:', error)
     }
   }
+  const [selectedProgramCourse, setSelectedProgramCourse] =
+    useState<ProgramEducationCourse | null>(null)
+  const handleOpenEditModal = (programCourse: ProgramEducationCourse) => {
+    setOpenEditModal(true)
+    setSelectedProgramCourse(programCourse)
+  }
+  const handleOpenDeleteModal = (programCourse: ProgramEducationCourse) => {
+    setSelectedProgramCourse(programCourse)
+    setOpenDeleteModal(true)
+  }
+  const handleDeleteProgramCourse = async () => {
+    console.log('id', selectedProgramCourse?.id)
+    try {
+      await ProgramEducationCourseService.delete(
+        selectedProgramCourse?.id as number
+      )
+      toast.success('Xóa môn học thành công')
+    } catch (e: any) {
+      console.log(e)
+      toast.error('Xóa môn học thất bại')
+    } finally {
+      setOpenDeleteModal(false)
+    }
+  }
+  useEffect(() => {
+    fetchCourseList()
+  }, [])
+
   return (
     <div>
       {programEducation && (
@@ -141,16 +193,36 @@ const ProgramEducationInfo = ({
               </div>
             </div>
           </div>
-          <div className="mt-4">
-            <h2 className="text-lg font-semibold text-primary_color mb-4">
+          <div className="my-4">
+            <h2 className="text-lg font-semibold text-primary_color mb-4 ">
               2. Danh sách môn học
             </h2>
             {isShowUniversityAction && (
-              <button className=" flex items-center mb-4 px-2 py-1 bg-primary_color hover:bg-primary_color_hover text-white rounded-md float-right">
-                <IoAdd size={20} />
-                Thêm môn học
-              </button>
+              <div className="flex justify-end mb-4">
+                <button
+                  onClick={() => {
+                    setOpenModal(true)
+                    console.log('click')
+                  }}
+                  className="flex gap-2 bg-primary_color text-white p-2 rounded-md hover:bg-primary_color_hover"
+                >
+                  <IoAdd size={20} />
+                  Thêm môn học
+                </button>
+              </div>
             )}
+            <Modal
+              show={openModal}
+              onClose={() => setOpenModal(false)}
+            >
+              <Modal.Header>Thêm môn học vào khung chương trình</Modal.Header>
+              <Modal.Body>
+                <CourseToProgramForm
+                  program={programEducation}
+                  courseList={courseList}
+                />
+              </Modal.Body>
+            </Modal>
             {data.length > 0 ? (
               <div>
                 <Table className="font-montserrat">
@@ -184,13 +256,36 @@ const ProgramEducationInfo = ({
                                 placement="top"
                                 content="Chỉnh sửa"
                               >
-                                <button>
+                                <button
+                                  onClick={() =>
+                                    handleOpenEditModal(programCourse)
+                                  }
+                                >
                                   <CiEdit
                                     size={25}
                                     color="#3D8BCC"
                                   />
                                 </button>
                               </Tooltip>
+                              <Modal
+                                show={
+                                  selectedProgramCourse?.id ===
+                                    programCourse.id && openEditModal
+                                }
+                                onClose={() => setOpenEditModal(false)}
+                              >
+                                <Modal.Header>
+                                  Chỉnh sửa thông tin khung chương trình{' '}
+                                  {programCourse.id}
+                                </Modal.Header>
+                                <Modal.Body>
+                                  <CourseToProgramForm
+                                    program={programEducation}
+                                    programCourse={programCourse}
+                                    courseList={courseList}
+                                  />
+                                </Modal.Body>
+                              </Modal>
                               <Tooltip
                                 placement="top"
                                 content="Xóa"
@@ -199,9 +294,47 @@ const ProgramEducationInfo = ({
                                   <MdOutlineDelete
                                     size={25}
                                     color="#F87171"
+                                    onClick={() =>
+                                      handleOpenDeleteModal(programCourse)
+                                    }
                                   />
                                 </button>
                               </Tooltip>
+                              <Modal
+                                show={
+                                  openDeleteModal &&
+                                  selectedProgramCourse?.id === programCourse.id
+                                }
+                                onClose={() => setOpenDeleteModal(false)}
+                              >
+                                <Modal.Header>Cảnh báo</Modal.Header>
+                                <Modal.Body>
+                                  <p>
+                                    Bạn có chắc chắn muốn xóa môn học này ở
+                                    chương trình đào tạo{' '}
+                                    <span className="text-primary_color">
+                                      {programEducation.name}
+                                    </span>{' '}
+                                    không?
+                                  </p>
+                                  <div className="flex gap-6 justify-end mt-8">
+                                    <button
+                                      onClick={() => {
+                                        setOpenDeleteModal(false)
+                                      }}
+                                      className="bg-slate-50 hover:bg-slate-100 py-1 px-3 rounded-md border border-primary_color text-primary_color"
+                                    >
+                                      Trở lại
+                                    </button>
+                                    <button
+                                      onClick={handleDeleteProgramCourse}
+                                      className="bg-red-500 hover:bg-red-600 py-1 px-3 rounded-md text-white"
+                                    >
+                                      Xóa
+                                    </button>
+                                  </div>
+                                </Modal.Body>
+                              </Modal>
                             </div>
                           </Table.Cell>
                         )}

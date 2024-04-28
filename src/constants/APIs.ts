@@ -36,10 +36,12 @@ export const CourseAPIs = {
   GET_ALL_BY_UNIVERSITY: (id: number) => `/university/${id}/courses`,
   SEARCH: '/courses/search',
   CREATE: 'course/create',
+  GET_LIST: 'courses/list',
 }
 
 export const ProgramEducationCourseAPIs = {
   SEARCH: 'program_education_courses/search',
   CREATE: 'program_education_course/create',
   DELETE: (id: number) => `program_education_course/delete/${id}`,
+  UPDATE: (id: number) => `program_education_course/${id}/update`,
 }
