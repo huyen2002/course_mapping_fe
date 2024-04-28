@@ -146,5 +146,25 @@ const ProgramEducationService = {
       data: ProgramEducationUtils.toEntity(response.data),
     }
   },
+  update: async (id: number, data: ProgramEducation) => {
+    const response = (await http.put(ProgramEducationAPIs.UPDATE(id), data))
+      .data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: ProgramEducationUtils.toEntity(response.data),
+    }
+  },
+  delete: async (id: number) => {
+    const response = (await http.delete(ProgramEducationAPIs.DELETE(id))).data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+    }
+  },
 }
 export default ProgramEducationService

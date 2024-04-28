@@ -13,21 +13,26 @@ import { University } from '../models/University'
 import { MajorService } from '../service/MajorService'
 import ProgramEducationService from '../service/ProgramEducationService'
 import { UniversityService } from '../service/UniversityService'
+import { ObjectUtils } from '../utils/ObjectUtils'
 import FileUploadInput from './FileUploadInput'
 import LoadingScreen from './common/LoadingScreen'
 const ProgramEducationForm = ({
+  programEducation,
   isShowUniversity,
 }: {
+  programEducation?: ProgramEducation
   isShowUniversity?: boolean
 }) => {
-  const { register, handleSubmit } = useForm<ProgramEducation>()
+  const { register, handleSubmit } = useForm<ProgramEducation>({
+    defaultValues: programEducation,
+  })
   const [majors, setMajors] = useState<Major[]>([])
   const [majorOptions, setMajorOptions] = useState<any[]>([])
-  const [major, setMajor] = useState<any>(majorOptions[0])
+  const [major, setMajor] = useState<any>()
   const [isFetching, setIsFetching] = useState<boolean>(false)
   const [universities, setUniversities] = useState<University[]>([])
   const [universityOptions, setUniversityOptions] = useState<any[]>([])
-  const [university, setUniversity] = useState<any>(universityOptions[0])
+  const [university, setUniversity] = useState<any>()
   const [fileUpload, setFileUpload] = useState<File | null>(null)
 
   const navigate = useNavigate()
@@ -61,25 +66,52 @@ const ProgramEducationForm = ({
         console.error(err)
       }
     }
-
-    try {
-      setIsFetching(true)
-      const response = (
-        await ProgramEducationService.create({
+    if (programEducation) {
+      const newObject = ObjectUtils.getUpdatedObject(
+        {
           ...data,
           majorId: major?.value,
           universityId: university?.value,
           outline: outlineUrl,
-        })
-      ).data
-      toast.success('Thêm mới chương trình đào tạo thành công')
+        },
+        programEducation
+      )
+      console.log('newObject', newObject)
+      if (Object.keys(newObject).length === 0) {
+        toast.error('Không có thông tin nào thay đổi')
+        return
+      }
+      try {
+        setIsFetching(true)
+        await ProgramEducationService.update(programEducation.id, newObject)
+        toast.success('Cập nhật chương trình đào tạo thành công')
+        navigate(`/university/program_education/${programEducation.id}`)
+      } catch (e: any) {
+        console.log('Error', e)
+        toast.error('Cập nhật chương trình đào tạo thất bại')
+      } finally {
+        setIsFetching(false)
+      }
+    } else {
+      try {
+        setIsFetching(true)
+        const response = (
+          await ProgramEducationService.create({
+            ...data,
+            majorId: major?.value,
+            universityId: university?.value,
+            outline: outlineUrl,
+          })
+        ).data
+        toast.success('Thêm mới chương trình đào tạo thành công')
 
-      navigate(`/program_education/${response.id}`)
-    } catch (e: any) {
-      console.log('Error', e)
-      toast.error('Thêm mới chương trình đào tạo thất bại')
-    } finally {
-      setIsFetching(false)
+        navigate(`/university/program_education/${response.id}`)
+      } catch (e: any) {
+        console.log('Error', e)
+        toast.error('Thêm mới chương trình đào tạo thất bại')
+      } finally {
+        setIsFetching(false)
+      }
     }
   }
 
@@ -109,13 +141,30 @@ const ProgramEducationForm = ({
     fetchData()
   }, [])
 
+  useEffect(() => {
+    console.log('program', programEducation)
+
+    if (programEducation) {
+      setMajor(
+        majorOptions.find((item) => item.value === programEducation.major.id)
+      )
+      setUniversity(
+        universityOptions.find(
+          (item) => item.value === programEducation.university.id
+        )
+      )
+    }
+  }, [majorOptions, universityOptions])
   return (
     <div>
       {isFetching ? (
         <LoadingScreen />
       ) : (
         <div>
-          <h1 className="font-bold text-2xl">Thông tin chương trình đào tạo</h1>
+          <h1 className="font-bold text-2xl">
+            {programEducation ? 'Chỉnh sửa' : 'Thêm mới'} thông tin chương trình
+            đào tạo
+          </h1>
           <form
             className="flex gap-10 mt-4"
             onSubmit={handleSubmit(onSubmit)}
@@ -158,7 +207,7 @@ const ProgramEducationForm = ({
                   <WindowedSelect
                     windowThreshold={10}
                     options={universityOptions}
-                    defaultValue={universityOptions[0]}
+                    value={university}
                     onChange={(selectedOption: any) => {
                       console.log(selectedOption)
                       setUniversity(selectedOption)
@@ -203,7 +252,7 @@ const ProgramEducationForm = ({
                 <WindowedSelect
                   windowThreshold={10}
                   options={majorOptions}
-                  defaultValue={majorOptions[0]}
+                  value={major}
                   onChange={(selectedOption: any) => {
                     console.log(selectedOption)
                     setMajor(selectedOption)
@@ -360,6 +409,7 @@ const ProgramEducationForm = ({
                 <FileUploadInput
                   label="Nội dung chương trình đào tạo"
                   setFileUpload={setFileUpload}
+                  outlineUrl={programEducation?.outline}
                 />
               </div>
               <button

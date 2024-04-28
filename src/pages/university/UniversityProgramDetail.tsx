@@ -1,6 +1,7 @@
+import { Modal } from 'flowbite-react'
 import { useEffect, useState } from 'react'
-
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import ProgramEducationInfo from '../../components/ProgramEducationInfo'
 import LoadingScreen from '../../components/common/LoadingScreen'
 import { ProgramEducation } from '../../models/ProgramEducation'
@@ -12,6 +13,10 @@ const UniversityProgramDetail = () => {
     useState<ProgramEducation | null>(null)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const navigate = useNavigate()
+  const [openModal, setOpenModal] = useState<boolean>(false)
+
   const fetchData = async () => {
     const idValue: number = Number(id)
     try {
@@ -20,6 +25,22 @@ const UniversityProgramDetail = () => {
       setProgramEducation(response.data)
     } catch (e: any) {
       console.log('Error: ', e)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+  const handleDeleteProgram = async () => {
+    console.log('id', id)
+    try {
+      setIsLoading(true)
+      await ProgramEducationService.delete(Number(id))
+      toast.success('Xóa chương trình đào tạo thành công')
+      navigate(
+        `/university/${programEducation?.university.id}/program_educations`
+      )
+    } catch (e: any) {
+      console.log('Error: ', e)
+      toast.error('Xóa chương trình đào tạo thất bại')
     } finally {
       setIsLoading(false)
     }
@@ -39,12 +60,43 @@ const UniversityProgramDetail = () => {
           >
             <div>
               <div className="flex gap-4 justify-end">
-                <button className="px-2 py-1 bg-primary_color hover:bg-primary_color_hover text-white rounded-md">
+                <button
+                  onClick={() =>
+                    navigate(`/university/program_education/${id}/edit`)
+                  }
+                  className="px-2 py-1 bg-primary_color hover:bg-primary_color_hover text-white rounded-md"
+                >
                   Chỉnh sửa
                 </button>
-                <button className="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded-md">
+                <button
+                  onClick={() => setOpenModal(true)}
+                  className="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded-md"
+                >
                   Xóa
                 </button>
+                <Modal
+                  show={openModal}
+                  onClose={() => setOpenModal(false)}
+                >
+                  <Modal.Header>Cảnh báo</Modal.Header>
+                  <Modal.Body>
+                    <h1>Bạn có chắc chắn muốn xóa chương trình đào tạo này?</h1>
+                    <div className="mt-6 flex gap-6 justify-end">
+                      <button
+                        className="px-2 py-1 border border-primary_color bg-slate-50 hover:bg-gray-100 text-primary_color rounded-md"
+                        onClick={() => setOpenModal(false)}
+                      >
+                        Hủy
+                      </button>
+                      <button
+                        onClick={handleDeleteProgram}
+                        className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-md"
+                      >
+                        Xóa
+                      </button>
+                    </div>
+                  </Modal.Body>
+                </Modal>
               </div>
               <h2 className="text-lg font-semibold text-primary_color">
                 1. Thông tin

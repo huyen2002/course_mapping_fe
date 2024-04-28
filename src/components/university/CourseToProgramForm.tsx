@@ -72,6 +72,10 @@ const CourseToProgramForm = ({
         toast.success('Thêm môn học thành công')
       } else {
         const newData = ObjectUtils.getUpdatedObject(data, programCourse)
+        if (!newData || Object.keys(newData).length === 0) {
+          toast.error('Không có thông tin cần cập nhật')
+          return
+        }
         await ProgramEducationCourseService.update(
           programCourse.id as number,
           newData

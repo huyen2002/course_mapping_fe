@@ -19,6 +19,8 @@ export const ProgramEducationAPIs = {
     `/compare_programs/${firstProgramId}/and/${secondProgramId}`,
   GET_ALL_BY_USER: 'me/program_educations/all',
   CREATE: 'program_education/create',
+  UPDATE: (id: number) => `program_education/update/${id}`,
+  DELETE: (id: number) => `program_education/delete/${id}`,
 }
 
 export const DocumentAPIs = {

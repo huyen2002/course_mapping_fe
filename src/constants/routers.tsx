@@ -14,6 +14,7 @@ import NewProgramAdmin from '../pages/admin/NewProgramAdmin'
 import ProgramEducationManage from '../pages/admin/ProgramEducationManage'
 import SignIn from '../pages/auth/Login'
 import CourseList from '../pages/university/CourseList'
+import EditProgramEducation from '../pages/university/EditProgramEducation'
 import NewCourse from '../pages/university/NewCourse'
 import NewProgramEducation from '../pages/university/NewProgramEducation'
 import ProgramEducationList from '../pages/university/ProgramEducationList'
@@ -53,6 +54,10 @@ const routers = createBrowserRouter([
       {
         path: Paths.UNIVERSITY_PROGRAM_EDUCATION_DETAIL,
         element: <UniversityProgramDetail />,
+      },
+      {
+        path: Paths.EDIT_PROGRAM_EDUCATION,
+        element: <EditProgramEducation />,
       },
     ],
     errorElement: <NotFound />,

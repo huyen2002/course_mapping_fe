@@ -3,8 +3,20 @@ export const ObjectUtils = {
   getUpdatedObject: (newObj: any, oldObj: any) => {
     const diff: any = {}
     for (const key in newObj) {
-      if (newObj[key] !== oldObj[key]) {
+      // if the value is not object
+      if (typeof newObj[key] !== 'object' && newObj[key] !== oldObj[key]) {
         diff[key] = newObj[key]
+      }
+
+      // if the value is object
+      if (typeof newObj[key] === 'object') {
+        const nestedDiff = ObjectUtils.getUpdatedObject(
+          newObj[key],
+          oldObj[key]
+        )
+        if (Object.keys(nestedDiff).length > 0) {
+          diff[key] = nestedDiff
+        }
       }
     }
     return diff

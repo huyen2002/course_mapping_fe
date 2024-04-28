@@ -5,9 +5,11 @@ import { toast } from 'react-toastify'
 const FileUploadInput = ({
   label,
   setFileUpload,
+  outlineUrl,
 }: {
   label: string
   setFileUpload: any
+  outlineUrl?: string | null
 }) => {
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement
@@ -29,6 +31,18 @@ const FileUploadInput = ({
           value={label}
         />
       </div>
+      {outlineUrl && (
+        <div className="mb-4">
+          <a
+            href={outlineUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="text-primary_color underline hover:text-primary_color_hover font-montserrat"
+          >
+            Xem nội dung tệp hiện tại
+          </a>
+        </div>
+      )}
 
       <FileInput
         id="outline"
