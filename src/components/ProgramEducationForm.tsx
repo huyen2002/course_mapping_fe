@@ -8,13 +8,19 @@ import { toast } from 'react-toastify'
 import WindowedSelect from 'react-windowed-select'
 import { storage } from '../config/firebase'
 import { Major } from '../models/Major'
-import { LevelOfEducation, ProgramEducation } from '../models/ProgramEducation'
+import {
+  LevelOfEducation,
+  ProgramEducation,
+  ProgramEducationUtils,
+} from '../models/ProgramEducation'
+import { SourceLink } from '../models/SourceLink'
 import { University } from '../models/University'
 import { MajorService } from '../service/MajorService'
 import ProgramEducationService from '../service/ProgramEducationService'
 import { UniversityService } from '../service/UniversityService'
 import { ObjectUtils } from '../utils/ObjectUtils'
 import FileUploadInput from './FileUploadInput'
+import SourceLinkForm from './SourceLinkForm'
 import LoadingScreen from './common/LoadingScreen'
 const ProgramEducationForm = ({
   programEducation,
@@ -34,6 +40,9 @@ const ProgramEducationForm = ({
   const [universityOptions, setUniversityOptions] = useState<any[]>([])
   const [university, setUniversity] = useState<any>()
   const [fileUpload, setFileUpload] = useState<File | null>(null)
+  const [sourceLinks, setSourceLinks] = useState<SourceLink[]>(
+    programEducation?.sourceLinks || []
+  )
 
   const navigate = useNavigate()
   const fetchData = async () => {
@@ -51,6 +60,7 @@ const ProgramEducationForm = ({
   }
 
   const onSubmit = async (data: ProgramEducation) => {
+    console.log('on submit')
     console.log(data)
     let outlineUrl: string | null = null
     if (fileUpload) {
@@ -73,9 +83,12 @@ const ProgramEducationForm = ({
           majorId: major?.value,
           universityId: university?.value,
           outline: outlineUrl,
+          sourceLinks:
+            sourceLinks.length > 0 ? JSON.stringify(sourceLinks) : null,
         },
-        programEducation
+        ProgramEducationUtils.toDto(programEducation)
       )
+
       console.log('newObject', newObject)
       if (Object.keys(newObject).length === 0) {
         toast.error('Không có thông tin nào thay đổi')
@@ -83,7 +96,11 @@ const ProgramEducationForm = ({
       }
       try {
         setIsFetching(true)
-        await ProgramEducationService.update(programEducation.id, newObject)
+        const response = await ProgramEducationService.update(
+          programEducation.id,
+          newObject
+        )
+        console.log('update response', response)
         toast.success('Cập nhật chương trình đào tạo thành công')
         navigate(`/university/program_education/${programEducation.id}`)
       } catch (e: any) {
@@ -101,8 +118,12 @@ const ProgramEducationForm = ({
             majorId: major?.value,
             universityId: university?.value,
             outline: outlineUrl,
+            sourceLinks:
+              sourceLinks.length > 0 ? JSON.stringify(sourceLinks) : null,
           })
         ).data
+        console.log('create response', response)
+
         toast.success('Thêm mới chương trình đào tạo thành công')
 
         navigate(`/university/program_education/${response.id}`)
@@ -142,7 +163,7 @@ const ProgramEducationForm = ({
   }, [])
 
   useEffect(() => {
-    console.log('program', programEducation)
+    // console.log('program', programEducation)
 
     if (programEducation) {
       setMajor(
@@ -155,6 +176,7 @@ const ProgramEducationForm = ({
       )
     }
   }, [majorOptions, universityOptions])
+
   return (
     <div>
       {isFetching ? (
@@ -165,14 +187,11 @@ const ProgramEducationForm = ({
             {programEducation ? 'Chỉnh sửa' : 'Thêm mới'} thông tin chương trình
             đào tạo
           </h1>
-          <form
-            className="flex gap-10 mt-4"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <form className="flex gap-10 mt-4">
             <div className="w-1/2 flex flex-col gap-4">
               <div className="">
                 <div className="mb-2 block">
-                  <div className="flex gap-2 items-center">
+                  <div className="flex gap-[4px] items-center">
                     <Label
                       htmlFor="name"
                       value="Tên chương trình đào tạo"
@@ -194,7 +213,7 @@ const ProgramEducationForm = ({
               </div>
               {isShowUniversity && (
                 <div className="max-w-md">
-                  <div className="mb-2 flex gap-2 items-center">
+                  <div className="mb-2 flex gap-[4px] items-center">
                     <Label
                       htmlFor="majorId"
                       value="Trường đào tạo"
@@ -218,7 +237,7 @@ const ProgramEducationForm = ({
 
               <div>
                 <div className="mb-2 block">
-                  <div className="flex gap-2 items-center">
+                  <div className="flex gap-[4px] items-center">
                     <Label
                       htmlFor="code"
                       value="Mã tuyển sinh"
@@ -239,7 +258,7 @@ const ProgramEducationForm = ({
                 />
               </div>
               <div className="max-w-md">
-                <div className="mb-2 flex gap-2 items-center">
+                <div className="mb-2 flex gap-[4px] items-center">
                   <Label
                     htmlFor="majorId"
                     value="Ngành học"
@@ -261,7 +280,7 @@ const ProgramEducationForm = ({
               </div>
               <div>
                 <div className="mb-2 block">
-                  <div className="flex gap-2 items-center">
+                  <div className="flex gap-[4px] items-center">
                     <Label
                       htmlFor="levelOfEducation"
                       value="Trình độ đào tạo"
@@ -285,7 +304,7 @@ const ProgramEducationForm = ({
               </div>
               <div>
                 <div className="">
-                  <div className="mb-2 flex gap-2 items-center">
+                  <div className="mb-2 flex gap-[4px] items-center">
                     <Label
                       htmlFor="durationYear"
                       value="Thời gian đào tạo"
@@ -308,7 +327,7 @@ const ProgramEducationForm = ({
               </div>
               <div>
                 <div className="">
-                  <div className="mb-2 flex gap-2 items-center">
+                  <div className="mb-2 flex gap-[4px] items-center">
                     <Label
                       htmlFor="numCredits"
                       value="Số tín chỉ tích lũy"
@@ -329,8 +348,6 @@ const ProgramEducationForm = ({
                   />
                 </div>
               </div>
-            </div>
-            <div className="w-1/2 mr-10 flex flex-col gap-4">
               <div className="flex gap-8">
                 <div className="">
                   <div className="flex gap-2 items-center mb-2">
@@ -363,9 +380,11 @@ const ProgramEducationForm = ({
                   />
                 </div>
               </div>
+            </div>
+            <div className="w-1/2 mr-10 flex flex-col gap-4">
               <div>
                 <div className="mb-2 block">
-                  <div className="flex gap-2 items-center">
+                  <div className="flex gap-[4px] items-center">
                     <Label
                       htmlFor="language"
                       value="Ngôn ngữ đào tạo"
@@ -387,7 +406,7 @@ const ProgramEducationForm = ({
                 </Select>
               </div>
               <div>
-                <div className="mb-2 flex gap-2 items-center">
+                <div className="mb-2 flex gap-[4px] items-center">
                   <Label
                     htmlFor="introduction"
                     value="Giới thiệu chương trình đào tạo"
@@ -412,12 +431,16 @@ const ProgramEducationForm = ({
                   outlineUrl={programEducation?.outline}
                 />
               </div>
+              <SourceLinkForm
+                sourceLinks={sourceLinks}
+                setSourceLinks={setSourceLinks}
+              />
               <button
                 type="submit"
-                onSubmit={handleSubmit(onSubmit)}
+                onClick={handleSubmit(onSubmit)}
                 className="bg-primary_color text-white py-2 px-4 rounded-lg hover:bg-primary_color_dark transition duration-200"
               >
-                Thêm mới
+                {programEducation ? 'Cập nhật' : 'Thêm mới'}
               </button>
             </div>
           </form>

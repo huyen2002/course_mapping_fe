@@ -27,6 +27,23 @@ export interface ProgramEducation {
   university: University
 }
 
+export interface ProgramEducationDto {
+  id?: number
+  name?: string
+  code?: string
+  language?: string
+  introduction?: string
+  durationYear?: number
+  levelOfEducation?: keyof LevelOfEducation
+  numCredits?: number
+  outline?: string | null
+  startYear?: number | null
+  endYear?: number | null
+  sourceLinks?: string | null
+  majorId?: number
+  universityId?: number
+}
+
 export const ProgramEducationUtils = {
   toEntity: (dto: any) => {
     return {
@@ -44,9 +61,33 @@ export const ProgramEducationUtils = {
       sourceLinks: dto.sourceLinks ? JSON.parse(dto.sourceLinks) : null,
       major: MajorUtils.toEntity(dto.major),
       university: UniversityUtils.toEntity(dto.university),
+      majorId: MajorUtils.toEntity(dto.major).id,
+      universityId: UniversityUtils.toEntity(dto.university).id,
     } as ProgramEducation
   },
   toEntities: (dtos: any[]) => {
     return dtos.map((dto) => ProgramEducationUtils.toEntity(dto))
+  },
+  toDto: (entity: ProgramEducation) => {
+    return {
+      id: entity.id,
+      name: entity.name,
+      code: entity.code,
+      language: entity.language,
+      introduction: entity.introduction,
+      durationYear: entity.durationYear,
+      levelOfEducation: entity.levelOfEducation,
+      numCredits: entity.numCredits,
+      outline: entity.outline,
+      startYear: entity.startYear,
+      endYear: entity.endYear,
+      sourceLinks: entity.sourceLinks
+        ? JSON.stringify(entity.sourceLinks)
+        : null,
+      majorId: entity.majorId,
+      universityId: entity.universityId,
+      major: MajorUtils.toEntity(entity.major),
+      university: UniversityUtils.toEntity(entity.university),
+    } as ProgramEducationDto
   },
 }

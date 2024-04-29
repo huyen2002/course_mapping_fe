@@ -24,7 +24,7 @@ const FileUploadInput = ({
     }
   }
   return (
-    <div className="mb-2">
+    <div className="">
       <div className="mb-1">
         <Label
           htmlFor="outline"

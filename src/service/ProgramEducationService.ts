@@ -6,7 +6,7 @@ import { SearchProgramParams } from '../models/SearchProgramParams'
 import { SortParam } from '../models/SortParam'
 import { http } from '../server/http'
 import {
-  ProgramEducation,
+  ProgramEducationDto,
   ProgramEducationUtils,
 } from './../models/ProgramEducation'
 import { QueryParams } from './../models/QueryParams'
@@ -136,7 +136,7 @@ const ProgramEducationService = {
       data: ProgramEducationUtils.toEntities(response.data),
     }
   },
-  create: async (data: ProgramEducation) => {
+  create: async (data: ProgramEducationDto) => {
     const response = (await http.post(ProgramEducationAPIs.CREATE, data)).data
     return {
       meta: {
@@ -146,7 +146,7 @@ const ProgramEducationService = {
       data: ProgramEducationUtils.toEntity(response.data),
     }
   },
-  update: async (id: number, data: ProgramEducation) => {
+  update: async (id: number, data: ProgramEducationDto) => {
     const response = (await http.put(ProgramEducationAPIs.UPDATE(id), data))
       .data
     return {
@@ -166,5 +166,19 @@ const ProgramEducationService = {
       },
     }
   },
+  // checkExistedByCode: async (code: string) => {
+  //   const response = (
+  //     await http.get(ProgramEducationCourseAPIs.CHECK_EXISTED_BY_CODE, {
+  //       params: { code: code },
+  //     })
+  //   ).data
+  //   return {
+  //     meta: {
+  //       message: response.message,
+  //       status: response.status,
+  //     },
+  //     data: response.data,
+  //   }
+  // },
 }
 export default ProgramEducationService
