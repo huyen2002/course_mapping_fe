@@ -21,6 +21,7 @@ export const ProgramEducationAPIs = {
   CREATE: 'program_education/create',
   UPDATE: (id: number) => `program_education/update/${id}`,
   DELETE: (id: number) => `program_education/delete/${id}`,
+  CHECK_EXISTED_BY_CODE: 'program_education/check_existed_by_code',
 }
 
 export const DocumentAPIs = {
@@ -39,6 +40,9 @@ export const CourseAPIs = {
   SEARCH: '/courses/search',
   CREATE: 'course/create',
   GET_LIST: 'courses/list',
+  UPDATE: (id: number) => `course/${id}/update`,
+  DELETE: (id: number) => `course/${id}/delete`,
+  CHECK_EXISTED_BY_CODE: 'course/check_existed_by_code',
 }
 
 export const ProgramEducationCourseAPIs = {

@@ -61,4 +61,38 @@ export const CourseService = {
       data: CourseUtils.toEntities(response.data),
     }
   },
+  update: async (id: number, data: Course) => {
+    const response = (await http.put(CourseAPIs.UPDATE(id), data)).data
+    return {
+      meta: {
+        message: response.message,
+        status: response.status,
+      },
+      data: CourseUtils.toEntity(response.data),
+    }
+  },
+  delete: async (id: number) => {
+    const response = (await http.delete(CourseAPIs.DELETE(id))).data
+    return {
+      meta: {
+        message: response.message,
+        status: response.status,
+      },
+      data: response.data,
+    }
+  },
+  checkExistedByCode: async (code: string) => {
+    const response = (
+      await http.get(CourseAPIs.CHECK_EXISTED_BY_CODE, {
+        params: { code: code },
+      })
+    ).data
+    return {
+      meta: {
+        message: response.message,
+        status: response.status,
+      },
+      data: response.data,
+    }
+  },
 }

@@ -1,14 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Table, Tooltip } from 'flowbite-react'
+import {
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Spinner,
+  Table,
+  Tooltip,
+} from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { CiEdit } from 'react-icons/ci'
 import { IoIosAdd } from 'react-icons/io'
 import { MdOutlineDelete } from 'react-icons/md'
 import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import CourseForm from '../../components/CourseForm'
 import LoadingScreen from '../../components/common/LoadingScreen'
 import Pagination from '../../components/common/Pagination'
 import SearchInput from '../../components/university/SearchInput'
 import { useFetchPagination } from '../../hooks/useFetchPagination'
+import { Course } from '../../models/Course'
 import { CourseService } from '../../service/CourseService'
 
 const CourseList = () => {
@@ -23,10 +33,38 @@ const CourseList = () => {
       { universityId: parseInt(id as string), name: searchName },
       10
     )
+
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false)
+  const [selectedCourse, setSelectedCourse] = useState<Course>()
+
+  const handleOpenDeleteModal = (course: Course) => {
+    setSelectedCourse(course)
+    setOpenDeleteModal(true)
+  }
+  const handleOpenEditModal = (course: Course) => {
+    setSelectedCourse(course)
+    setOpenEditModal(true)
+  }
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const handleDeleteCourse = async () => {
+    console.log('selected course', selectedCourse)
+    try {
+      setIsLoading(true)
+      await CourseService.delete(selectedCourse?.id as number)
+      toast.success('Xóa môn học thành công')
+    } catch (e: any) {
+      console.log('Error: ', e)
+      toast.error('Xóa môn học thất bại')
+    } finally {
+      setIsLoading(false)
+      setOpenDeleteModal(false)
+    }
+  }
+
   useEffect(() => {
     changePage(1)
     fetchData()
-    console.log('fetch data', data)
   }, [searchName])
   return (
     <div className="overflow-y-auto">
@@ -69,7 +107,17 @@ const CourseList = () => {
                     {course.language === 'VI' ? 'Tiếng Việt' : 'Tiếng Anh'}
                   </Table.Cell>
                   <Table.Cell>
-                    {course.outline || 'Chưa có thông tin'}
+                    {course.outline ? (
+                      <a
+                        href={course.outline}
+                        target="_blank"
+                        className="text-primary_color hover:text-primary_color_hover underline font-montserrat "
+                      >
+                        Xem chi tiết
+                      </a>
+                    ) : (
+                      'Chưa có thông tin'
+                    )}
                   </Table.Cell>
                   <Table.Cell>
                     <div className="flex gap-4">
@@ -77,24 +125,75 @@ const CourseList = () => {
                         placement="top"
                         content="Chỉnh sửa"
                       >
-                        <button>
+                        <button onClick={() => handleOpenEditModal(course)}>
                           <CiEdit
                             size={25}
                             color="#3D8BCC"
                           />
                         </button>
                       </Tooltip>
+
+                      <Modal
+                        show={openEditModal && selectedCourse?.id === course.id}
+                        onClose={() => setOpenEditModal(false)}
+                      >
+                        <ModalHeader>
+                          Chỉnh sửa thông tin môn học # {course.id}
+                        </ModalHeader>
+                        <ModalBody>
+                          <CourseForm course={course} />
+                        </ModalBody>
+                      </Modal>
                       <Tooltip
                         placement="top"
                         content="Xóa"
                       >
-                        <button>
+                        <button onClick={() => handleOpenDeleteModal(course)}>
                           <MdOutlineDelete
                             size={25}
                             color="#F87171"
                           />
                         </button>
                       </Tooltip>
+                      <Modal
+                        show={
+                          openDeleteModal && selectedCourse?.id === course.id
+                        }
+                        onClose={() => setOpenDeleteModal(false)}
+                      >
+                        <Modal.Header>Cảnh báo</Modal.Header>
+                        <Modal.Body>
+                          <p>
+                            Bạn có chắc chắn muốn xóa môn học{' '}
+                            <span className="text-primary_color">
+                              {course.name}
+                            </span>{' '}
+                            không?
+                          </p>
+                          <div className="flex gap-6 justify-end mt-8">
+                            <button
+                              onClick={() => {
+                                setOpenDeleteModal(false)
+                              }}
+                              className="bg-slate-50 hover:bg-slate-100 py-1 px-3 rounded-md border border-primary_color text-primary_color"
+                            >
+                              Trở lại
+                            </button>
+                            <button
+                              onClick={handleDeleteCourse}
+                              className="bg-red-500 hover:bg-red-600 py-1 px-3 rounded-md text-white flex gap-[6px] items-center"
+                            >
+                              {isLoading && (
+                                <Spinner
+                                  color="failure"
+                                  size="sm"
+                                />
+                              )}
+                              Xóa
+                            </button>
+                          </div>
+                        </Modal.Body>
+                      </Modal>
                     </div>
                   </Table.Cell>
                 </Table.Row>
