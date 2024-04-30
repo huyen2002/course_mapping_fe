@@ -7,6 +7,7 @@ export const AuthService = {
     const response = (await http.post(AuthAPIs.LOGIN, data)).data
     localStorage.setItem('accessToken', response.accessToken)
     localStorage.setItem('tokenType', response.tokenType)
+    localStorage.setItem('role', response.user.role)
     return UserUtils.toEntity(response.user)
   },
   me: async () => {
