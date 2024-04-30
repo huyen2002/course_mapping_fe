@@ -25,7 +25,7 @@ const Login = () => {
       const response = await AuthService.login(data)
       switch (response.role) {
         case Role.UNIVERSITY:
-          navigate(Paths.UNIVERSITY_HOME)
+          navigate(Paths.UNIVERSITY_INFO)
           break
         case Role.ADMIN:
           navigate(Paths.ADMIN_HOME)

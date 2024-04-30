@@ -9,6 +9,7 @@ import NotFound from '../pages/NotFound'
 import ProgramEducationDetail from '../pages/ProgramEducationDetail'
 import ProgramEducations from '../pages/ProgramEducations'
 import SearchProgramResult from '../pages/SearchProgramResult'
+import Universities from '../pages/Universities'
 import UniversityDetail from '../pages/UniversityDetail'
 import HomeAdmin from '../pages/admin/HomeAdmin'
 import NewProgramAdmin from '../pages/admin/NewProgramAdmin'
@@ -31,6 +32,7 @@ const routers = createBrowserRouter([
       { path: Paths.HOME, element: <Home /> },
       { path: Paths.PROGRAM_EDUCATIONS, element: <ProgramEducations /> },
       { path: Paths.SEARCH_PROGRAM_RESULT, element: <SearchProgramResult /> },
+      { path: Paths.UNIVERSITIES, element: <Universities /> },
     ],
     errorElement: <NotFound />,
   },

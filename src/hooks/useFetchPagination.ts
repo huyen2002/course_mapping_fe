@@ -14,6 +14,7 @@ export const useFetchPagination = (
 
   const fetchData = async () => {
     if (Object.values(searchParams).some((value) => value !== null)) {
+      console.log('search', searchParams)
       try {
         setIsFetching(true)
         const response = await searchAPI(
@@ -28,6 +29,7 @@ export const useFetchPagination = (
         setIsFetching(false)
       }
     } else {
+      console.log('fetch', searchParams)
       try {
         setIsFetching(true)
         const response = await fetchAPI({

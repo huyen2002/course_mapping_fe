@@ -28,9 +28,12 @@ const Navbar = () => {
         >
           Chương trình đào tạo
         </Link>
-        <button className="font-bold  text-primary_color hover:text-primary_color_hover">
-          Môn học
-        </button>
+        <Link
+          to={Paths.UNIVERSITIES}
+          className="font-semibold font-montserrat  text-primary_color hover:text-primary_color_hover"
+        >
+          Đơn vị đào tạo
+        </Link>
       </div>
       <div className="flex-2 flex gap-4">
         <button className=" hover:bg-white_hover text-primary_color rounded-3xl py-1 px-2  border-primary_color border-button">
