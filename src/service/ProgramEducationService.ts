@@ -180,5 +180,22 @@ const ProgramEducationService = {
   //     data: response.data,
   //   }
   // },
+  getAllByUniversity: async (id: number, params?: QueryParams) => {
+    const response = (
+      await http.get(ProgramEducationAPIs.GET_ALL_BY_UNIVERSITY(id), {
+        params: params,
+      })
+    ).data
+    return {
+      meta: {
+        total: response.total,
+        message: response.message,
+        status: response.status,
+        page: response.page,
+        size: response.size,
+      },
+      data: ProgramEducationUtils.toEntities(response.data),
+    }
+  },
 }
 export default ProgramEducationService

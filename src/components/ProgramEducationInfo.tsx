@@ -2,6 +2,7 @@ import { getDownloadURL, getStorage, ref } from 'firebase/storage'
 import { Modal, Table, Tooltip } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { CiEdit } from 'react-icons/ci'
+import { GoDownload } from 'react-icons/go'
 import { IoAdd } from 'react-icons/io5'
 import { MdOutlineDelete } from 'react-icons/md'
 import { toast } from 'react-toastify'
@@ -155,19 +156,30 @@ const ProgramEducationInfo = ({
                 {programEducation?.introduction || 'Chưa có thông tin'}
               </span>
             </div>
-            <div>
+            <div className="flex gap-2 items-center">
               <span className="font-semibold mr-2">
                 Nội dung chương trình đào tạo:
               </span>
               {!programEducation?.outline ? (
                 <span>Chưa có thông tin</span>
               ) : (
-                <button
-                  onClick={handleDownloadFile}
-                  className="text-primary_color hover:underline font-montserrat"
-                >
-                  {`${programEducation?.language}_${programEducation?.university.code}_${programEducation?.code}`}
-                </button>
+                <span className="flex gap-4 items-center">
+                  <a
+                    href={programEducation?.outline}
+                    target="_blank"
+                    className="text-primary_color hover:underline font-montserrat "
+                  >
+                    Xem chi tiết
+                  </a>
+                  <Tooltip content="Tải xuống">
+                    <button
+                      onClick={handleDownloadFile}
+                      className=" text-primary_color p-2 text-sm rounded-md hover:bg-slate-100"
+                    >
+                      <GoDownload size={25} />
+                    </button>
+                  </Tooltip>
+                </span>
               )}
             </div>
             <div>

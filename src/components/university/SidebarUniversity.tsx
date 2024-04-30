@@ -59,7 +59,7 @@ const SidebarUniversity = () => {
             Trang chính
           </Sidebar.Item>
           <Sidebar.Item
-            href="#"
+            href={Paths.UNIVERSITY_INFO}
             icon={FaUniversity}
           >
             Thông tin cơ quan

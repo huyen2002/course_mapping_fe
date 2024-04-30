@@ -18,6 +18,8 @@ export const ProgramEducationAPIs = {
   COMPARE_COURSE_LISTS: (firstProgramId: number, secondProgramId: number) =>
     `/compare_programs/${firstProgramId}/and/${secondProgramId}`,
   GET_ALL_BY_USER: 'me/program_educations/all',
+  GET_ALL_BY_UNIVERSITY: (id: number) =>
+    `university/${id}/program_educations/all`,
   CREATE: 'program_education/create',
   UPDATE: (id: number) => `program_education/update/${id}`,
   DELETE: (id: number) => `program_education/delete/${id}`,

@@ -6,8 +6,9 @@ const Paths = {
   PROGRAM_EDUCATION_DETAIL: '/program_education/:id',
   SEARCH_PROGRAM_RESULT: 'program_educations/search',
   COMPARE_PROGRAM_EDUCATIONS: '/compare_program_educations/:id_1/and/:id_2',
+  UNIVERSITY_DETAIL: 'university/:id',
 
-  UNIVERSITY_HOME: '/university/home',
+  UNIVERSITY_INFO: '/university/info',
   NEW_PROGRAM_EDUCATION: '/university/:id/new_program_education',
   EDIT_PROGRAM_EDUCATION: '/university/program_education/:id/edit',
   UNIVERSITY_PROGRAM_EDUCATIONS: '/university/:id/program_educations',

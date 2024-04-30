@@ -9,6 +9,7 @@ import NotFound from '../pages/NotFound'
 import ProgramEducationDetail from '../pages/ProgramEducationDetail'
 import ProgramEducations from '../pages/ProgramEducations'
 import SearchProgramResult from '../pages/SearchProgramResult'
+import UniversityDetail from '../pages/UniversityDetail'
 import HomeAdmin from '../pages/admin/HomeAdmin'
 import NewProgramAdmin from '../pages/admin/NewProgramAdmin'
 import ProgramEducationManage from '../pages/admin/ProgramEducationManage'
@@ -18,7 +19,7 @@ import EditProgramEducation from '../pages/university/EditProgramEducation'
 import NewCourse from '../pages/university/NewCourse'
 import NewProgramEducation from '../pages/university/NewProgramEducation'
 import ProgramEducationList from '../pages/university/ProgramEducationList'
-import UniversityHome from '../pages/university/UniversityHome'
+import UniversityInfo from '../pages/university/UniversityInfo'
 import UniversityProgramDetail from '../pages/university/UniversityProgramDetail'
 import Paths from './paths'
 
@@ -38,8 +39,8 @@ const routers = createBrowserRouter([
     element: <UniversityLayout />,
     children: [
       {
-        path: Paths.UNIVERSITY_HOME,
-        element: <UniversityHome />,
+        path: Paths.UNIVERSITY_INFO,
+        element: <UniversityInfo />,
       },
       {
         path: Paths.NEW_PROGRAM_EDUCATION,
@@ -69,6 +70,10 @@ const routers = createBrowserRouter([
       {
         path: Paths.PROGRAM_EDUCATION_DETAIL,
         element: <ProgramEducationDetail />,
+      },
+      {
+        path: Paths.UNIVERSITY_DETAIL,
+        element: <UniversityDetail />,
       },
       {
         path: Paths.COMPARE_PROGRAM_EDUCATIONS,
