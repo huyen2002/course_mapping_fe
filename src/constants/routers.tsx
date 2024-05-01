@@ -15,6 +15,7 @@ import HomeAdmin from '../pages/admin/HomeAdmin'
 import NewProgramAdmin from '../pages/admin/NewProgramAdmin'
 import ProgramEducationManage from '../pages/admin/ProgramEducationManage'
 import SignIn from '../pages/auth/Login'
+import SignUp from '../pages/auth/SignUp'
 import CourseList from '../pages/university/CourseList'
 import EditProgramEducation from '../pages/university/EditProgramEducation'
 import NewCourse from '../pages/university/NewCourse'
@@ -86,6 +87,10 @@ const routers = createBrowserRouter([
   {
     path: Paths.LOGIN,
     element: <SignIn />,
+  },
+  {
+    path: Paths.REGISTER,
+    element: <SignUp />,
   },
   {
     path: '/',

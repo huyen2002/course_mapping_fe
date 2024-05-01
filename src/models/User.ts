@@ -13,8 +13,8 @@ export const UserUtils = {
       id: dto.id,
       username: dto.username,
       email: dto.email,
-      createAt: new Date(dto.create_at),
-      updateAt: new Date(dto.update_at),
+      createAt: new Date(dto.createAt),
+      updateAt: new Date(dto.updateAt),
       role: dto.role as Role,
       enabled: dto.enabled,
     }
@@ -24,6 +24,14 @@ export const UserUtils = {
 export interface UserLoginInput {
   email: string
   password: string
+}
+
+export interface UserCreateInput {
+  username: string
+  email: string
+  password: string
+  repeatPassword: string
+  role?: Role
 }
 
 export enum Role {

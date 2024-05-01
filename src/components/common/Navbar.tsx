@@ -122,9 +122,11 @@ const Navbar = () => {
         </div>
       ) : (
         <div className="flex-2 flex gap-4 mr-10">
-          <button className=" hover:bg-white_hover text-primary_color rounded-3xl py-1 px-2  border-primary_color border-button">
-            Đăng ký
-          </button>
+          <Link to={Paths.REGISTER}>
+            <button className=" hover:bg-white_hover text-primary_color rounded-3xl py-1 px-2  border-primary_color border-button">
+              Đăng ký
+            </button>
+          </Link>
           <Link to={Paths.LOGIN}>
             <button className=" bg-primary_color text-white py-1 rounded-3xl px-2 hover:bg-primary_color_hover ">
               Đăng nhập
