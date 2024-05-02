@@ -1,3 +1,5 @@
+import { UniversityData } from './University'
+
 export interface User {
   id: number
   username: string
@@ -31,7 +33,8 @@ export interface UserCreateInput {
   email: string
   password: string
   repeatPassword: string
-  role?: Role
+  role: Role
+  university?: UniversityData
 }
 
 export enum Role {

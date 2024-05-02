@@ -14,6 +14,7 @@ import UniversityDetail from '../pages/UniversityDetail'
 import HomeAdmin from '../pages/admin/HomeAdmin'
 import NewProgramAdmin from '../pages/admin/NewProgramAdmin'
 import ProgramEducationManage from '../pages/admin/ProgramEducationManage'
+import ChooseRole from '../pages/auth/ChooseRole'
 import SignIn from '../pages/auth/Login'
 import SignUp from '../pages/auth/SignUp'
 import CourseList from '../pages/university/CourseList'
@@ -91,6 +92,10 @@ const routers = createBrowserRouter([
   {
     path: Paths.REGISTER,
     element: <SignUp />,
+  },
+  {
+    path: Paths.CHOOSE_ROLE,
+    element: <ChooseRole />,
   },
   {
     path: '/',

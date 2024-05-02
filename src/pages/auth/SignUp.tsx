@@ -1,9 +1,12 @@
-import { FormControlLabel, Radio, RadioGroup } from '@mui/material'
 import { Spinner } from 'flowbite-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaAsterisk } from 'react-icons/fa6'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import AddressSelection from '../../components/AddressSelection'
+import Paths from '../../constants/paths'
+import { Address } from '../../models/Address'
 import { Role, UserCreateInput } from '../../models/User'
 import { AuthService } from '../../service/AuthService'
 
@@ -14,18 +17,52 @@ const SignUp = () => {
     watch,
     formState: { errors },
   } = useForm<UserCreateInput>()
-  const [role, setRole] = useState<Role>(Role.USER)
+  const { role } = useParams()
   const [isFetching, setIsFetching] = useState<boolean>(false)
+
+  const [address, setAddress] = useState<Address>({} as Address)
+  const [detailAddress, setDetailAddress] = useState<string>('')
+  const [universityName, setUniversityName] = useState<string>()
+  const [universityCode, setUniversityCode] = useState<string>()
+  const navigate = useNavigate()
 
   const onSubmit = async (data: UserCreateInput) => {
     console.log('submit', data)
     console.log('role', role)
     try {
-      await AuthService.register({
-        ...data,
-        role: role,
-      })
+      if (role === Role.UNIVERSITY.toLocaleLowerCase()) {
+        await AuthService.register({
+          ...data,
+          role: Role.UNIVERSITY,
+          university: {
+            name: universityName,
+            code: universityCode,
+            address: {
+              ...address,
+              detail: detailAddress,
+            },
+          },
+        })
+        console.log('data', {
+          ...data,
+          role: Role.UNIVERSITY,
+          university: {
+            name: universityName,
+            code: universityCode,
+            address: {
+              ...address,
+              detail: detailAddress,
+            },
+          },
+        })
+      } else {
+        await AuthService.register({
+          ...data,
+          role: Role.USER,
+        })
+      }
       toast.success('Đăng ký tài khoản thành công')
+      navigate(Paths.LOGIN)
     } catch (e) {
       console.log(e)
       toast.error('Email hoặc tên đăng nhập đã tồn tại')
@@ -33,24 +70,21 @@ const SignUp = () => {
   }
 
   return (
-    <section className="bg-white dark:bg-gray-900 h-screen overflow-y-scroll">
-      <div className="flex gap-10">
+    <section className="bg-white  overflow-y-scroll">
+      <div className="flex gap-10 items-center h-screen">
         <div className="flex-1 flex justify-center items-center">
           <img
             src="/compass.png"
             alt="background"
-            className="object-cover  md:block"
+            className="object-cover md:block"
             width={450}
           />
         </div>
         <div className="flex flex-col flex-1">
-          <div className="w-full bg-white rounded-lg shadow-md md:my-4 sm:max-w-md xl:p-0 ">
+          <div className="w-full bg-white rounded-lg shadow-md md:my-4 sm:max-w-xl xl:p-0 ">
             <div className="px-6 pb-4">
               <div className="flex justify-center">
-                <a
-                  href="/"
-                  className="flex-none"
-                >
+                <a href="/">
                   <img
                     src="/logo.png"
                     alt="logo"
@@ -60,7 +94,7 @@ const SignUp = () => {
                   />
                 </a>
               </div>
-              <h1 className="text-lg font-bold leading-tight tracking-tight text-text_color md:text-xl dark:text-white">
+              <h1 className="text-lg font-bold leading-tight tracking-tight text-text_color md:text-xl ">
                 Đăng ký
               </h1>
               <form className="flex flex-col gap-1 mt-4">
@@ -68,7 +102,7 @@ const SignUp = () => {
                   <div className="flex gap-1">
                     <label
                       htmlFor="username"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block mb-2 text-sm font-medium text-gray-900 "
                     >
                       Tên đăng nhập
                     </label>
@@ -99,7 +133,7 @@ const SignUp = () => {
                   <div className="flex gap-1">
                     <label
                       htmlFor="email"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block mb-2 text-sm font-medium text-gray-900 "
                     >
                       Email
                     </label>
@@ -132,11 +166,79 @@ const SignUp = () => {
                     )}
                   </div>
                 </div>
+                {role === Role.UNIVERSITY.toLocaleLowerCase() && (
+                  <div className="space-y-2 my-2">
+                    <div>
+                      <div className="flex gap-1">
+                        <label
+                          htmlFor="name"
+                          className="block mb-2 text-sm font-medium text-gray-900 "
+                        >
+                          Tên cơ quan, trường học
+                        </label>
+                        <FaAsterisk
+                          color="red"
+                          fontSize="0.6rem"
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        id="name"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                        required
+                        value={universityName}
+                        onChange={(e) => setUniversityName(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <div className="flex gap-1">
+                        <label
+                          htmlFor="code"
+                          className="block mb-2 text-sm font-medium text-gray-900 "
+                        >
+                          Mã cơ quan, trường học
+                        </label>
+                        <FaAsterisk
+                          color="red"
+                          fontSize="0.6rem"
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        id="code"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                        required
+                        value={universityCode}
+                        onChange={(e) => setUniversityCode(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="address"
+                        className="block mb-2 text-sm font-medium text-gray-900 "
+                      >
+                        Địa chỉ
+                      </label>
+                      <AddressSelection
+                        address={address}
+                        setAddress={setAddress}
+                      />
+                      <input
+                        type="text"
+                        value={detailAddress}
+                        placeholder="Chi tiết"
+                        onChange={(e) => setDetailAddress(e.target.value)}
+                        className="mt-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <div>
                   <div className="flex gap-1">
                     <label
                       htmlFor="password"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block mb-2 text-sm font-medium text-gray-900 "
                     >
                       Mật khẩu
                     </label>
@@ -164,7 +266,7 @@ const SignUp = () => {
                   <div className="flex gap-1">
                     <label
                       htmlFor="repeat_password"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block mb-2 text-sm font-medium text-gray-900 "
                     >
                       Nhập lại mật khẩu
                     </label>
@@ -198,39 +300,6 @@ const SignUp = () => {
                       )}
                   </div>
                 </div>
-                <div>
-                  <div className="flex gap-1">
-                    <label
-                      htmlFor="role"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Vai trò
-                    </label>
-                    <FaAsterisk
-                      color="red"
-                      fontSize="0.6rem"
-                    />
-                  </div>
-                  <RadioGroup
-                    defaultValue={Role.USER}
-                    name="role"
-                    value={role}
-                    onChange={(e) => {
-                      setRole(e.target.value as Role)
-                    }}
-                  >
-                    <FormControlLabel
-                      value={Role.USER}
-                      control={<Radio />}
-                      label="Cá nhân"
-                    />
-                    <FormControlLabel
-                      value={Role.UNIVERSITY}
-                      control={<Radio />}
-                      label="Cơ quan"
-                    />
-                  </RadioGroup>
-                </div>
 
                 <button
                   type="button"
@@ -248,12 +317,12 @@ const SignUp = () => {
                 <div className="mt-4">
                   <p className=" font-light text-gray-500">
                     Bạn đã có tài khoản?{' '}
-                    <a
-                      href="#"
+                    <Link
+                      to={Paths.LOGIN}
                       className="font-medium text-primary_color hover:underline "
                     >
                       Đăng nhập
-                    </a>
+                    </Link>
                   </p>
                 </div>
               </form>

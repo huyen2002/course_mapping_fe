@@ -47,7 +47,7 @@ const Login = () => {
   }
 
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <section className="bg-white">
       <div className="flex gap-10 items-center h-screen">
         <div className="flex-1 flex justify-center items-center">
           <img

@@ -1,4 +1,5 @@
 import { Address, AddressUtils } from './Address'
+import { University } from './University'
 import { User, UserUtils } from './User'
 
 export interface University {
@@ -6,9 +7,16 @@ export interface University {
   name: string
   code: string
   feature: string
-  introduction: string
-  address: Address
+  introduction: string | null
+  address: Address | null
   user: User | null
+}
+export interface UniversityData {
+  name?: string
+  code?: string
+  feature?: string
+  introduction?: string
+  address?: Address
 }
 export const UniversityUtils = {
   toEntity: (dto: any) => {

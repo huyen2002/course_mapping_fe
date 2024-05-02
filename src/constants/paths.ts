@@ -1,7 +1,8 @@
 const Paths = {
   HOME: '/',
   LOGIN: '/auth/login',
-  REGISTER: '/auth/register',
+  CHOOSE_ROLE: '/auth/choose_role',
+  REGISTER: '/auth/register/:role',
   PROGRAM_EDUCATIONS: '/program_educations/all',
   PROGRAM_EDUCATION_DETAIL: '/program_education/:id',
   SEARCH_PROGRAM_RESULT: 'program_educations/search',
