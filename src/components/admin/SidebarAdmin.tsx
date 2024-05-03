@@ -48,7 +48,7 @@ const SidebarUniversity = () => {
             Ngành học
           </Sidebar.Item>
           <Sidebar.Item
-            href={Paths.NEW_PROGRAM_EDUCATION}
+            href={Paths.ADMIN_UNIVERSITIES}
             icon={FaSchool}
           >
             Trường đại học

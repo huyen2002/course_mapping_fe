@@ -10,7 +10,7 @@ const Paths = {
   UNIVERSITIES: '/universities/all',
   UNIVERSITY_DETAIL: 'university/:id',
 
-  UNIVERSITY_INFO: '/university/info',
+  UNIVERSITY_INFO: '/university/:id/info',
   NEW_PROGRAM_EDUCATION: '/university/:id/new_program_education',
   EDIT_PROGRAM_EDUCATION: '/university/program_education/:id/edit',
   UNIVERSITY_PROGRAM_EDUCATIONS: '/university/:id/program_educations',
@@ -21,5 +21,6 @@ const Paths = {
   ADMIN_HOME: '/admin/home',
   ADMIN_NEW_PROGRAM_EDUCATION: '/admin/new_program_education',
   ADMIN_PROGRAM_EDUCATION_MANAGE: '/admin/program_educations',
+  ADMIN_UNIVERSITIES: '/admin/universities',
 }
 export default Paths

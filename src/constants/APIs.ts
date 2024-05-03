@@ -36,6 +36,9 @@ export const UniversityAPIs = {
   GET_BY_USER: '/university/me',
   GET_BY_ID: (id: number) => `university/${id}`,
   SEARCH: 'universities/search',
+  UPDATE_BY_ID: (id: number) => `university/${id}/update`,
+  CREATE: 'university/create',
+  DELETE: (id: number) => `university/${id}/delete`,
 }
 
 export const CourseAPIs = {

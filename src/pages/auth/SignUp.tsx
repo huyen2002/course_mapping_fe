@@ -219,10 +219,7 @@ const SignUp = () => {
                       >
                         Địa chỉ
                       </label>
-                      <AddressSelection
-                        address={address}
-                        setAddress={setAddress}
-                      />
+                      <AddressSelection setAddress={setAddress} />
                       <input
                         type="text"
                         value={detailAddress}

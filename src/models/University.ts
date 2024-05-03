@@ -1,5 +1,4 @@
 import { Address, AddressUtils } from './Address'
-import { University } from './University'
 import { User, UserUtils } from './User'
 
 export interface University {

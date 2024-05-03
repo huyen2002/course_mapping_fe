@@ -1,8 +1,8 @@
-import { UniversityAPIs } from '../constants/APIs'
 import { QueryParams } from '../models/QueryParams'
 import { SearchUniversityParams } from '../models/SearchUniversityParams'
 import { UniversityUtils } from '../models/University'
 import { http } from '../server/http'
+import { UniversityAPIs } from './../constants/APIs'
 
 export const UniversityService = {
   getList: async () => {
@@ -67,6 +67,37 @@ export const UniversityService = {
         size: response.size,
       },
       data: UniversityUtils.toEntities(response.data),
+    }
+  },
+  updateById: async (id: number, data: any) => {
+    const response = (await http.put(UniversityAPIs.UPDATE_BY_ID(id), data))
+      .data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: UniversityUtils.toEntity(response.data),
+    }
+  },
+  create: async (data: any) => {
+    const response = (await http.post(UniversityAPIs.CREATE, data)).data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: UniversityUtils.toEntity(response.data),
+    }
+  },
+  delete: async (id: number) => {
+    const response = (await http.delete(UniversityAPIs.DELETE(id))).data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: response.data,
     }
   },
 }

@@ -4,18 +4,17 @@ import WindowedSelect from 'react-windowed-select'
 import { Address } from '../models/Address'
 
 const AddressSelection = ({
-  address,
   setAddress,
 }: {
-  address: Address
   setAddress: (address: Address) => void
 }) => {
   const [countries, setCountries] = useState<any[]>([])
   const [cities, setCities] = useState<any[]>([])
   const [districts, setDistricts] = useState<any[]>([])
-  const [selectedCountry, setSelectedCountry] = useState<string | undefined>()
-  const [selectedCity, setSelectedCity] = useState<string | undefined>()
-  const [selectedDistrict, setSelectedDistrict] = useState<string | undefined>()
+  const [selectedCountry, setSelectedCountry] = useState<any>()
+
+  const [selectedCity, setSelectedCity] = useState<any>()
+  const [selectedDistrict, setSelectedDistrict] = useState<any>()
 
   useEffect(() => {
     const res = Country.getAllCountries()
@@ -27,7 +26,7 @@ const AddressSelection = ({
   }, [])
 
   useEffect(() => {
-    const res = State.getStatesOfCountry(selectedCountry)
+    const res = State.getStatesOfCountry(selectedCountry?.value)
     const options = [] as any[]
     res.map((city) => {
       options.push({ value: city.isoCode, label: city.name })
@@ -37,8 +36,11 @@ const AddressSelection = ({
 
   useEffect(() => {
     if (selectedCountry && selectedCity) {
-      const res = City.getCitiesOfState(selectedCountry, selectedCity)
-      console.log(res)
+      const res = City.getCitiesOfState(
+        selectedCountry?.value,
+        selectedCity?.value
+      )
+
       const options = [] as any[]
       res.map((city) => {
         options.push({ value: city.name, label: city.name })
@@ -49,9 +51,9 @@ const AddressSelection = ({
 
   useEffect(() => {
     setAddress({
-      country: selectedCountry,
-      city: selectedCity,
-      district: selectedDistrict,
+      country: selectedCountry?.label,
+      city: selectedCity?.label,
+      district: selectedDistrict?.label,
     })
   }, [selectedCountry, selectedCity, selectedDistrict])
 
@@ -63,7 +65,7 @@ const AddressSelection = ({
           windowThreshold={10}
           placeholder="Quốc gia"
           onChange={(e) => {
-            setSelectedCountry(e?.value)
+            setSelectedCountry(e)
           }}
           className="flex-1"
         />
@@ -73,7 +75,7 @@ const AddressSelection = ({
           windowThreshold={10}
           placeholder="Tỉnh, thành phố"
           onChange={(e) => {
-            setSelectedCity(e?.value)
+            setSelectedCity(e)
           }}
           isDisabled={!selectedCountry}
         />
@@ -82,7 +84,7 @@ const AddressSelection = ({
           windowThreshold={10}
           placeholder="Quận, huyện"
           onChange={(e) => {
-            setSelectedDistrict(e?.value)
+            setSelectedDistrict(e)
           }}
           isDisabled={!selectedCountry || !selectedCity}
         />

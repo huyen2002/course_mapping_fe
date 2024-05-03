@@ -7,10 +7,10 @@ export interface Address {
 export const AddressUtils = {
   toEntity: (dto: any) => {
     return {
-      detail: dto.detail,
-      district: dto.district,
-      city: dto.city,
-      country: dto.country,
+      detail: dto?.detail,
+      district: dto?.district,
+      city: dto?.city,
+      country: dto?.country,
     } as Address
   },
 }

@@ -14,6 +14,7 @@ import UniversityDetail from '../pages/UniversityDetail'
 import HomeAdmin from '../pages/admin/HomeAdmin'
 import NewProgramAdmin from '../pages/admin/NewProgramAdmin'
 import ProgramEducationManage from '../pages/admin/ProgramEducationManage'
+import UniversityManagement from '../pages/admin/UniversityManagement'
 import ChooseRole from '../pages/auth/ChooseRole'
 import SignIn from '../pages/auth/Login'
 import SignUp from '../pages/auth/SignUp'
@@ -112,6 +113,10 @@ const routers = createBrowserRouter([
       {
         path: Paths.ADMIN_PROGRAM_EDUCATION_MANAGE,
         element: <ProgramEducationManage />,
+      },
+      {
+        path: Paths.ADMIN_UNIVERSITIES,
+        element: <UniversityManagement />,
       },
     ],
   },

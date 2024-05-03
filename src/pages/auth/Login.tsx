@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import Paths from '../../constants/paths'
 import { Role, UserLoginInput } from '../../models/User'
 import { AuthService } from '../../service/AuthService'
+import { UniversityService } from '../../service/UniversityService'
 
 const Login = () => {
   const {
@@ -24,9 +25,11 @@ const Login = () => {
       setIsFetching(true)
       const response = await AuthService.login(data)
       switch (response.role) {
-        case Role.UNIVERSITY:
-          navigate(Paths.UNIVERSITY_INFO)
+        case Role.UNIVERSITY: {
+          const university = (await UniversityService.getByUser()).data
+          navigate(`/university/${university.id}/info`)
           break
+        }
         case Role.ADMIN:
           navigate(Paths.ADMIN_HOME)
           break

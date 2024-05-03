@@ -1,5 +1,6 @@
 import { Avatar, Modal } from 'flowbite-react'
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import UniversityForm from '../../components/UniversityForm'
 import { University } from '../../models/University'
 import { UniversityService } from '../../service/UniversityService'
@@ -7,9 +8,10 @@ import { UniversityService } from '../../service/UniversityService'
 const UniversityInfo = () => {
   const [university, setUniversity] = useState<University>()
   const [openModal, setOpenModal] = useState<boolean>(false)
+  const { id } = useParams()
   const fetchData = async () => {
     try {
-      const response = await UniversityService.getByUser()
+      const response = await UniversityService.getById(Number(id))
       setUniversity(response.data)
     } catch (e: any) {
       console.log(e)
