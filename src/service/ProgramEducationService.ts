@@ -1,7 +1,6 @@
 import { ProgramEducationAPIs } from '../constants/APIs'
 import { ComparableProgramEducationUtils } from '../models/ComparableProgramEducation'
 import { FilterParams } from '../models/FilterParams'
-import { ProgramEducationCourseUtils } from '../models/ProgramEducationCourse'
 import { SearchProgramParams } from '../models/SearchProgramParams'
 import { SortParam } from '../models/SortParam'
 import { http } from '../server/http'
@@ -42,23 +41,7 @@ const ProgramEducationService = {
       data: ProgramEducationUtils.toEntity(response.data),
     }
   },
-  getCoursesByProgramId: async (id: number, params: QueryParams) => {
-    const response = (
-      await http.get(ProgramEducationAPIs.GET_COURSES_BY_PROGRAM_ID(id), {
-        params,
-      })
-    ).data
-    return {
-      meta: {
-        total: response.total,
-        message: response.message,
-        status: response.status,
-        page: response.page,
-        size: response.size,
-      },
-      data: ProgramEducationCourseUtils.toEntities(response.data),
-    }
-  },
+
   getSimilarPrograms: async (
     id: number,
     sortParam: SortParam,
@@ -163,21 +146,16 @@ const ProgramEducationService = {
   //     data: response.data,
   //   }
   // },
-  getAllByUniversity: async (id: number, params?: QueryParams) => {
+  updateEnabled: async (id: number, data: any) => {
     const response = (
-      await http.get(ProgramEducationAPIs.GET_ALL_BY_UNIVERSITY(id), {
-        params: params,
-      })
+      await http.put(ProgramEducationAPIs.UPDATE_ENABLED(id), data)
     ).data
     return {
       meta: {
-        total: response.total,
-        message: response.message,
         status: response.status,
-        page: response.page,
-        size: response.size,
+        message: response.message,
       },
-      data: ProgramEducationUtils.toEntities(response.data),
+      data: ProgramEducationUtils.toEntity(response.data),
     }
   },
 }

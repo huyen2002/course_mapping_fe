@@ -25,6 +25,7 @@ import NewProgramEducation from '../pages/university/NewProgramEducation'
 import ProgramEducationList from '../pages/university/ProgramEducationList'
 import UniversityInfo from '../pages/university/UniversityInfo'
 import UniversityProgramDetail from '../pages/university/UniversityProgramDetail'
+import UniversityStorage from '../pages/university/UniversityStorage'
 import Paths from './paths'
 
 const routers = createBrowserRouter([
@@ -64,6 +65,10 @@ const routers = createBrowserRouter([
       {
         path: Paths.EDIT_PROGRAM_EDUCATION,
         element: <EditProgramEducation />,
+      },
+      {
+        path: Paths.UNIVERSITY_STORAGE,
+        element: <UniversityStorage />,
       },
     ],
     errorElement: <NotFound />,

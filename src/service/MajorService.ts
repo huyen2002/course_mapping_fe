@@ -35,4 +35,15 @@ export const MajorService = {
       data: MajorUtils.toEntities(response.data),
     }
   },
+
+  updateEnabled: async (id: number, data: any) => {
+    const response = (await http.put(MajorAPIs.UPDATE_ENABLED(id), data)).data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: MajorUtils.toEntities(response.data),
+    }
+  },
 }

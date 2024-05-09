@@ -1,10 +1,9 @@
-'use client'
-
 import { CustomFlowbiteTheme, Sidebar } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { AiOutlineHome } from 'react-icons/ai'
 import { FaUniversity } from 'react-icons/fa'
 import { FaBookOpen } from 'react-icons/fa6'
+import { GoArchive } from 'react-icons/go'
 import { HiArrowSmRight } from 'react-icons/hi'
 import { PiGraduationCapFill } from 'react-icons/pi'
 import Paths from '../../constants/paths'
@@ -63,6 +62,12 @@ const SidebarUniversity = () => {
             icon={FaUniversity}
           >
             Thông tin cơ quan
+          </Sidebar.Item>
+          <Sidebar.Item
+            href={`/university/${university?.id}/storage`}
+            icon={GoArchive}
+          >
+            Kho lưu trữ
           </Sidebar.Item>
           <Sidebar.Item
             href="#"

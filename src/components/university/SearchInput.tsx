@@ -12,14 +12,10 @@ const SearchInput = ({
     setName(e.target.value)
   }
   const onSubmit = (e: any) => {
-    e.preventDefault()
     setSearchName(name)
   }
   return (
-    <form
-      className="max-w-md flex-1"
-      onSubmit={onSubmit}
-    >
+    <form className="max-w-md flex-1">
       <label
         htmlFor="default-search"
         className="mb-2 text-sm font-medium text-gray-900 sr-only "
@@ -53,7 +49,7 @@ const SearchInput = ({
           onChange={handleValueChange}
         />
         <button
-          type="submit"
+          type="button"
           onClick={onSubmit}
           className="text-white absolute end-2.5 bottom-1 bg-primary_color hover:bg-primary_color_hover  focus:outline-none font-medium rounded-lg text-sm px-2 py-1 "
         >

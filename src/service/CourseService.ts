@@ -5,21 +5,6 @@ import { SearchCourseParams } from '../models/SearchMajorParams'
 import { http } from '../server/http'
 
 export const CourseService = {
-  getAllByUniversity: async (id: number, params?: QueryParams) => {
-    const response = (
-      await http.get(CourseAPIs.GET_ALL_BY_UNIVERSITY(id), { params: params })
-    ).data
-    return {
-      meta: {
-        total: response.total,
-        message: response.message,
-        status: response.status,
-        page: response.page,
-        size: response.size,
-      },
-      data: CourseUtils.toEntities(response.data),
-    }
-  },
   search: async (
     searchCourseParams?: SearchCourseParams,
     params?: QueryParams

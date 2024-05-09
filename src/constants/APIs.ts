@@ -6,6 +6,7 @@ export const AuthAPIs = {
 export const MajorAPIs = {
   SEARCH: 'majors/search',
   GET_LIST: 'majors/list',
+  UPDATE_ENABLED: (id: number) => `major/update_enabled/${id}`,
 }
 export const ProgramEducationAPIs = {
   SEARCH: 'program_educations/search',
@@ -18,6 +19,7 @@ export const ProgramEducationAPIs = {
   UPDATE: (id: number) => `program_education/update/${id}`,
   DELETE: (id: number) => `program_education/delete/${id}`,
   CHECK_EXISTED_BY_CODE: 'program_education/check_existed_by_code',
+  UPDATE_ENABLED: (id: number) => `program_education/update_enabled/${id}`,
 }
 
 export const DocumentAPIs = {
@@ -32,6 +34,7 @@ export const UniversityAPIs = {
   UPDATE_BY_ID: (id: number) => `university/${id}/update`,
   CREATE: 'university/create',
   DELETE: (id: number) => `university/${id}/delete`,
+  UPDATE_ENABLED: (id: number) => `university/update_enable/${id}`,
 }
 
 export const CourseAPIs = {

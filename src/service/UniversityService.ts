@@ -84,4 +84,15 @@ export const UniversityService = {
       data: response.data,
     }
   },
+  updateEnabled: async (id: number, data: any) => {
+    const response = (await http.put(UniversityAPIs.UPDATE_ENABLED(id), data))
+      .data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: UniversityUtils.toEntity(response.data),
+    }
+  },
 }

@@ -18,9 +18,8 @@ const ProgramEducationList = () => {
 
   useEffect(() => {
     setSearchParams({
-      ...searchParams,
       name: searchName,
-      universityId: parseInt(id as string),
+      universityId: Number(id),
     })
   }, [searchName])
 

@@ -29,18 +29,30 @@ const UniversityProgramDetail = () => {
       setIsLoading(false)
     }
   }
-  const handleDeleteProgram = async () => {
+  const handleControlProgram = async () => {
     console.log('id', id)
     try {
       setIsLoading(true)
-      await ProgramEducationService.delete(Number(id))
-      toast.success('Xóa chương trình đào tạo thành công')
-      navigate(
-        `/university/${programEducation?.university.id}/program_educations`
-      )
+      if (!programEducation?.enabled) {
+        await ProgramEducationService.delete(Number(id))
+        toast.success('Xóa chương trình đào tạo thành công')
+        navigate(
+          `/university/${programEducation?.university.id}/program_educations`
+        )
+      } else {
+        await ProgramEducationService.updateEnabled(Number(id), {
+          enabled: false,
+        })
+        toast.success('Ẩn thông tin chương trình đào tạo thành công')
+        navigate(`/university/${programEducation?.university.id}/storage`)
+      }
     } catch (e: any) {
       console.log('Error: ', e)
-      toast.error('Xóa chương trình đào tạo thất bại')
+      if (!programEducation?.enabled) {
+        toast.error('Xóa chương trình đào tạo thất bại')
+      } else {
+        toast.error('Ẩn thông tin chương trình đào tạo thất bại')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -68,19 +80,25 @@ const UniversityProgramDetail = () => {
                 >
                   Chỉnh sửa
                 </button>
+
                 <button
                   onClick={() => setOpenModal(true)}
                   className="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded-md"
                 >
-                  Xóa
+                  {!programEducation?.enabled ? 'Xóa' : 'Ẩn thông tin'}
                 </button>
+
                 <Modal
                   show={openModal}
                   onClose={() => setOpenModal(false)}
                 >
                   <Modal.Header>Cảnh báo</Modal.Header>
                   <Modal.Body>
-                    <h1>Bạn có chắc chắn muốn xóa chương trình đào tạo này?</h1>
+                    <h1>{`Bạn có chắc chắn muốn ${
+                      !programEducation?.enabled
+                        ? 'xóa'
+                        : 'ẩn thông tin và chuyển vào kho lưu trữ'
+                    } chương trình đào tạo này?`}</h1>
                     <div className="mt-6 flex gap-6 justify-end">
                       <button
                         className="px-2 py-1 border border-primary_color bg-slate-50 hover:bg-gray-100 text-primary_color rounded-md"
@@ -89,10 +107,10 @@ const UniversityProgramDetail = () => {
                         Hủy
                       </button>
                       <button
-                        onClick={handleDeleteProgram}
+                        onClick={handleControlProgram}
                         className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-md"
                       >
-                        Xóa
+                        Đồng ý
                       </button>
                     </div>
                   </Modal.Body>
