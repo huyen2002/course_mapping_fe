@@ -1,8 +1,9 @@
-import { Button, Modal, Table, Tooltip } from 'flowbite-react'
+import { Button, Modal, Spinner, Table, Tooltip } from 'flowbite-react'
 import { useState } from 'react'
 import { FaEye, FaPen, FaRegTrashAlt } from 'react-icons/fa'
 import { IoMdAdd } from 'react-icons/io'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import LoadingScreen from '../../components/common/LoadingScreen'
 import Pagination from '../../components/common/Pagination'
 import Paths from '../../constants/paths'
@@ -17,6 +18,31 @@ const ProgramEducationManage = () => {
   )
   const [openModal, setOpenModal] = useState<boolean>(false)
   const navigate = useNavigate()
+  const [selectedProgram, setSelectedProgram] = useState<ProgramEducation>()
+  const handleOpenModel = (program: ProgramEducation) => {
+    setSelectedProgram(program)
+    setOpenModal(true)
+  }
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const handleDisableProgram = async () => {
+    try {
+      setIsLoading(true)
+      await ProgramEducationService.updateEnabled(
+        selectedProgram?.id as number,
+        {
+          enabled: false,
+        }
+      )
+      toast.success('Ẩn thông tin chương trình đào tạo thành công')
+    } catch (e) {
+      console.log(e)
+      toast.error('Ẩn thông tin chương trình đào tạo thất bại')
+    } finally {
+      setIsLoading(false)
+      setOpenModal(false)
+    }
+  }
 
   return (
     <div>
@@ -38,15 +64,17 @@ const ProgramEducationManage = () => {
 
           <Table className="font-montserrat">
             <Table.Head className="text-primary_color font-extrabold text-sm">
+              <Table.HeadCell>STT</Table.HeadCell>
               <Table.HeadCell>ID</Table.HeadCell>
               <Table.HeadCell>Chương trình đào tạo</Table.HeadCell>
               <Table.HeadCell>Trường đào tạo</Table.HeadCell>
               <Table.HeadCell></Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y text-text_color">
-              {data.map((program: ProgramEducation) => {
+              {data.map((program: ProgramEducation, index) => {
                 return (
                   <Table.Row key={program.id}>
+                    <Table.Cell>{index + 1 + (page - 1) * 10}</Table.Cell>
                     <Table.Cell>{program.id}</Table.Cell>
                     <Table.Cell>{program.name}</Table.Cell>
                     <Table.Cell>{program.university.name}</Table.Cell>
@@ -63,45 +91,57 @@ const ProgramEducationManage = () => {
                           </button>
                         </Tooltip>
                         <Tooltip content="Chỉnh sửa">
-                          <button className="text-orange-500">
+                          <button
+                            onClick={() =>
+                              navigate(
+                                `/university/program_education/${program.id}/edit`
+                              )
+                            }
+                            className="text-gray-500"
+                          >
                             <FaPen size="18" />
                           </button>
                         </Tooltip>
-                        <Tooltip content="Xóa">
+                        <Tooltip content="Ẩn thông tin">
                           <button
-                            className="text-gray-700"
-                            onClick={() => setOpenModal(true)}
+                            onClick={() => handleOpenModel(program)}
+                            className="text-orange-500"
                           >
                             <FaRegTrashAlt size="18" />
                           </button>
                         </Tooltip>
                         <Modal
                           dismissible
-                          show={openModal}
+                          show={openModal && selectedProgram?.id === program.id}
                           onClose={() => setOpenModal(false)}
                         >
                           <Modal.Header>Cảnh báo</Modal.Header>
                           <Modal.Body>
                             <div className="space-y-6">
                               <p className="text-base leading-relaxed text-gray-500">
-                                Bạn chắc chắn muốn xóa chương trình đào tạo này?
+                                Bạn chắc chắn muốn ẩn thông tin và chuyển chương
+                                trình đào tạo này sang mục lưu trữ?
                               </p>
+
+                              <div className="flex gap-6 justify-end mt-8">
+                                <button
+                                  onClick={() => {
+                                    setOpenModal(false)
+                                  }}
+                                  className="bg-slate-50 hover:bg-slate-100 py-1 px-3 rounded-md border border-primary_color text-primary_color"
+                                >
+                                  Hủy
+                                </button>
+                                <button
+                                  onClick={handleDisableProgram}
+                                  className="bg-primary_color hover:bg-primary_color_hover py-1 px-3 rounded-md text-white flex gap-[6px] items-center"
+                                >
+                                  {isLoading && <Spinner size="sm" />}
+                                  Đồng ý
+                                </button>
+                              </div>
                             </div>
                           </Modal.Body>
-                          <Modal.Footer>
-                            <Button
-                              className="bg-primary_color text-white hover:bg-primary_color_hover"
-                              onClick={() => setOpenModal(false)}
-                            >
-                              Đồng ý
-                            </Button>
-                            <Button
-                              color="gray"
-                              onClick={() => setOpenModal(false)}
-                            >
-                              Trở lại
-                            </Button>
-                          </Modal.Footer>
                         </Modal>
                       </div>
                     </Table.Cell>

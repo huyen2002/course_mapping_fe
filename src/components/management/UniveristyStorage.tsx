@@ -2,34 +2,26 @@ import { Modal, Spinner, Table, Tooltip } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { CiEdit } from 'react-icons/ci'
 import { LiaTrashRestoreAltSolid } from 'react-icons/lia'
-import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import LoadingScreen from '../../components/common/LoadingScreen'
-import Pagination from '../../components/common/Pagination'
-import SearchInput from '../../components/university/SearchInput'
 import { useFetchPagination } from '../../hooks/useFetchPagination'
-import { ProgramEducation } from '../../models/ProgramEducation'
-import { SearchProgramParams } from '../../models/SearchProgramParams'
-import ProgramEducationService from '../../service/ProgramEducationService'
+import { SearchUniversityParams } from '../../models/SearchUniversityParams'
+import { University } from '../../models/University'
+import { MajorService as UniversityService } from '../../service/MajorService'
+import LoadingScreen from '../common/LoadingScreen'
+import Pagination from '../common/Pagination'
+import SearchInput from '../university/SearchInput'
 
 const UniversityStorage = () => {
   const [searchName, setSearchName] = useState<string | null>(null)
-  const [searchParams, setSearchParams] = useState<SearchProgramParams>({
+  const [searchParams, setSearchParams] = useState<SearchUniversityParams>({
     enabled: false,
   })
   const { data, total, page, changePage, isFetching, fetchData } =
-    useFetchPagination(ProgramEducationService.search, searchParams)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [openModal, setOpenModal] = useState<boolean>(false)
-  const [selectedProgram, setSelectedProgram] = useState<ProgramEducation>()
-  const navigate = useNavigate()
-
-  const { id } = useParams()
+    useFetchPagination(UniversityService.search, searchParams)
 
   useEffect(() => {
     setSearchParams({
       name: searchName,
-      universityId: parseInt(id as string),
       enabled: false,
     })
   }, [searchName])
@@ -38,37 +30,34 @@ const UniversityStorage = () => {
     changePage(1)
     fetchData()
   }, [searchParams])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [selectedUniversity, setSelectedUniversity] = useState<University>()
 
-  const handleOpenModal = (program: ProgramEducation) => {
-    setSelectedProgram(program)
+  const handleOpenModal = (university: University) => {
+    setSelectedUniversity(university)
     setOpenModal(true)
   }
 
-  const handleRestoreProgram = async () => {
+  const handleRestoreUniversity = async () => {
     try {
       setIsLoading(true)
-      await ProgramEducationService.updateEnabled(
-        selectedProgram?.id as number,
-        {
-          enabled: true,
-        }
-      )
-      toast.success('Khôi phục chương trình thành công')
+      await UniversityService.updateEnabled(selectedUniversity?.id as number, {
+        enabled: true,
+      })
+      toast.success('Khôi phục trường đại học thành công')
     } catch (e) {
       console.log(e)
-      toast.error('Khôi phục chương trình không thành công')
+      toast.error('Khôi phục trường đại học không thành công')
     } finally {
       setIsLoading(false)
     }
   }
-
   return (
     <div>
-      <h1 className="text-xl font-semibold mb-8">Chương trình đào tạo</h1>
-
       <SearchInput
         setSearchName={setSearchName}
-        placeholder="Tên chương trình đào tạo"
+        placeholder="Tên trường đại học"
       />
       {isFetching ? (
         <LoadingScreen />
@@ -77,47 +66,25 @@ const UniversityStorage = () => {
           <Table className="font-montserrat">
             <Table.Head className="text-primary_color font-extrabold text-sm">
               <Table.HeadCell>STT</Table.HeadCell>
-              <Table.HeadCell>Tên chương trình đào tạo</Table.HeadCell>
-              <Table.HeadCell>Mã chương trình đào tạo</Table.HeadCell>
-              <Table.HeadCell>Ngôn ngữ</Table.HeadCell>
-              <Table.HeadCell>Nội dung</Table.HeadCell>
+              <Table.HeadCell>Tên trường đại học</Table.HeadCell>
+              <Table.HeadCell>Mã trường đại học</Table.HeadCell>
+
               <Table.HeadCell></Table.HeadCell>
             </Table.Head>
             <Table.Body>
-              {data.map((program, index) => (
-                <Table.Row key={program.id}>
+              {data.map((university, index) => (
+                <Table.Row key={university.id}>
                   <Table.Cell>{index + 1 + (page - 1) * 10}</Table.Cell>
-                  <Table.Cell>{program.name}</Table.Cell>
-                  <Table.Cell>{program.code}</Table.Cell>
-                  <Table.Cell>
-                    {program.language === 'VI' ? 'Tiếng Việt' : 'Tiếng Anh'}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {program.outline ? (
-                      <a
-                        href={program.outline}
-                        target="_blank"
-                        className="text-primary_color hover:text-primary_color_hover underline font-montserrat "
-                      >
-                        Xem chi tiết
-                      </a>
-                    ) : (
-                      'Chưa có thông tin'
-                    )}
-                  </Table.Cell>
+                  <Table.Cell>{university.name}</Table.Cell>
+                  <Table.Cell>{university.code}</Table.Cell>
+
                   <Table.Cell>
                     <div className="flex gap-4">
                       <Tooltip
                         placement="top"
                         content="Chỉnh sửa"
                       >
-                        <button
-                          onClick={() =>
-                            navigate(
-                              `/university/program_education/${program.id}/edit`
-                            )
-                          }
-                        >
+                        <button onClick={() => {}}>
                           <CiEdit
                             size={25}
                             color="#3D8BCC"
@@ -129,20 +96,22 @@ const UniversityStorage = () => {
                         placement="top"
                         content="Khôi phục"
                       >
-                        <button onClick={() => handleOpenModal(program)}>
+                        <button onClick={() => handleOpenModal(university)}>
                           <LiaTrashRestoreAltSolid size={25} />
                         </button>
                       </Tooltip>
                       <Modal
-                        show={openModal && selectedProgram?.id === program.id}
+                        show={
+                          openModal && selectedUniversity?.id === university.id
+                        }
                         onClose={() => setOpenModal(false)}
                       >
                         <Modal.Header>Xác nhận</Modal.Header>
                         <Modal.Body>
                           <p>
-                            Bạn có chắc chắn muốn khôi phục chương trình{' '}
+                            Bạn có chắc chắn muốn khôi phục trường{' '}
                             <span className="text-primary_color">
-                              {program.name}
+                              {university.name}
                             </span>{' '}
                             không?
                           </p>
@@ -156,7 +125,7 @@ const UniversityStorage = () => {
                               Hủy
                             </button>
                             <button
-                              onClick={handleRestoreProgram}
+                              onClick={handleRestoreUniversity}
                               className="bg-primary_color hover:bg-primary_color_hover py-1 px-3 rounded-md text-white flex gap-[6px] items-center"
                             >
                               {isLoading && <Spinner size="sm" />}

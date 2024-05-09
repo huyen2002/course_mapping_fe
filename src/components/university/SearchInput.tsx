@@ -11,7 +11,7 @@ const SearchInput = ({
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
   }
-  const onSubmit = (e: any) => {
+  const onSubmit = () => {
     setSearchName(name)
   }
   return (

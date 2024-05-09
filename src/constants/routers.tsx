@@ -11,6 +11,7 @@ import ProgramEducations from '../pages/ProgramEducations'
 import SearchProgramResult from '../pages/SearchProgramResult'
 import Universities from '../pages/Universities'
 import UniversityDetail from '../pages/UniversityDetail'
+import AdminStorage from '../pages/admin/AdminStorage'
 import HomeAdmin from '../pages/admin/HomeAdmin'
 import NewProgramAdmin from '../pages/admin/NewProgramAdmin'
 import ProgramEducationManage from '../pages/admin/ProgramEducationManage'
@@ -25,7 +26,7 @@ import NewProgramEducation from '../pages/university/NewProgramEducation'
 import ProgramEducationList from '../pages/university/ProgramEducationList'
 import UniversityInfo from '../pages/university/UniversityInfo'
 import UniversityProgramDetail from '../pages/university/UniversityProgramDetail'
-import UniversityStorage from '../pages/university/UniversityStorage'
+import UniversityStorageManagement from '../pages/university/UniversityStorageManagement'
 import Paths from './paths'
 
 const routers = createBrowserRouter([
@@ -68,7 +69,7 @@ const routers = createBrowserRouter([
       },
       {
         path: Paths.UNIVERSITY_STORAGE,
-        element: <UniversityStorage />,
+        element: <UniversityStorageManagement />,
       },
     ],
     errorElement: <NotFound />,
@@ -122,6 +123,10 @@ const routers = createBrowserRouter([
       {
         path: Paths.ADMIN_UNIVERSITIES,
         element: <UniversityManagement />,
+      },
+      {
+        path: Paths.ADMIN_STORAGE,
+        element: <AdminStorage />,
       },
     ],
   },

@@ -4,11 +4,13 @@ import { CustomFlowbiteTheme, Sidebar } from 'flowbite-react'
 import { AiOutlineHome } from 'react-icons/ai'
 import { FaUsers } from 'react-icons/fa'
 import { FaAlignLeft, FaBookOpen, FaSchool } from 'react-icons/fa6'
+import { GoArchive } from 'react-icons/go'
 import { HiArrowSmRight } from 'react-icons/hi'
 import { IoReturnUpBackOutline } from 'react-icons/io5'
 import { MdOutlineAdminPanelSettings } from 'react-icons/md'
 import { PiGraduationCapFill } from 'react-icons/pi'
 import Paths from '../../constants/paths'
+
 const SidebarUniversity = () => {
   const theme: CustomFlowbiteTheme['sidebar'] = {
     root: {
@@ -77,6 +79,12 @@ const SidebarUniversity = () => {
             icon={MdOutlineAdminPanelSettings}
           >
             Thông tin tài khoản
+          </Sidebar.Item>
+          <Sidebar.Item
+            href={Paths.ADMIN_STORAGE}
+            icon={GoArchive}
+          >
+            Kho lưu trữ
           </Sidebar.Item>
           <Sidebar.Item
             href="#"
