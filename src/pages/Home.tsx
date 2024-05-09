@@ -4,7 +4,6 @@ import MajorDetail from '../components/MajorDetail'
 import LoadingScreen from '../components/common/LoadingScreen'
 import Pagination from '../components/common/Pagination'
 import { useFetchPagination } from '../hooks/useFetchPagination'
-import { defaultParams } from '../models/QueryParams'
 import { SearchMajorParams } from '../models/SearchMajorParams'
 import { MajorService } from '../service/MajorService'
 const Home = () => {
@@ -13,7 +12,7 @@ const Home = () => {
   const [searchParams, setSearchParams] = useState<SearchMajorParams>({})
 
   const { data, page, total, isFetching, fetchData, changePage } =
-    useFetchPagination(MajorService.getAll, MajorService.search, searchParams)
+    useFetchPagination(MajorService.search, searchParams)
   const handleResetInput = (e: any) => {
     e.preventDefault()
     setNameParam('')

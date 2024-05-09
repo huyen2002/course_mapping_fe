@@ -4,6 +4,7 @@ export interface Major {
   name: string
   code: string
   numberOfProgramEducations: number
+  enabled?: boolean
 }
 export const MajorUtils = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -13,6 +14,7 @@ export const MajorUtils = {
       name: dto.name,
       code: dto.code,
       numberOfProgramEducations: dto.numberOfProgramEducations,
+      enabled: dto.enabled,
     } as Major
   },
   toEntities: (dtos: any[]) => {

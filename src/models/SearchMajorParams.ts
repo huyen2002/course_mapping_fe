@@ -1,6 +1,7 @@
 export interface SearchMajorParams {
   name?: string | null
   code?: string | null
+  enabled?: boolean | null
 }
 export interface SearchCourseParams {
   name?: string | null

@@ -12,7 +12,7 @@ const ProgramEducationList = () => {
   const [searchParams, setSearchParams] = useState<SearchProgramParams>({})
   const [searchName, setSearchName] = useState<string | null>(null)
   const { data, page, total, isFetching, changePage, fetchData } =
-    useFetchPagination(null, ProgramEducationService.search, searchParams)
+    useFetchPagination(ProgramEducationService.search, searchParams)
   const navigate = useNavigate()
   const { id } = useParams()
 

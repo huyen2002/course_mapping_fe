@@ -16,4 +16,5 @@ export interface SearchProgramParams {
   levelOfEducation?: LevelOfEducationParams
   status?: ProgramStatus
   universityId?: number | null
+  enabled?: boolean | null
 }

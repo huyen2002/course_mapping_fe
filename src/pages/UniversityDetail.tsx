@@ -12,7 +12,6 @@ const UniversityDetail = () => {
   const { id } = useParams()
   const [university, setUniversity] = useState<University>()
   const { data, changePage, isFetching, page, total } = useFetchPagination(
-    null,
     ProgramEducationService.search,
     {
       universityId: id,

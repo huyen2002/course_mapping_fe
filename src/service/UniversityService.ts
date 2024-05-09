@@ -52,23 +52,7 @@ export const UniversityService = {
       data: UniversityUtils.toEntities(response.data),
     }
   },
-  getAll: async (params: QueryParams) => {
-    const response = (
-      await http.get(UniversityAPIs.GET_ALL, {
-        params: params,
-      })
-    ).data
-    return {
-      meta: {
-        status: response.status,
-        message: response.message,
-        total: response.total,
-        page: response.page,
-        size: response.size,
-      },
-      data: UniversityUtils.toEntities(response.data),
-    }
-  },
+
   updateById: async (id: number, data: any) => {
     const response = (await http.put(UniversityAPIs.UPDATE_BY_ID(id), data))
       .data

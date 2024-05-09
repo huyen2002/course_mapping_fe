@@ -13,11 +13,7 @@ const ProgramEducations = () => {
   const [searchParams, setSearchParams] = useState<SearchProgramParams>({})
   const navigate = useNavigate()
   const { data, page, total, isFetching, fetchData, changePage } =
-    useFetchPagination(
-      ProgramEducationService.getAll,
-      ProgramEducationService.search,
-      searchParams
-    )
+    useFetchPagination(ProgramEducationService.search, searchParams)
 
   const onSubmit = () => {
     Object.keys(searchParams).forEach(

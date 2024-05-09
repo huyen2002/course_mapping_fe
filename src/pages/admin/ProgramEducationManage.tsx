@@ -11,7 +11,6 @@ import { ProgramEducation } from '../../models/ProgramEducation'
 import ProgramEducationService from '../../service/ProgramEducationService'
 const ProgramEducationManage = () => {
   const { data, isFetching, page, changePage, total } = useFetchPagination(
-    ProgramEducationService.getAll,
     ProgramEducationService.search,
     {},
     10

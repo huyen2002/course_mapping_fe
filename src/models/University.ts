@@ -9,6 +9,7 @@ export interface University {
   introduction: string | null
   address: Address | null
   user: User | null
+  enabled: boolean
 }
 export interface UniversityData {
   name?: string
@@ -25,6 +26,7 @@ export const UniversityUtils = {
       code: dto.code,
       feature: dto.feature,
       introduction: dto.introduction,
+      enabled: dto.enabled,
       address: AddressUtils.toEntity(dto.address),
       user: dto.user ? UserUtils.toEntity(dto.user) : null,
     } as University

@@ -28,7 +28,6 @@ const CourseList = () => {
 
   const { data, changePage, fetchData, isFetching, page, total } =
     useFetchPagination(
-      null,
       CourseService.search,
       { universityId: parseInt(id as string), name: searchName },
       10

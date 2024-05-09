@@ -24,8 +24,7 @@ const ProgramEducationInfo = ({
   isShowUniversityAction?: boolean
   children?: React.ReactNode
 }) => {
-  const { data, total, changePage, page, fetchData } = useFetchPagination(
-    null,
+  const { data, total, changePage, page } = useFetchPagination(
     ProgramEducationCourseService.search,
     { programEducationId: programEducation?.id },
     10

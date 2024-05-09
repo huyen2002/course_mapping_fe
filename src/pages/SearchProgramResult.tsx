@@ -38,7 +38,7 @@ const SearchProgramResult = () => {
   const navigate = useNavigate()
 
   const { data, isFetching, page, changePage, total, fetchData } =
-    useFetchPagination(null, ProgramEducationService.search, searchParams)
+    useFetchPagination(ProgramEducationService.search, searchParams)
 
   const [major, setMajor] = useState<Major | null | undefined>(null)
   const [university, setUniversity] = useState<University | null | undefined>(

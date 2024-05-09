@@ -14,11 +14,7 @@ const Universities = () => {
   const [searchParams, setSearchParams] = useState<SearchUniversityParams>({})
 
   const { data, isFetching, total, page, changePage, fetchData } =
-    useFetchPagination(
-      UniversityService.getAll,
-      UniversityService.search,
-      searchParams
-    )
+    useFetchPagination(UniversityService.search, searchParams)
   const handleSearch = () => {
     console.log('name', nameParam)
     console.log('country', country)

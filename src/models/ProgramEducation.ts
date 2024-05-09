@@ -21,6 +21,7 @@ export interface ProgramEducation {
   startYear: number | null
   endYear: number | null
   sourceLinks: SourceLink[] | null
+  enabled: boolean
   majorId?: number
   major: Major
   universityId?: number
@@ -59,6 +60,7 @@ export const ProgramEducationUtils = {
       startYear: dto.startYear,
       endYear: dto.endYear,
       sourceLinks: dto.sourceLinks ? JSON.parse(dto.sourceLinks) : null,
+      enabled: dto.enabled,
       major: MajorUtils.toEntity(dto.major),
       university: UniversityUtils.toEntity(dto.university),
       majorId: MajorUtils.toEntity(dto.major).id,

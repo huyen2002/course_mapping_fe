@@ -21,12 +21,7 @@ import { UniversityService } from '../../service/UniversityService'
 
 const UniversityManagement = () => {
   const { data, isFetching, page, changePage, fetchData, total } =
-    useFetchPagination(
-      UniversityService.getAll,
-      UniversityService.search,
-      {},
-      10
-    )
+    useFetchPagination(UniversityService.search, {}, 10)
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const [openEditModal, setOpenEditModal] = useState<boolean>(false)
   const [selectedUniversity, setSelectedUniversity] = useState<University>()
