@@ -19,7 +19,7 @@ const UniversityStorage = () => {
     enabled: false,
   })
   const { data, total, page, changePage, isFetching, fetchData } =
-    useFetchPagination(UniversityService.search, searchParams)
+    useFetchPagination(UniversityService.search, searchParams, 10)
 
   useEffect(() => {
     setSearchParams({
@@ -30,7 +30,6 @@ const UniversityStorage = () => {
 
   useEffect(() => {
     changePage(1)
-    fetchData()
   }, [searchParams])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [openModal, setOpenModal] = useState<boolean>(false)

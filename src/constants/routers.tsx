@@ -12,6 +12,7 @@ import SearchProgramResult from '../pages/SearchProgramResult'
 import Universities from '../pages/Universities'
 import UniversityDetail from '../pages/UniversityDetail'
 import AdminStorage from '../pages/admin/AdminStorage'
+import CourseOfUniversity from '../pages/admin/CourseOfUniversity'
 import HomeAdmin from '../pages/admin/HomeAdmin'
 import NewProgramAdmin from '../pages/admin/NewProgramAdmin'
 import ProgramEducationManage from '../pages/admin/ProgramEducationManage'
@@ -128,6 +129,10 @@ const routers = createBrowserRouter([
       {
         path: Paths.ADMIN_STORAGE,
         element: <AdminStorage />,
+      },
+      {
+        path: Paths.ADMIN_COURSES_MANAGE,
+        element: <CourseOfUniversity />,
       },
     ],
   },

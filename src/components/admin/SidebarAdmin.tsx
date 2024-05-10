@@ -3,7 +3,7 @@
 import { CustomFlowbiteTheme, Sidebar } from 'flowbite-react'
 import { AiOutlineHome } from 'react-icons/ai'
 import { FaUsers } from 'react-icons/fa'
-import { FaAlignLeft, FaBookOpen, FaSchool } from 'react-icons/fa6'
+import { FaAlignLeft, FaSchool } from 'react-icons/fa6'
 import { GoArchive } from 'react-icons/go'
 import { IoReturnUpBackOutline } from 'react-icons/io5'
 import { PiGraduationCapFill } from 'react-icons/pi'
@@ -60,12 +60,7 @@ const SidebarAdmin = () => {
           >
             Chương trình đào tạo
           </Sidebar.Item>
-          <Sidebar.Item
-            href="#"
-            icon={FaBookOpen}
-          >
-            Môn học
-          </Sidebar.Item>
+
           <Sidebar.Item
             icon={IoReturnUpBackOutline}
             href={Paths.HOME}

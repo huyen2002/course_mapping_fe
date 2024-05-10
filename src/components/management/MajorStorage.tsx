@@ -28,7 +28,6 @@ const MajorStorage = () => {
 
   useEffect(() => {
     changePage(1)
-    fetchData()
   }, [searchParams])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [openModal, setOpenModal] = useState<boolean>(false)

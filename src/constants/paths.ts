@@ -24,5 +24,6 @@ const Paths = {
   ADMIN_PROGRAM_EDUCATION_MANAGE: '/admin/program_educations',
   ADMIN_UNIVERSITIES: '/admin/universities',
   ADMIN_STORAGE: '/admin/storage',
+  ADMIN_COURSES_MANAGE: '/admin/university/:id/courses',
 }
 export default Paths

@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useParams } from 'react-router-dom'
 import CourseListManagement from '../../components/management/CourseListManagement'
 
-const CourseList = () => {
+const CourseOfUniversity = () => {
   const { id } = useParams()
   const universityId = parseInt(id as string)
   return (
@@ -11,4 +10,5 @@ const CourseList = () => {
     </div>
   )
 }
-export default CourseList
+
+export default CourseOfUniversity
