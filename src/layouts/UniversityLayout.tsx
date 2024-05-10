@@ -19,16 +19,20 @@ const UniversityLayout = () => {
   }, [])
   return (
     <div className="flex w-full h-full">
-      <SidebarUniversity />
-      <div className="w-full mx-10 overflow-y-scroll no-scrollbar">
-        <div className="flex justify-end mb-4 border-b  py-4">
-          <h1 className="font-bold text-primary_color text-lg ">
-            {university?.name}
-          </h1>
-        </div>
+      {university && (
+        <div>
+          <SidebarUniversity university={university} />
+          <div className="w-full mx-10 overflow-y-scroll no-scrollbar">
+            <div className="flex justify-end mb-4 border-b  py-4">
+              <h1 className="font-bold text-primary_color text-lg ">
+                {university?.name}
+              </h1>
+            </div>
 
-        <Outlet />
-      </div>
+            <Outlet />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

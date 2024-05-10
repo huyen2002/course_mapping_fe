@@ -39,7 +39,9 @@ const ProgramEducationInfo = ({
   const fetchCourseList = async () => {
     try {
       setIsLoading(true)
-      const response = await CourseService.getList()
+      const response = await CourseService.getList(
+        programEducation.university.id
+      )
       setCourseList(response.data)
     } catch (e: any) {
       console.log('Error: ' + e)

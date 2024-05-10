@@ -35,8 +35,8 @@ export const CourseService = {
       data: CourseUtils.toEntity(response.data),
     }
   },
-  getList: async () => {
-    const response = (await http.get(CourseAPIs.GET_LIST)).data
+  getList: async (id: number) => {
+    const response = (await http.get(CourseAPIs.GET_LIST(id))).data
     return {
       meta: {
         total: response.total,

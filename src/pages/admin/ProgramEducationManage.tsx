@@ -1,6 +1,8 @@
 import { Button, Modal, Spinner, Table, Tooltip } from 'flowbite-react'
 import { useState } from 'react'
-import { FaEye, FaPen, FaRegTrashAlt } from 'react-icons/fa'
+import { BiHide } from 'react-icons/bi'
+import { CiEdit } from 'react-icons/ci'
+import { FaEye } from 'react-icons/fa'
 import { IoMdAdd } from 'react-icons/io'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -10,6 +12,7 @@ import Paths from '../../constants/paths'
 import { useFetchPagination } from '../../hooks/useFetchPagination'
 import { ProgramEducation } from '../../models/ProgramEducation'
 import ProgramEducationService from '../../service/ProgramEducationService'
+
 const ProgramEducationManage = () => {
   const { data, isFetching, page, changePage, total } = useFetchPagination(
     ProgramEducationService.search,
@@ -67,6 +70,7 @@ const ProgramEducationManage = () => {
               <Table.HeadCell>STT</Table.HeadCell>
               <Table.HeadCell>ID</Table.HeadCell>
               <Table.HeadCell>Chương trình đào tạo</Table.HeadCell>
+              <Table.HeadCell>Ngành đào tạo</Table.HeadCell>
               <Table.HeadCell>Trường đào tạo</Table.HeadCell>
               <Table.HeadCell></Table.HeadCell>
             </Table.Head>
@@ -77,9 +81,10 @@ const ProgramEducationManage = () => {
                     <Table.Cell>{index + 1 + (page - 1) * 10}</Table.Cell>
                     <Table.Cell>{program.id}</Table.Cell>
                     <Table.Cell>{program.name}</Table.Cell>
+                    <Table.Cell>{program.major.name}</Table.Cell>
                     <Table.Cell>{program.university.name}</Table.Cell>
                     <Table.Cell>
-                      <div className="flex justify-center gap-6">
+                      <div className="flex justify-center gap-6 items-center">
                         <Tooltip content="Xem chi tiết">
                           <button
                             className="text-primary_color"
@@ -97,17 +102,19 @@ const ProgramEducationManage = () => {
                                 `/university/program_education/${program.id}/edit`
                               )
                             }
-                            className="text-gray-500"
                           >
-                            <FaPen size="18" />
+                            <CiEdit
+                              size="25"
+                              color="orange"
+                            />
                           </button>
                         </Tooltip>
                         <Tooltip content="Ẩn thông tin">
                           <button
                             onClick={() => handleOpenModel(program)}
-                            className="text-orange-500"
+                            className="text-red-500"
                           >
-                            <FaRegTrashAlt size="18" />
+                            <BiHide size="20" />
                           </button>
                         </Tooltip>
                         <Modal

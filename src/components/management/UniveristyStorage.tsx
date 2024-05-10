@@ -1,12 +1,14 @@
 import { Modal, Spinner, Table, Tooltip } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { CiEdit } from 'react-icons/ci'
+import { FaEye, FaRegTrashAlt } from 'react-icons/fa'
 import { LiaTrashRestoreAltSolid } from 'react-icons/lia'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useFetchPagination } from '../../hooks/useFetchPagination'
 import { SearchUniversityParams } from '../../models/SearchUniversityParams'
 import { University } from '../../models/University'
-import { MajorService as UniversityService } from '../../service/MajorService'
+import { UniversityService } from '../../service/UniversityService'
 import LoadingScreen from '../common/LoadingScreen'
 import Pagination from '../common/Pagination'
 import SearchInput from '../university/SearchInput'
@@ -34,9 +36,29 @@ const UniversityStorage = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [selectedUniversity, setSelectedUniversity] = useState<University>()
 
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
+  const navigate = useNavigate()
+
   const handleOpenModal = (university: University) => {
     setSelectedUniversity(university)
     setOpenModal(true)
+  }
+  const handleOpenDeleteModal = (university: University) => {
+    setSelectedUniversity(university)
+    setOpenDeleteModal(true)
+  }
+  const handleDeleteUniversity = async () => {
+    try {
+      setIsLoading(true)
+      await UniversityService.delete(selectedUniversity?.id as number)
+      toast.success('Xóa trường đại học thành công')
+    } catch (e) {
+      console.log(e)
+      toast.error('Xóa trường đại học không thành công')
+    } finally {
+      setIsLoading(false)
+      setOpenDeleteModal(false)
+    }
   }
 
   const handleRestoreUniversity = async () => {
@@ -67,7 +89,7 @@ const UniversityStorage = () => {
             <Table.Head className="text-primary_color font-extrabold text-sm">
               <Table.HeadCell>STT</Table.HeadCell>
               <Table.HeadCell>Tên trường đại học</Table.HeadCell>
-              <Table.HeadCell>Mã trường đại học</Table.HeadCell>
+              <Table.HeadCell>Mã trường</Table.HeadCell>
 
               <Table.HeadCell></Table.HeadCell>
             </Table.Head>
@@ -79,7 +101,17 @@ const UniversityStorage = () => {
                   <Table.Cell>{university.code}</Table.Cell>
 
                   <Table.Cell>
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 items-center">
+                      <Tooltip content="Xem chi tiết">
+                        <button
+                          className="text-primary_color"
+                          onClick={() =>
+                            navigate(`/university/${university.id}`)
+                          }
+                        >
+                          <FaEye size="18" />
+                        </button>
+                      </Tooltip>
                       <Tooltip
                         placement="top"
                         content="Chỉnh sửa"
@@ -87,7 +119,7 @@ const UniversityStorage = () => {
                         <button onClick={() => {}}>
                           <CiEdit
                             size={25}
-                            color="#3D8BCC"
+                            color="orange"
                           />
                         </button>
                       </Tooltip>
@@ -127,6 +159,52 @@ const UniversityStorage = () => {
                             <button
                               onClick={handleRestoreUniversity}
                               className="bg-primary_color hover:bg-primary_color_hover py-1 px-3 rounded-md text-white flex gap-[6px] items-center"
+                            >
+                              {isLoading && <Spinner size="sm" />}
+                              Đồng ý
+                            </button>
+                          </div>
+                        </Modal.Body>
+                      </Modal>
+                      <Tooltip
+                        placement="top"
+                        content="Xóa"
+                      >
+                        <button
+                          onClick={() => handleOpenDeleteModal(university)}
+                          className="text-red-500"
+                        >
+                          <FaRegTrashAlt size="20" />
+                        </button>
+                      </Tooltip>
+                      <Modal
+                        show={
+                          openDeleteModal &&
+                          selectedUniversity?.id === university.id
+                        }
+                        onClose={() => setOpenDeleteModal(false)}
+                      >
+                        <Modal.Header>Xác nhận</Modal.Header>
+                        <Modal.Body>
+                          <p>
+                            Bạn có chắc chắn muốn xóa vĩnh viên trường{' '}
+                            <span className="text-primary_color">
+                              {university.name}
+                            </span>{' '}
+                            và tất cả các thông tin liên quan không?
+                          </p>
+                          <div className="flex gap-6 justify-end mt-8">
+                            <button
+                              onClick={() => {
+                                setOpenDeleteModal(false)
+                              }}
+                              className="bg-slate-50 hover:bg-slate-100 py-1 px-3 rounded-md border border-primary_color text-primary_color"
+                            >
+                              Hủy
+                            </button>
+                            <button
+                              onClick={handleDeleteUniversity}
+                              className="bg-red-500 hover:bg-red-600 py-1 px-3 rounded-md text-white flex gap-[6px] items-center"
                             >
                               {isLoading && <Spinner size="sm" />}
                               Đồng ý

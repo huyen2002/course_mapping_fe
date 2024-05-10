@@ -69,50 +69,62 @@ const UniversityDetail = () => {
                 <Table.HeadCell>Tên chương trình đào tạo</Table.HeadCell>
 
                 <Table.HeadCell>Mã tuyển sinh</Table.HeadCell>
+                <Table.HeadCell>Ngành đào tạo</Table.HeadCell>
+
                 <Table.HeadCell>Ngôn ngữ</Table.HeadCell>
                 <Table.HeadCell>Nội dung</Table.HeadCell>
                 <Table.HeadCell>Trạng thái</Table.HeadCell>
               </Table.Head>
               <Table.Body>
-                {data.map((program, index) => (
-                  <Table.Row key={program.id}>
-                    <Table.Cell>{index + 1 + (page - 1) * 10}</Table.Cell>
-                    <Table.Cell>{program.name}</Table.Cell>
+                {data.length > 0 ? (
+                  <div>
+                    {data.map((program, index) => (
+                      <Table.Row key={program.id}>
+                        <Table.Cell>{index + 1 + (page - 1) * 10}</Table.Cell>
+                        <Table.Cell>{program.name}</Table.Cell>
 
-                    <Table.Cell>{program.code}</Table.Cell>
-                    <Table.Cell>
-                      {program.language === 'VI' ? 'Tiếng Việt' : 'Tiếng Anh'}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {program.outline ? (
-                        <a
-                          href={program.outline}
-                          target="_blank"
-                          className="text-primary_color hover:text-primary_color_hover underline font-montserrat "
-                        >
-                          Xem chi tiết
-                        </a>
-                      ) : (
-                        'Chưa có thông tin'
-                      )}
-                    </Table.Cell>
-                    <Table.Cell>
-                      <span
-                        className={
-                          !program.endYear ||
-                          program.endYear > new Date().getFullYear()
-                            ? 'text-primary_color'
-                            : 'text-red-500'
-                        }
-                      >
-                        {!program.endYear ||
-                        program.endYear > new Date().getFullYear()
-                          ? 'Hoạt động'
-                          : 'Đã đóng'}
-                      </span>
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
+                        <Table.Cell>{program.code}</Table.Cell>
+                        <Table.Cell>{program.major.name}</Table.Cell>
+
+                        <Table.Cell>
+                          {program.language === 'VI'
+                            ? 'Tiếng Việt'
+                            : 'Tiếng Anh'}
+                        </Table.Cell>
+                        <Table.Cell>
+                          {program.outline ? (
+                            <a
+                              href={program.outline}
+                              target="_blank"
+                              className="text-primary_color hover:text-primary_color_hover underline font-montserrat "
+                            >
+                              Xem chi tiết
+                            </a>
+                          ) : (
+                            'Chưa có thông tin'
+                          )}
+                        </Table.Cell>
+                        <Table.Cell>
+                          <span
+                            className={
+                              !program.endYear ||
+                              program.endYear > new Date().getFullYear()
+                                ? 'text-primary_color'
+                                : 'text-red-500'
+                            }
+                          >
+                            {!program.endYear ||
+                            program.endYear > new Date().getFullYear()
+                              ? 'Hoạt động'
+                              : 'Đã đóng'}
+                          </span>
+                        </Table.Cell>
+                      </Table.Row>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-lg py-2">Danh sách trống</p>
+                )}
               </Table.Body>
             </Table>
             <div className="mt-8">

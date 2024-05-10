@@ -1,9 +1,15 @@
+import { Menu, MenuItem } from '@mui/material'
+import { Avatar } from 'flowbite-react'
 import { useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { CiLogout } from 'react-icons/ci'
+import { IoPersonOutline } from 'react-icons/io5'
+import { RiAdminLine } from 'react-icons/ri'
+import { Outlet, useNavigate } from 'react-router-dom'
 import SidebarAdmin from '../components/admin/SidebarAdmin'
+import Paths from '../constants/paths'
 import { User } from '../models/User'
 import { AuthService } from '../service/AuthService'
-
+import { AuthUtils } from '../utils/AuthUtils'
 const AdminLayout = () => {
   const [user, setUser] = useState<User>()
   const fetchData = async () => {
@@ -14,6 +20,20 @@ const AdminLayout = () => {
       console.log('Error: ' + e)
     }
   }
+  const navigate = useNavigate()
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleCloseMenu = () => {
+    setAnchorEl(null)
+  }
+  const logout = () => {
+    AuthUtils.logout()
+    handleCloseMenu()
+    navigate(Paths.HOME)
+  }
   useEffect(() => {
     fetchData()
   }, [])
@@ -22,9 +42,36 @@ const AdminLayout = () => {
       <SidebarAdmin />
       <div className="w-full mx-10">
         <div className="flex justify-end mb-4 border-b  py-4">
-          <h1 className="font-bold text-primary_color text-lg ">
-            {user?.username}
-          </h1>
+          <button
+            type="button"
+            onClick={handleClick}
+          >
+            <Avatar rounded />
+          </button>
+          <Menu
+            id="basic-menu"
+            open={open}
+            onClose={handleCloseMenu}
+            anchorEl={anchorEl}
+          >
+            <h1 className="text-primary_color font-semibold ml-4 mt-4 mb-3">
+              {user?.username}
+            </h1>
+            <MenuItem onClick={handleCloseMenu}>
+              <IoPersonOutline size={20} />
+              <span className="ml-2"> Thông tin tài khoản</span>
+            </MenuItem>
+
+            <MenuItem onClick={() => navigate(Paths.HOME)}>
+              <RiAdminLine size={20} />
+              <span className="ml-2">Trang chính</span>
+            </MenuItem>
+
+            <MenuItem onClick={logout}>
+              <CiLogout size={20} />
+              <span className="ml-2"> Đăng xuất</span>
+            </MenuItem>
+          </Menu>
         </div>
 
         <Outlet />

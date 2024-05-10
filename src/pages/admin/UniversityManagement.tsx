@@ -7,9 +7,10 @@ import {
   Tooltip,
 } from 'flowbite-react'
 import { useState } from 'react'
+import { BiHide } from 'react-icons/bi'
 import { CiEdit } from 'react-icons/ci'
+import { FaEye } from 'react-icons/fa'
 import { IoIosAdd } from 'react-icons/io'
-import { MdOutlineDelete } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import UniversityForm from '../../components/UniversityForm'
@@ -22,7 +23,7 @@ import { UniversityService } from '../../service/UniversityService'
 const UniversityManagement = () => {
   const { data, isFetching, page, changePage, fetchData, total } =
     useFetchPagination(UniversityService.search, {}, 10)
-  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
+  const [openDeleteModal, setOpenDisableModal] = useState<boolean>(false)
   const [openEditModal, setOpenEditModal] = useState<boolean>(false)
   const [selectedUniversity, setSelectedUniversity] = useState<University>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -30,35 +31,38 @@ const UniversityManagement = () => {
 
   const navigate = useNavigate()
 
-  const handleOpenDeleteModal = (university: University) => {
+  const handleOpenDisableModal = (university: University) => {
     setSelectedUniversity(university)
-    setOpenDeleteModal(true)
+    setOpenDisableModal(true)
   }
   const handleOpenEditModal = (university: University) => {
     setSelectedUniversity(university)
     setOpenEditModal(true)
   }
-  const handleDeleteUniversity = async () => {
+  const handleDisableUniversity = async () => {
     console.log('selected university', selectedUniversity)
     try {
       setIsLoading(true)
-      await UniversityService.delete(selectedUniversity?.id as number)
-      toast.success('Xoá trường đại học thành công')
+      await UniversityService.updateEnabled(selectedUniversity?.id as number, {
+        enabled: false,
+      })
+      toast.success('Ẩn thông tin trường đại học thành công')
       fetchData()
     } catch (e) {
       console.log(e)
+      toast.error('Ẩn thông tin trường đại học không thành công')
     } finally {
       setIsLoading(false)
-      setOpenDeleteModal(false)
+      setOpenDisableModal(false)
     }
   }
   return (
     <div className="overflow-y-auto">
-      <h1 className="text-2xl font-bold mb-8">Môn học</h1>
-      <div>
+      <h1 className="text-2xl font-bold">Trường đại học</h1>
+      <div className="flex justify-end">
         <button
           onClick={() => setOpenAddModal(true)}
-          className=" flex  text-white  bg-primary_color hover:bg-primary_color_hover text-sm  focus:outline-none font-medium rounded-lg  px-2 py-2 "
+          className=" flex text-white  bg-primary_color hover:bg-primary_color_hover text-sm  focus:outline-none font-medium rounded-lg  px-2 py-2 "
         >
           <IoIosAdd size={20} />
           Thêm mới
@@ -108,7 +112,17 @@ const UniversityManagement = () => {
                   <Table.Cell>{university.code}</Table.Cell>
 
                   <Table.Cell>
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 items-center">
+                      <Tooltip content="Xem chi tiết">
+                        <button
+                          className="text-primary_color"
+                          onClick={() =>
+                            navigate(`/university/${university.id}`)
+                          }
+                        >
+                          <FaEye size="18" />
+                        </button>
+                      </Tooltip>
                       <Tooltip
                         placement="top"
                         content="Chỉnh sửa"
@@ -116,7 +130,7 @@ const UniversityManagement = () => {
                         <button onClick={() => handleOpenEditModal(university)}>
                           <CiEdit
                             size={25}
-                            color="#3D8BCC"
+                            color="orange"
                           />
                         </button>
                       </Tooltip>
@@ -137,15 +151,13 @@ const UniversityManagement = () => {
                       </Modal>
                       <Tooltip
                         placement="top"
-                        content="Xóa"
+                        content="Ẩn thông tin"
                       >
                         <button
-                          onClick={() => handleOpenDeleteModal(university)}
+                          onClick={() => handleOpenDisableModal(university)}
+                          className="text-red-500"
                         >
-                          <MdOutlineDelete
-                            size={25}
-                            color="#F87171"
-                          />
+                          <BiHide size="20" />
                         </button>
                       </Tooltip>
                       <Modal
@@ -153,29 +165,29 @@ const UniversityManagement = () => {
                           openDeleteModal &&
                           selectedUniversity?.id === university.id
                         }
-                        onClose={() => setOpenDeleteModal(false)}
+                        onClose={() => setOpenDisableModal(false)}
                       >
                         <Modal.Header>Cảnh báo</Modal.Header>
                         <Modal.Body>
                           <p>
-                            Bạn có chắc chắn muốn xóa tài khoản cùng tất cả các
-                            chương trình đào tạo và môn học của{' '}
+                            Bạn có chắc chắn muốn ẩn thông tin của cơ quan cùng
+                            tất cả các chương trình đào tạo và môn học của{' '}
                             <span className="text-primary_color">
                               {university.name}
                             </span>{' '}
-                            không?
+                            và di chuyển đến mục lưu trữ không?
                           </p>
                           <div className="flex gap-6 justify-end mt-8">
                             <button
                               onClick={() => {
-                                setOpenDeleteModal(false)
+                                setOpenDisableModal(false)
                               }}
                               className="bg-slate-50 hover:bg-slate-100 py-1 px-3 rounded-md border border-primary_color text-primary_color"
                             >
-                              Trở lại
+                              Hủy
                             </button>
                             <button
-                              onClick={handleDeleteUniversity}
+                              onClick={handleDisableUniversity}
                               className="bg-red-500 hover:bg-red-600 py-1 px-3 rounded-md text-white flex gap-[6px] items-center"
                             >
                               {isLoading && (
@@ -184,7 +196,7 @@ const UniversityManagement = () => {
                                   size="sm"
                                 />
                               )}
-                              Xóa
+                              Đồng ý
                             </button>
                           </div>
                         </Modal.Body>

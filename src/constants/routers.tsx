@@ -63,10 +63,7 @@ const routers = createBrowserRouter([
         path: Paths.UNIVERSITY_PROGRAM_EDUCATION_DETAIL,
         element: <UniversityProgramDetail />,
       },
-      {
-        path: Paths.EDIT_PROGRAM_EDUCATION,
-        element: <EditProgramEducation />,
-      },
+
       {
         path: Paths.UNIVERSITY_STORAGE,
         element: <UniversityStorageManagement />,
@@ -89,6 +86,10 @@ const routers = createBrowserRouter([
       {
         path: Paths.COMPARE_PROGRAM_EDUCATIONS,
         element: <CompareProgramEducations />,
+      },
+      {
+        path: Paths.EDIT_PROGRAM_EDUCATION,
+        element: <EditProgramEducation />,
       },
     ],
   },

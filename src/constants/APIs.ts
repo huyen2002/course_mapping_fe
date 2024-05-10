@@ -40,7 +40,7 @@ export const UniversityAPIs = {
 export const CourseAPIs = {
   SEARCH: '/courses/search',
   CREATE: 'course/create',
-  GET_LIST: 'courses/list',
+  GET_LIST: (id: number) => `/university/${id}/courses/list`,
   UPDATE: (id: number) => `course/${id}/update`,
   DELETE: (id: number) => `course/${id}/delete`,
   CHECK_EXISTED_BY_CODE: 'course/check_existed_by_code',
