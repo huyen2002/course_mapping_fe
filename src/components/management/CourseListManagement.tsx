@@ -12,6 +12,7 @@ import { IoIosAdd } from 'react-icons/io'
 import { MdOutlineDelete } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import Paths from '../../constants/paths'
 import { useFetchPagination } from '../../hooks/useFetchPagination'
 import { Course } from '../../models/Course'
 import { University } from '../../models/University'
@@ -75,6 +76,14 @@ const CourseListManagement = ({ universityId }: { universityId: number }) => {
   useEffect(() => {
     fetchUniversity()
   }, [])
+
+  const handleNavigateToNewCourse = () => {
+    if (AuthUtils.isAdmin()) {
+      navigate(Paths.ADMIN_NEW_COURSE)
+    } else {
+      navigate(`/university/${universityId}/new_course`)
+    }
+  }
   return (
     <div className="overflow-y-auto">
       <h1 className="text-2xl font-bold mb-8">
@@ -88,7 +97,7 @@ const CourseListManagement = ({ universityId }: { universityId: number }) => {
           placeholder="Tên môn học"
         />
         <button
-          onClick={() => navigate(`/university/${universityId}/new_course`)}
+          onClick={handleNavigateToNewCourse}
           className=" flex text-sm text-white  bg-primary_color hover:bg-primary_color_hover  focus:outline-none font-medium rounded-lg  px-2 py-2 "
         >
           <IoIosAdd size={20} />

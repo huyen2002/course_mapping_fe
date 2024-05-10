@@ -1,17 +1,27 @@
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { Label, Select, Spinner, TextInput } from 'flowbite-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaAsterisk } from 'react-icons/fa6'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import WindowedSelect from 'react-windowed-select'
 import { storage } from '../config/firebase'
 import { Course } from '../models/Course'
+import { University } from '../models/University'
 import { CourseService } from '../service/CourseService'
+import { UniversityService } from '../service/UniversityService'
+import { AuthUtils } from '../utils/AuthUtils'
 import { ObjectUtils } from '../utils/ObjectUtils'
 import FileUploadInput from './FileUploadInput'
 
-const CourseForm = ({ course }: { course?: Course }) => {
+const CourseForm = ({
+  course,
+  isShowUniversity,
+}: {
+  course?: Course
+  isShowUniversity?: boolean
+}) => {
   const { register, handleSubmit, reset } = useForm<Course>({
     defaultValues: course,
   })
@@ -19,7 +29,22 @@ const CourseForm = ({ course }: { course?: Course }) => {
   const [isFetching, setIsFetching] = useState<boolean>(false)
   const navigate = useNavigate()
   const { id } = useParams()
+  const [universities, setUniversities] = useState<University[]>([])
+  const [universityOptions, setUniversityOptions] = useState<any[]>([])
+  const [university, setUniversity] = useState<any>(null)
 
+  const fetchData = async () => {
+    try {
+      setIsFetching(true)
+
+      const universityResponse = await UniversityService.getList()
+      setUniversities(universityResponse.data)
+    } catch (e) {
+      console.log('Error', e)
+    } finally {
+      setIsFetching(false)
+    }
+  }
   const handleResetForm = () => {
     console.log('reset')
     reset()
@@ -84,11 +109,16 @@ const CourseForm = ({ course }: { course?: Course }) => {
           await CourseService.create({
             ...data,
             outline: outlineUrl,
+            universityId: university?.value,
           })
         ).data
         toast.success('Thêm mới môn học thành công')
 
-        navigate(`/university/${id}/courses`)
+        if (AuthUtils.isAdmin()) {
+          navigate(`/admin/university/${university?.value}/courses`)
+        } else {
+          navigate(`/university/${id}/courses`)
+        }
       } catch (e: any) {
         console.log('Error', e)
         toast.error('Thêm mới môn học thất bại')
@@ -97,6 +127,30 @@ const CourseForm = ({ course }: { course?: Course }) => {
       }
     }
   }
+
+  useEffect(() => {
+    const options: any[] = []
+    universities.map((university) => {
+      options.push({
+        label: university.name,
+        value: university.id,
+      })
+    })
+    setUniversityOptions(options)
+  }, [universities])
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+  useEffect(() => {
+    // console.log('program', programEducation)
+
+    if (course) {
+      setUniversity(
+        universityOptions.find((item) => item.value === course.university.id)
+      )
+    }
+  }, [universityOptions])
   return (
     <div>
       <form className="flex flex-col gap-4">
@@ -121,6 +175,29 @@ const CourseForm = ({ course }: { course?: Course }) => {
             })}
           />
         </div>
+        {isShowUniversity && (
+          <div className="max-w-md">
+            <div className="mb-2 flex gap-[4px] items-center">
+              <Label
+                htmlFor="majorId"
+                value="Trường đào tạo"
+              />
+              <FaAsterisk
+                color="red"
+                fontSize="0.6rem"
+              />
+            </div>
+            <WindowedSelect
+              windowThreshold={10}
+              options={universityOptions}
+              value={university}
+              onChange={(selectedOption: any) => {
+                console.log(selectedOption)
+                setUniversity(selectedOption)
+              }}
+            />
+          </div>
+        )}
         <div className="">
           <div className="mb-2 block">
             <div className="flex gap-2 items-center">
