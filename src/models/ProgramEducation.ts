@@ -43,6 +43,7 @@ export interface ProgramEducationDto {
   sourceLinks?: string | null
   majorId?: number
   universityId?: number
+  enabled?: boolean
 }
 
 export const ProgramEducationUtils = {
@@ -90,6 +91,7 @@ export const ProgramEducationUtils = {
       universityId: entity.universityId,
       major: MajorUtils.toEntity(entity.major),
       university: UniversityUtils.toEntity(entity.university),
+      enabled: entity.enabled,
     } as ProgramEducationDto
   },
 }

@@ -5,17 +5,26 @@ import { CiLogout } from 'react-icons/ci'
 import { IoPersonOutline } from 'react-icons/io5'
 import { RiAdminLine } from 'react-icons/ri'
 import { Outlet, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import SidebarAdmin from '../components/admin/SidebarAdmin'
 import Paths from '../constants/paths'
-import { User } from '../models/User'
+import { Role, User } from '../models/User'
 import { AuthService } from '../service/AuthService'
 import { AuthUtils } from '../utils/AuthUtils'
 const AdminLayout = () => {
   const [user, setUser] = useState<User>()
   const fetchData = async () => {
     try {
+      if (!AuthUtils.isAuthorized()) {
+        toast.error('Bạn cần đăng nhập để truy cập trang này')
+        navigate(Paths.LOGIN)
+      }
       const response = await AuthService.me()
       setUser(response.data)
+      console.log(response.data)
+      if (response.data.role !== Role.ADMIN) {
+        toast.error('Bạn không có quyền truy cập vào trang này')
+      }
     } catch (e) {
       console.log('Error: ' + e)
     }

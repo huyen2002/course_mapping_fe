@@ -9,12 +9,15 @@ import { useFetchPagination } from '../../hooks/useFetchPagination'
 import { SearchProgramParams } from '../../models/SearchProgramParams'
 import ProgramEducationService from '../../service/ProgramEducationService'
 const ProgramEducationList = () => {
-  const [searchParams, setSearchParams] = useState<SearchProgramParams>({})
+  const { id } = useParams()
+
+  const [searchParams, setSearchParams] = useState<SearchProgramParams>({
+    universityId: Number(id),
+  })
   const [searchName, setSearchName] = useState<string | null>(null)
   const { data, page, total, isFetching, changePage, fetchData } =
     useFetchPagination(ProgramEducationService.search, searchParams)
   const navigate = useNavigate()
-  const { id } = useParams()
 
   useEffect(() => {
     setSearchParams({

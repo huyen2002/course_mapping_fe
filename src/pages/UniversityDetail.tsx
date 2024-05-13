@@ -16,8 +16,11 @@ const UniversityDetail = () => {
   const [searchParams, setSearchParams] = useState<SearchProgramParams>({
     universityId: Number(id),
   })
-  const { data, changePage, isFetching, page, total, fetchData } =
-    useFetchPagination(ProgramEducationService.search, searchParams, 10)
+  const { data, changePage, isFetching, page, total } = useFetchPagination(
+    ProgramEducationService.search,
+    searchParams,
+    10
+  )
 
   const fetchUniversity = async () => {
     try {
@@ -38,7 +41,6 @@ const UniversityDetail = () => {
         enabled: false,
       })
     }
-    fetchData()
   }, [university])
 
   return (

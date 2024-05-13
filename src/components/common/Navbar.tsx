@@ -48,7 +48,7 @@ const Navbar = () => {
     AuthUtils.logout()
     handleCloseMenu()
     setUser(null)
-    window.location.reload()
+    navigate(Paths.HOME)
   }
   useEffect(() => {
     fetchData()

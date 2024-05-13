@@ -76,6 +76,7 @@ const ProgramEducationForm = ({
         console.error(err)
       }
     }
+    console.log('sourceLinks', sourceLinks)
     if (programEducation) {
       const newObject = ObjectUtils.getUpdatedObject(
         {

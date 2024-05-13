@@ -1,7 +1,9 @@
+import UniversityChart from '../../components/admin/UniversityChart'
+
 const HomeAdmin = () => {
   return (
     <div>
-      <h1>home</h1>
+      <UniversityChart />
     </div>
   )
 }
