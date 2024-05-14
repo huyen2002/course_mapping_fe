@@ -121,6 +121,7 @@ const ProgramEducationForm = ({
             outline: outlineUrl,
             sourceLinks:
               sourceLinks.length > 0 ? JSON.stringify(sourceLinks) : null,
+            enabled: true,
           })
         ).data
         console.log('create response', response)

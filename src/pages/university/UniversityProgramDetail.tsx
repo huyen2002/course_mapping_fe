@@ -65,7 +65,7 @@ const UniversityProgramDetail = () => {
       {isLoading ? (
         <LoadingScreen />
       ) : (
-        <div>
+        <div className="">
           <ProgramEducationInfo
             programEducation={programEducation as ProgramEducation}
             isShowUniversityAction

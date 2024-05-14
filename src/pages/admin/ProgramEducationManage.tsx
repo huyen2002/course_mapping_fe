@@ -89,7 +89,9 @@ const ProgramEducationManage = () => {
                           <button
                             className="text-primary_color"
                             onClick={() =>
-                              navigate(`/program_education/${program.id}`)
+                              navigate(
+                                `/university/program_education/${program.id}`
+                              )
                             }
                           >
                             <FaEye size="18" />

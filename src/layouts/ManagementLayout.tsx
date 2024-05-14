@@ -7,12 +7,17 @@ import { RiAdminLine } from 'react-icons/ri'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import SidebarAdmin from '../components/admin/SidebarAdmin'
+import SidebarUniversity from '../components/university/SidebarUniversity'
 import Paths from '../constants/paths'
+import { University } from '../models/University'
 import { Role, User } from '../models/User'
 import { AuthService } from '../service/AuthService'
+import { UniversityService } from '../service/UniversityService'
 import { AuthUtils } from '../utils/AuthUtils'
-const AdminLayout = () => {
+const ManagementLayout = () => {
   const [user, setUser] = useState<User>()
+  const [university, setUniversity] = useState<University | null>()
+
   const fetchData = async () => {
     try {
       if (!AuthUtils.isAuthorized()) {
@@ -22,8 +27,11 @@ const AdminLayout = () => {
       const response = await AuthService.me()
       setUser(response.data)
       console.log(response.data)
-      if (response.data.role !== Role.ADMIN) {
+      if (response.data.role === Role.USER) {
         toast.error('Bạn không có quyền truy cập vào trang này')
+      } else if (response.data.role === Role.UNIVERSITY) {
+        const universityRes = await UniversityService.getByUser()
+        setUniversity(universityRes.data)
       }
     } catch (e) {
       console.log('Error: ' + e)
@@ -48,7 +56,11 @@ const AdminLayout = () => {
   }, [])
   return (
     <div className="flex w-full h-full overflow-hidden ">
-      <SidebarAdmin />
+      {!university ? (
+        <SidebarAdmin />
+      ) : (
+        <SidebarUniversity university={university} />
+      )}
       <div className="w-full mx-10 overflow-y-auto no-scrollbar">
         <div className="flex justify-end mb-4 border-b   py-4 ">
           <button
@@ -88,4 +100,4 @@ const AdminLayout = () => {
     </div>
   )
 }
-export default AdminLayout
+export default ManagementLayout

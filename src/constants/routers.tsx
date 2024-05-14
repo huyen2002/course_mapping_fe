@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import AdminLayout from '../layouts/AdminLayout'
 import DetailLayout from '../layouts/DetailLayout'
 import Layout from '../layouts/Layout'
+import ManagementLayout from '../layouts/ManagementLayout'
 import UniversityLayout from '../layouts/UniversityLayout'
 import CompareProgramEducations from '../pages/CompareProgramEducations'
 import Home from '../pages/Home'
@@ -61,10 +62,6 @@ const routers = createBrowserRouter([
       },
       { path: Paths.UNIVERSITY_COURSES, element: <CourseList /> },
       { path: Paths.UNIVERSITY_NEW_COURSE, element: <NewCourse /> },
-      {
-        path: Paths.UNIVERSITY_PROGRAM_EDUCATION_DETAIL,
-        element: <UniversityProgramDetail />,
-      },
 
       {
         path: Paths.UNIVERSITY_STORAGE,
@@ -95,6 +92,7 @@ const routers = createBrowserRouter([
       },
     ],
   },
+
   {
     path: Paths.LOGIN,
     element: <SignIn />,
@@ -138,6 +136,16 @@ const routers = createBrowserRouter([
       {
         path: Paths.ADMIN_NEW_COURSE,
         element: <NewCourseAdmin />,
+      },
+    ],
+  },
+  {
+    path: '/',
+    element: <ManagementLayout />,
+    children: [
+      {
+        path: Paths.UNIVERSITY_PROGRAM_EDUCATION_DETAIL,
+        element: <UniversityProgramDetail />,
       },
     ],
   },
