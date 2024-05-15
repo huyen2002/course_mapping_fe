@@ -193,12 +193,12 @@ const ProgramEducationDetail = () => {
                         label="Tất cả"
                       />
                       <FormControlLabel
-                        value={programEducation?.majorId}
+                        value={programEducation?.major.code}
                         control={<Radio />}
                         label={programEducation?.major.name}
                       />
                       <FormControlLabel
-                        value={`${FILTER_OTHER_OPERATOR}${programEducation?.majorId}`}
+                        value={`${FILTER_OTHER_OPERATOR}${programEducation?.major.code}`}
                         control={<Radio />}
                         label="Khác ngành"
                       />

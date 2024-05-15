@@ -12,7 +12,7 @@ export const ProgramEducationAPIs = {
   SEARCH: 'program_educations/search',
   GET_BY_ID: (id: number) => `program_education/${id}`,
   GET_SIMILAR_PROGRAMS: (id: number) => `program_education/${id}/top_similar`,
-  COMPARE_COURSE_LISTS: (firstProgramId: number, secondProgramId: number) =>
+  COMPARE_TWO_PROGRAMS: (firstProgramId: number, secondProgramId: number) =>
     `/compare_programs/${firstProgramId}/and/${secondProgramId}`,
   GET_ALL_BY_USER: 'me/program_educations/all',
   CREATE: 'program_education/create',

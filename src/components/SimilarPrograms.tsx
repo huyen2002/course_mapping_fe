@@ -50,7 +50,7 @@ const SimilarPrograms = ({
                 comparedProgramEducationId={programEducation?.id}
                 hideInfo
               />
-              <span>{item.similarity}</span>
+              {/* <span>{item.similarity}</span> */}
             </div>
           ))}
         </div>

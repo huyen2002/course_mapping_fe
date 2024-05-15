@@ -2,9 +2,9 @@ import { Table } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import LoadingScreen from '../components/common/LoadingScreen'
+import { ComparableProgramEducation } from '../models/ComparableProgramEducation'
 import { ComparedCourses } from '../models/ComparedCourses'
 import { LevelOfEducation, ProgramEducation } from '../models/ProgramEducation'
-import { DocumentService } from '../service/DocumentService'
 import ProgramEducationService from '../service/ProgramEducationService'
 
 const CompareProgramEducations = () => {
@@ -12,7 +12,8 @@ const CompareProgramEducations = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false)
   const [firstProgram, setFirstProgram] = useState<ProgramEducation>()
   const [secondProgram, setSecondProgram] = useState<ProgramEducation>()
-  const [similarOfIntroduction, setSimilarOfIntroduction] = useState<number>(0)
+  const [comparablePrograms, setComparablePrograms] =
+    useState<ComparableProgramEducation>()
   const [comparedCourses, setComparedCourses] = useState<ComparedCourses[]>([])
 
   const fetchData = async () => {
@@ -28,13 +29,14 @@ const CompareProgramEducations = () => {
       )
       setSecondProgram(secondProgramResponse.data)
       console.log('compareCourseLists', id_1, id_2)
-      const comparedCoursesResponse =
-        await ProgramEducationService.compareCourseLists(
+      const comparedProgramsResponse =
+        await ProgramEducationService.compareTwoPrograms(
           parseInt(id_1),
           parseInt(id_2)
         )
-      console.log('comparedCoursesResponse', comparedCoursesResponse)
-      setComparedCourses(comparedCoursesResponse.data.coursesMapping)
+      console.log('comparedCoursesResponse', comparedProgramsResponse)
+      setComparablePrograms(comparedProgramsResponse.data)
+      setComparedCourses(comparedProgramsResponse.data.coursesMapping)
     } catch (e: any) {
       console.log('Error: ', e)
     } finally {
@@ -42,29 +44,10 @@ const CompareProgramEducations = () => {
     }
   }
 
-  const fetchSimilarOfDocuments = async () => {
-    try {
-      setIsFetching(true)
-      const response = await DocumentService.compareTwoDocuments(
-        firstProgram?.introduction as string,
-        secondProgram?.introduction as string
-      )
-      setSimilarOfIntroduction(response.data)
-    } catch (e: any) {
-      console.log('Error: ', e)
-    } finally {
-      setIsFetching(false)
-    }
-  }
   useEffect(() => {
     fetchData()
   }, [id_1, id_2])
 
-  useEffect(() => {
-    if (firstProgram && secondProgram) {
-      fetchSimilarOfDocuments()
-    }
-  }, [firstProgram, secondProgram])
   return (
     <div>
       {isFetching ? (
@@ -178,7 +161,51 @@ const CompareProgramEducations = () => {
                   <Table.Cell>{firstProgram?.introduction}</Table.Cell>
                   <Table.Cell>{secondProgram?.introduction}</Table.Cell>
                   <Table.Cell className="font-semibold text-center">
-                    {similarOfIntroduction}%
+                    {comparablePrograms?.introductionSimilarity &&
+                    comparablePrograms.introductionSimilarity > 0
+                      ? `${comparablePrograms?.introductionSimilarity}%`
+                      : '-'}
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row className="bg-white">
+                  <Table.Cell className="whitespace-nowrap font-semibold ">
+                    Nội dung chương trình đào tạo
+                  </Table.Cell>
+                  <Table.Cell>
+                    {!firstProgram?.outline ? (
+                      <span>Chưa có thông tin</span>
+                    ) : (
+                      <span className="flex gap-4 items-center">
+                        <a
+                          href={firstProgram?.outline}
+                          target="_blank"
+                          className="text-primary_color hover:underline font-montserrat "
+                        >
+                          Xem chi tiết
+                        </a>
+                      </span>
+                    )}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {!secondProgram?.outline ? (
+                      <span>Chưa có thông tin</span>
+                    ) : (
+                      <span className="flex gap-4 items-center">
+                        <a
+                          href={secondProgram?.outline}
+                          target="_blank"
+                          className="text-primary_color hover:underline font-montserrat "
+                        >
+                          Xem chi tiết
+                        </a>
+                      </span>
+                    )}
+                  </Table.Cell>
+                  <Table.Cell className="font-semibold text-center">
+                    {comparablePrograms?.outlineSimilarity &&
+                    comparablePrograms.outlineSimilarity > 0
+                      ? `${comparablePrograms?.outlineSimilarity}%`
+                      : '-'}
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row>

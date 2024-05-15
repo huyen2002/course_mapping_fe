@@ -65,13 +65,13 @@ const ProgramEducationService = {
       }),
     }
   },
-  compareCourseLists: async (
+  compareTwoPrograms: async (
     firstProgramId: number,
     secondProgramId: number
   ) => {
     const response = (
       await http.get(
-        ProgramEducationAPIs.COMPARE_COURSE_LISTS(
+        ProgramEducationAPIs.COMPARE_TWO_PROGRAMS(
           firstProgramId,
           secondProgramId
         )
