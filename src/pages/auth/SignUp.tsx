@@ -21,7 +21,7 @@ const SignUp = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false)
 
   const [address, setAddress] = useState<Address>({} as Address)
-  const [detailAddress, setDetailAddress] = useState<string>('')
+  const [detailAddress, setDetailAddress] = useState<string>()
   const [universityName, setUniversityName] = useState<string>()
   const [universityCode, setUniversityCode] = useState<string>()
   const navigate = useNavigate()
@@ -31,6 +31,14 @@ const SignUp = () => {
     console.log('role', role)
     try {
       if (role === Role.UNIVERSITY.toLocaleLowerCase()) {
+        if (!universityName || !universityCode) {
+          toast.error('Vui lòng nhập tên và mã cơ quan, trường học')
+          return
+        }
+        if (!address.country || !detailAddress || detailAddress.trim() === '') {
+          toast.error('Vui lòng nhập quốc gia và địa chỉ chi tiết')
+          return
+        }
         await AuthService.register({
           ...data,
           role: Role.UNIVERSITY,
@@ -213,17 +221,24 @@ const SignUp = () => {
                       />
                     </div>
                     <div>
-                      <label
-                        htmlFor="address"
-                        className="block mb-2 text-sm font-medium text-gray-900 "
-                      >
-                        Địa chỉ
-                      </label>
+                      <div className="flex gap-1">
+                        <label
+                          htmlFor="address"
+                          className="block mb-2 text-sm font-medium text-gray-900 "
+                        >
+                          Địa chỉ
+                        </label>
+                        <FaAsterisk
+                          color="red"
+                          fontSize="0.6rem"
+                        />
+                      </div>
+
                       <AddressSelection setAddress={setAddress} />
                       <input
                         type="text"
                         value={detailAddress}
-                        placeholder="Chi tiết"
+                        placeholder="Địa chỉ chi tiết"
                         onChange={(e) => setDetailAddress(e.target.value)}
                         className="mt-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                       />
