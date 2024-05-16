@@ -24,7 +24,7 @@ const UniversityInfo = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold">Thông tin tài khoản</h1>
+      <h1 className="text-2xl font-semibold">Thông tin cơ quan</h1>
       <div className="flex justify-end">
         <button
           onClick={() => setOpenModal(true)}

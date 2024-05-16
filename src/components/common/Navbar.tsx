@@ -36,6 +36,7 @@ const Navbar = () => {
       }
     }
   }
+
   const redirectToStaffPage = async () => {
     if (AuthUtils.isUniversity()) {
       const university = await UniversityService.getByUser()
@@ -103,7 +104,7 @@ const Navbar = () => {
             <h1 className="text-primary_color font-semibold ml-4 mt-4 mb-3">
               {user.username}
             </h1>
-            <MenuItem onClick={handleCloseMenu}>
+            <MenuItem onClick={() => navigate(`/user/${user.id}/info`)}>
               <IoPersonOutline size={20} />
               <span className="ml-2"> Thông tin tài khoản</span>
             </MenuItem>

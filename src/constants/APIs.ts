@@ -3,6 +3,10 @@ export const AuthAPIs = {
   REGISTER: '/auth/register',
   ME: 'auth/me',
 }
+
+export const UserAPIs = {
+  UPDATE: (id: number) => `/user/${id}/update`,
+}
 export const MajorAPIs = {
   SEARCH: 'majors/search',
   GET_LIST: 'majors/list',

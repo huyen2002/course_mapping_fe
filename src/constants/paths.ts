@@ -9,6 +9,7 @@ const Paths = {
   COMPARE_PROGRAM_EDUCATIONS: '/compare_program_educations/:id_1/and/:id_2',
   UNIVERSITIES: '/universities/all',
   UNIVERSITY_DETAIL: 'university/:id',
+  ACCOUNT_INFO: '/user/:id/info',
 
   UNIVERSITY_INFO: '/university/:id/info',
   NEW_PROGRAM_EDUCATION: '/university/:id/new_program_education',

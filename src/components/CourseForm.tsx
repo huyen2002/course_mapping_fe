@@ -252,13 +252,13 @@ const CourseForm = ({
           <button
             type="button"
             onClick={handleResetForm}
-            className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200"
+            className="text-red-500 border py-2 px-4 rounded-lg font-semibold hover:bg-red-500 hover:text-white transition duration-200 text-sm"
           >
             Hủy
           </button>
           <button
             onClick={handleSubmit(onSubmit)}
-            className="bg-primary_color text-white flex gap-[6px] items-center py-2 px-4 rounded-lg hover:bg-primary_color_dark transition duration-200"
+            className="bg-primary_color text-white flex gap-[6px] items-center py-2 px-4 rounded-lg text-sm hover:bg-primary_color_hover transition duration-200"
           >
             {isFetching && (
               <Spinner

@@ -4,6 +4,7 @@ import DetailLayout from '../layouts/DetailLayout'
 import Layout from '../layouts/Layout'
 import ManagementLayout from '../layouts/ManagementLayout'
 import UniversityLayout from '../layouts/UniversityLayout'
+import AccountInfo from '../pages/AccountInfo'
 import CompareProgramEducations from '../pages/CompareProgramEducations'
 import Home from '../pages/Home'
 import NotFound from '../pages/NotFound'
@@ -89,6 +90,11 @@ const routers = createBrowserRouter([
       {
         path: Paths.EDIT_PROGRAM_EDUCATION,
         element: <EditProgramEducation />,
+      },
+
+      {
+        path: Paths.ACCOUNT_INFO,
+        element: <AccountInfo />,
       },
     ],
   },
