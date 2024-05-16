@@ -1,4 +1,9 @@
+import { Menu, MenuItem } from '@mui/material'
+import { Avatar } from 'flowbite-react'
 import { useEffect, useState } from 'react'
+import { CiLogout } from 'react-icons/ci'
+import { IoPersonOutline } from 'react-icons/io5'
+import { RiAdminLine } from 'react-icons/ri'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import SidebarUniversity from '../components/university/SidebarUniversity'
@@ -35,13 +40,60 @@ const UniversityLayout = () => {
   useEffect(() => {
     fetchData()
   }, [])
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleCloseMenu = () => {
+    setAnchorEl(null)
+  }
+  const logout = () => {
+    AuthUtils.logout()
+    handleCloseMenu()
+    navigate(Paths.HOME)
+  }
   return (
     <div className="flex w-full h-full overflow-y-none">
       {university && (
         <div className="flex w-full h-full gap-4 ">
           <SidebarUniversity university={university} />
 
-          <div className="flex-1 py-4 px-4 mt-4  overflow-y-auto">
+          <div className="w-full mx-10 overflow-y-auto no-scrollbar">
+            <div className="flex justify-end mb-4 border-b   py-4 ">
+              <button
+                type="button"
+                onClick={handleClick}
+              >
+                <Avatar rounded />
+              </button>
+              <Menu
+                id="basic-menu"
+                open={open}
+                onClose={handleCloseMenu}
+                anchorEl={anchorEl}
+              >
+                <h1 className="text-primary_color font-semibold ml-4 mt-4 mb-3">
+                  {university.name}
+                </h1>
+                <MenuItem onClick={handleCloseMenu}>
+                  <IoPersonOutline size={20} />
+                  <span className="ml-2"> Thông tin tài khoản</span>
+                </MenuItem>
+
+                <MenuItem onClick={() => navigate(Paths.HOME)}>
+                  <RiAdminLine size={20} />
+                  <span className="ml-2">Trang chính</span>
+                </MenuItem>
+
+                <MenuItem onClick={logout}>
+                  <CiLogout size={20} />
+                  <span className="ml-2"> Đăng xuất</span>
+                </MenuItem>
+              </Menu>
+            </div>
+
             <Outlet />
           </div>
         </div>

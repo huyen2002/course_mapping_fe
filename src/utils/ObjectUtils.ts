@@ -21,21 +21,6 @@ export const ObjectUtils = {
     }
     return diff
   },
-  isAllNotEmpty: (obj: any) => {
-    if (obj === null || typeof obj === 'undefined') {
-      return false
-    }
-
-    for (const key in obj) {
-      const value = obj[key]
-
-      if (value === null || typeof value === 'undefined' || value === '') {
-        return false
-      }
-    }
-
-    return true
-  },
 
   isAllUndefined: (obj: any) => {
     for (const key in obj) {

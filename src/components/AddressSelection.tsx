@@ -20,7 +20,10 @@ const AddressSelection = ({
     const res = Country.getAllCountries()
     const options = [] as any[]
     res.map((country) => {
-      options.push({ value: country.isoCode, label: country.name })
+      options.push({
+        value: country.isoCode,
+        label: country.name,
+      })
     })
     setCountries(options)
   }, [])
@@ -51,9 +54,9 @@ const AddressSelection = ({
 
   useEffect(() => {
     setAddress({
-      country: selectedCountry?.label,
+      country: selectedCountry?.value,
       city: selectedCity?.label,
-      district: selectedDistrict?.label,
+      district: selectedDistrict?.value,
     })
   }, [selectedCountry, selectedCity, selectedDistrict])
 

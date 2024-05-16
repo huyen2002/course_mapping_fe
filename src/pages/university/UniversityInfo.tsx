@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import UniversityForm from '../../components/UniversityForm'
 import { University } from '../../models/University'
 import { UniversityService } from '../../service/UniversityService'
+import { AddressRender } from '../../utils/AddressRender'
 
 const UniversityInfo = () => {
   const [university, setUniversity] = useState<University>()
@@ -63,7 +64,7 @@ const UniversityInfo = () => {
         <div>
           <span className="font-semibold mr-2">Địa chỉ: </span>
           {university?.address ? (
-            <span>{`${university?.address.detail}, ${university?.address.district}, ${university?.address.city}, ${university?.address.country}`}</span>
+            <span>{AddressRender(university.address)}</span>
           ) : (
             <span>Chưa có thông tin</span>
           )}

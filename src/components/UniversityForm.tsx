@@ -2,11 +2,13 @@ import { Label, Spinner, TextInput, Textarea, Tooltip } from 'flowbite-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CiEdit } from 'react-icons/ci'
+import { FaRegTrashAlt } from 'react-icons/fa'
 import { FaAsterisk } from 'react-icons/fa6'
 import { toast } from 'react-toastify'
 import { Address } from '../models/Address'
 import { University } from '../models/University'
 import { UniversityService } from '../service/UniversityService'
+import { AddressRender } from '../utils/AddressRender'
 import { ObjectUtils } from '../utils/ObjectUtils'
 import AddressSelection from './AddressSelection'
 
@@ -25,6 +27,12 @@ const UniversityForm = ({ university }: { university?: University }) => {
     reset()
     setDetailAddress('')
   }
+
+  const handleDeleteAddressEdit = () => {
+    setOpenAddressEdit(false)
+    setAddress(null)
+    setDetailAddress('')
+  }
   const onSubmit = async (data: University) => {
     console.log('data', data)
     if (!data.name || !data.code) {
@@ -38,11 +46,12 @@ const UniversityForm = ({ university }: { university?: University }) => {
       detail: detailAddress.trim() !== '' ? detailAddress.trim() : undefined,
     } as Address
     console.log('addressObj', addressObj)
+
     if (university) {
       if (ObjectUtils.isAllUndefined(addressObj)) {
         addressObj = { ...university?.address }
-      } else if (!ObjectUtils.isAllNotEmpty(addressObj)) {
-        toast.error('Vui lòng nhập đủ thông tin địa chỉ mới')
+      } else if (!addressObj.country || !addressObj.detail) {
+        toast.error('Vui lòng nhập thông tin quốc gia và địa chỉ chi tiết')
         return
       }
 
@@ -62,10 +71,10 @@ const UniversityForm = ({ university }: { university?: University }) => {
             return
           }
 
-          const response = await UniversityService.updateById(
-            university?.id,
-            changeObj
-          )
+          const response = await UniversityService.updateById(university?.id, {
+            ...changeObj,
+            address: addressObj,
+          })
           console.log(response)
           toast.success('Cập nhật thông tin thành công')
         }
@@ -76,8 +85,8 @@ const UniversityForm = ({ university }: { university?: University }) => {
         setIsLoading(false)
       }
     } else {
-      if (!ObjectUtils.isAllNotEmpty(addressObj)) {
-        toast.error('Vui lòng nhập đủ thông tin địa chỉ mới')
+      if (!addressObj.country || !addressObj.detail) {
+        toast.error('Vui lòng nhập thông tin quốc gia và địa chỉ chi tiết')
         return
       } else {
         try {
@@ -98,7 +107,6 @@ const UniversityForm = ({ university }: { university?: University }) => {
       }
     }
   }
-
   return (
     <div>
       <form className="flex flex-col gap-4">
@@ -155,16 +163,13 @@ const UniversityForm = ({ university }: { university?: University }) => {
                 fontSize="0.6rem"
               />
             </div>
-            {university?.address && (
+            {university?.address ? (
               <div className="my-2 flex gap-4">
                 <p>
                   <span className="text-primary_color">
                     Địa chỉ hiện tại: {''}
                   </span>
-                  <span>
-                    {`${university.address?.detail}, ${university.address?.district}, ${university.address?.city},
-                    ${university.address?.country}`}
-                  </span>
+                  <span>{AddressRender(university?.address)}</span>
                 </p>
                 <Tooltip content="Chỉnh sửa">
                   <button
@@ -178,19 +183,42 @@ const UniversityForm = ({ university }: { university?: University }) => {
                   </button>
                 </Tooltip>
               </div>
+            ) : (
+              <span>Chưa có thông tin</span>
             )}
-            {openAddressEdit ||
-              (!university && (
-                <div>
-                  <AddressSelection setAddress={setAddress} />
+
+            {!university && (
+              <div>
+                <AddressSelection setAddress={setAddress} />
+                <TextInput
+                  id="detailAddress"
+                  value={detailAddress}
+                  onChange={(e) => setDetailAddress(e.target.value)}
+                  className="mt-4"
+                  placeholder="Địa chỉ chi tiết"
+                />
+              </div>
+            )}
+
+            {openAddressEdit && (
+              <div>
+                <AddressSelection setAddress={setAddress} />
+                <div className="flex gap-4 items-center">
                   <TextInput
                     id="detailAddress"
                     value={detailAddress}
                     onChange={(e) => setDetailAddress(e.target.value)}
-                    className="mt-4"
+                    className="mt-4 flex-1"
                   />
+                  <button
+                    onClick={handleDeleteAddressEdit}
+                    className="text-red-500"
+                  >
+                    <FaRegTrashAlt size="20" />
+                  </button>
                 </div>
-              ))}
+              </div>
+            )}
           </div>
         </div>
         <div className="">

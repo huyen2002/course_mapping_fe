@@ -7,6 +7,7 @@ import { useFetchPagination } from '../hooks/useFetchPagination'
 import { FILTER_OTHER_OPERATOR, FilterType } from '../models/FilterParams'
 import { SearchUniversityParams } from '../models/SearchUniversityParams'
 import { UniversityService } from '../service/UniversityService'
+import { AddressRender } from '../utils/AddressRender'
 
 const Universities = () => {
   const [nameParam, setNameParam] = useState<string>('')
@@ -29,7 +30,7 @@ const Universities = () => {
     })
   }, [nameParam, country])
   return (
-    <div className="flex gap-10 h-full lg:flex-row flex-col overflow-auto no-scrollbar lg:overflow-hidden">
+    <main className="flex gap-10 h-full lg:flex-row flex-col overflow-auto no-scrollbar lg:overflow-hidden">
       <div>
         <h1 className="font-semibold text-primary_color">Tìm kiếm</h1>
         <form className="flex flex-col gap-4 mt-4">
@@ -113,7 +114,7 @@ const Universities = () => {
                       <div>
                         <span className="">Địa chỉ: </span>
                         {university?.address ? (
-                          <span>{`${university?.address.detail}, ${university?.address.district}, ${university?.address.city}, ${university?.address.country}`}</span>
+                          <span>{AddressRender(university.address)}</span>
                         ) : (
                           <span>Chưa có thông tin</span>
                         )}
@@ -135,7 +136,7 @@ const Universities = () => {
           )}
         </div>
       </div>
-    </div>
+    </main>
   )
 }
 export default Universities
