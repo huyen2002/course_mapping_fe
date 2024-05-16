@@ -8,8 +8,6 @@ const UniversityStorageManagement = () => {
     <div>
       <h1 className="text-xl font-semibold mb-8">Kho lưu trữ</h1>
 
-      <p>Chương trình đào tạo</p>
-
       <ProgramStorage universityId={universityId} />
     </div>
   )

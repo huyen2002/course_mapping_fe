@@ -17,6 +17,7 @@ const ProgramStorage = ({ universityId }: { universityId?: number }) => {
   const [searchName, setSearchName] = useState<string | null>(null)
   const [searchParams, setSearchParams] = useState<SearchProgramParams>({
     enabled: false,
+    universityId: universityId || null,
   })
   const { data, total, page, changePage, isFetching, fetchData } =
     useFetchPagination(ProgramEducationService.search, searchParams, 10)
