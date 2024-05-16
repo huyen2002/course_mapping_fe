@@ -6,6 +6,7 @@ export const AuthAPIs = {
 
 export const UserAPIs = {
   UPDATE: (id: number) => `/user/${id}/update`,
+  CHANGE_PASSWORD: (id: number) => `/user/${id}/change_password`,
 }
 export const MajorAPIs = {
   SEARCH: 'majors/search',

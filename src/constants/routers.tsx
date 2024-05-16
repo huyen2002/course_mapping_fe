@@ -5,6 +5,7 @@ import Layout from '../layouts/Layout'
 import ManagementLayout from '../layouts/ManagementLayout'
 import UniversityLayout from '../layouts/UniversityLayout'
 import AccountInfo from '../pages/AccountInfo'
+import ChangePassword from '../pages/ChangePassword'
 import CompareProgramEducations from '../pages/CompareProgramEducations'
 import Home from '../pages/Home'
 import NotFound from '../pages/NotFound'
@@ -110,6 +111,10 @@ const routers = createBrowserRouter([
   {
     path: Paths.CHOOSE_ROLE,
     element: <ChooseRole />,
+  },
+  {
+    path: Paths.CHANGE_PASSWORD,
+    element: <ChangePassword />,
   },
   {
     path: '/',

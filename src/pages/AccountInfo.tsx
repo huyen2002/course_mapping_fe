@@ -9,7 +9,7 @@ import { UserService } from '../service/UserService'
 import { AuthUtils } from '../utils/AuthUtils'
 
 const AccountInfo = () => {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User>()
   const [username, setUsername] = useState<string>()
   const [email, setEmail] = useState<string>()
   const [isLoading, setIsLoading] = useState<boolean>(false)

@@ -3,7 +3,7 @@ import { Avatar } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { CiLogout } from 'react-icons/ci'
 import { IoPersonOutline } from 'react-icons/io5'
-import { RiAdminLine } from 'react-icons/ri'
+import { RiAdminLine, RiLockPasswordLine } from 'react-icons/ri'
 import { Link, useNavigate } from 'react-router-dom'
 import Paths from '../../constants/paths'
 import { User } from '../../models/User'
@@ -54,6 +54,7 @@ const Navbar = () => {
   useEffect(() => {
     fetchData()
   }, [])
+
   return (
     <div className="flex items-center border-b-[1px] border-gray-200 mb-10">
       <a
@@ -82,7 +83,7 @@ const Navbar = () => {
         </Link>
         <Link
           to={Paths.UNIVERSITIES}
-          className="font-semibold font-montserrat  text-primary_color hover:text-primary_color_hover"
+          className="font-semibold font-montserrat text-primary_color hover:text-primary_color_hover"
         >
           Đơn vị đào tạo
         </Link>
@@ -104,16 +105,21 @@ const Navbar = () => {
             <h1 className="text-primary_color font-semibold ml-4 mt-4 mb-3">
               {user.username}
             </h1>
-            <MenuItem onClick={() => navigate(`/user/${user.id}/info`)}>
+            <MenuItem onClick={() => navigate(Paths.ACCOUNT_INFO)}>
               <IoPersonOutline size={20} />
               <span className="ml-2"> Thông tin tài khoản</span>
             </MenuItem>
+
             {(AuthUtils.isUniversity() || AuthUtils.isAdmin()) && (
               <MenuItem onClick={redirectToStaffPage}>
                 <RiAdminLine size={20} />
                 <span className="ml-2">Trang nhân viên</span>
               </MenuItem>
             )}
+            <MenuItem onClick={() => navigate(Paths.CHANGE_PASSWORD)}>
+              <RiLockPasswordLine size={20} />
+              <span className="ml-2"> Đổi mật khẩu</span>
+            </MenuItem>
 
             <MenuItem onClick={logout}>
               <CiLogout size={20} />

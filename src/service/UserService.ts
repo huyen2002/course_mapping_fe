@@ -13,4 +13,14 @@ export const UserService = {
       data: UserUtils.toEntity(response.data),
     }
   },
+  changePassword: async (id: number, data: any) => {
+    const response = (await http.put(UserAPIs.CHANGE_PASSWORD(id), data)).data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: response.data,
+    }
+  },
 }
