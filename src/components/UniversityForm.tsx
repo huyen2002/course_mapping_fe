@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import { Address } from '../models/Address'
 import { University } from '../models/University'
 import { UniversityService } from '../service/UniversityService'
-import { AddressRender } from '../utils/AddressRender'
+import { AddressRender } from '../utils/ObjectRender'
 import { ObjectUtils } from '../utils/ObjectUtils'
 import AddressSelection from './AddressSelection'
 

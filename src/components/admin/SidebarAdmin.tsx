@@ -36,7 +36,7 @@ const SidebarAdmin = () => {
             Trang chủ
           </Sidebar.Item>
           <Sidebar.Item
-            href="#"
+            href={Paths.ADMIN_USERS}
             icon={FaUsers}
           >
             Người dùng

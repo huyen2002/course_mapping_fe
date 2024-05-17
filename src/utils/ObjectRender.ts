@@ -17,3 +17,16 @@ export const AddressRender = (address: Address) => {
   }
   return addressStr
 }
+
+export const DateRender = (date: Date) => {
+  let dateStr = ''
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+  dateStr += day < 10 ? `0${day}` : day
+  dateStr += '/'
+  dateStr += month < 10 ? `0${month}` : month
+  dateStr += '/'
+  dateStr += year
+  return dateStr
+}

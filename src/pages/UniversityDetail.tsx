@@ -8,8 +8,8 @@ import { SearchProgramParams } from '../models/SearchProgramParams'
 import { University } from '../models/University'
 import ProgramEducationService from '../service/ProgramEducationService'
 import { UniversityService } from '../service/UniversityService'
-import { AddressRender } from '../utils/AddressRender'
 import { AuthUtils } from '../utils/AuthUtils'
+import { AddressRender } from '../utils/ObjectRender'
 
 const UniversityDetail = () => {
   const { id } = useParams()

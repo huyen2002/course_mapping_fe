@@ -21,6 +21,9 @@ export const UserUtils = {
       enabled: dto.enabled,
     }
   },
+  toEntities: (dtos: any[]) => {
+    return dtos.map((dto) => UserUtils.toEntity(dto))
+  },
 }
 
 export interface UserLoginInput {
@@ -41,4 +44,9 @@ export enum Role {
   ADMIN = 'ADMIN',
   USER = 'USER',
   UNIVERSITY = 'UNIVERSITY',
+}
+export enum RoleLabel {
+  ADMIN = 'Quản trị viên hệ thống',
+  USER = 'Cá nhân',
+  UNIVERSITY = 'Cơ quan, trường học',
 }

@@ -21,6 +21,7 @@ import NewCourseAdmin from '../pages/admin/NewCourseAdmin'
 import NewProgramAdmin from '../pages/admin/NewProgramAdmin'
 import ProgramEducationManage from '../pages/admin/ProgramEducationManage'
 import UniversityManagement from '../pages/admin/UniversityManagement'
+import UserManagement from '../pages/admin/UserManagement'
 import ChooseRole from '../pages/auth/ChooseRole'
 import SignIn from '../pages/auth/Login'
 import SignUp from '../pages/auth/SignUp'
@@ -147,6 +148,10 @@ const routers = createBrowserRouter([
       {
         path: Paths.ADMIN_NEW_COURSE,
         element: <NewCourseAdmin />,
+      },
+      {
+        path: Paths.ADMIN_USERS,
+        element: <UserManagement />,
       },
     ],
   },

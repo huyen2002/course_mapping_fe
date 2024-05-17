@@ -7,7 +7,7 @@ import { useFetchPagination } from '../hooks/useFetchPagination'
 import { FILTER_OTHER_OPERATOR, FilterType } from '../models/FilterParams'
 import { SearchUniversityParams } from '../models/SearchUniversityParams'
 import { UniversityService } from '../service/UniversityService'
-import { AddressRender } from '../utils/AddressRender'
+import { AddressRender } from '../utils/ObjectRender'
 
 const Universities = () => {
   const [nameParam, setNameParam] = useState<string>('')

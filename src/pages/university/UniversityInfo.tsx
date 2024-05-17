@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import UniversityForm from '../../components/UniversityForm'
 import { University } from '../../models/University'
 import { UniversityService } from '../../service/UniversityService'
-import { AddressRender } from '../../utils/AddressRender'
+import { AddressRender } from '../../utils/ObjectRender'
 
 const UniversityInfo = () => {
   const [university, setUniversity] = useState<University>()
