@@ -12,6 +12,7 @@ const SearchInput = ({
     setName(e.target.value)
   }
   const onSubmit = () => {
+    console.log('name', name)
     setSearchName(name)
   }
   return (

@@ -17,6 +17,7 @@ import UniversityDetail from '../pages/UniversityDetail'
 import AdminStorage from '../pages/admin/AdminStorage'
 import CourseOfUniversity from '../pages/admin/CourseOfUniversity'
 import HomeAdmin from '../pages/admin/HomeAdmin'
+import MajorManagement from '../pages/admin/MajorManagement'
 import NewCourseAdmin from '../pages/admin/NewCourseAdmin'
 import NewProgramAdmin from '../pages/admin/NewProgramAdmin'
 import ProgramEducationManage from '../pages/admin/ProgramEducationManage'
@@ -152,6 +153,10 @@ const routers = createBrowserRouter([
       {
         path: Paths.ADMIN_USERS,
         element: <UserManagement />,
+      },
+      {
+        path: Paths.ADMIN_MAJOR_MANAGE,
+        element: <MajorManagement />,
       },
     ],
   },

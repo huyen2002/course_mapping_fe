@@ -1,6 +1,7 @@
 import { Modal, Spinner, Table, Tooltip } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { CiEdit } from 'react-icons/ci'
+import { FaRegTrashAlt } from 'react-icons/fa'
 import { LiaTrashRestoreAltSolid } from 'react-icons/lia'
 import { toast } from 'react-toastify'
 import { useFetchPagination } from '../../hooks/useFetchPagination'
@@ -32,22 +33,39 @@ const MajorStorage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [selectedMajor, setSelectedMajor] = useState<Major>()
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
 
-  const handleOpenModal = (program: Major) => {
-    setSelectedMajor(program)
+  const handleOpenModal = (major: Major) => {
+    setSelectedMajor(major)
     setOpenModal(true)
   }
 
+  const handleOpenDeleteModal = (major: Major) => {
+    setSelectedMajor(major)
+    setOpenDeleteModal(true)
+  }
   const handleRestoreMajor = async () => {
     try {
       setIsLoading(true)
       await MajorService.updateEnabled(selectedMajor?.id as number, {
         enabled: true,
       })
-      toast.success('Khôi phục ngành thành công')
+      toast.success('Khôi phục ngành đào tạo thành công')
     } catch (e) {
       console.log(e)
-      toast.error('Khôi phục ngành không thành công')
+      toast.error('Khôi phục ngành đào tạo không thành công')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+  const handleDeleteMajor = async () => {
+    try {
+      setIsLoading(true)
+      await MajorService.delete(selectedMajor?.id as number)
+      toast.success('Xóa ngành đào tạo thành công')
+    } catch (e) {
+      console.log(e)
+      toast.error('Khôi phục ngành đào tạo không thành công')
     } finally {
       setIsLoading(false)
     }
@@ -124,6 +142,49 @@ const MajorStorage = () => {
                             <button
                               onClick={handleRestoreMajor}
                               className="bg-primary_color hover:bg-primary_color_hover py-1 px-3 rounded-md text-white flex gap-[6px] items-center"
+                            >
+                              {isLoading && <Spinner size="sm" />}
+                              Đồng ý
+                            </button>
+                          </div>
+                        </Modal.Body>
+                      </Modal>
+                      <Tooltip
+                        placement="top"
+                        content="Xóa"
+                      >
+                        <button
+                          onClick={() => handleOpenDeleteModal(major)}
+                          className="text-red-500"
+                        >
+                          <FaRegTrashAlt size="20" />
+                        </button>
+                      </Tooltip>
+                      <Modal
+                        show={openDeleteModal && selectedMajor?.id === major.id}
+                        onClose={() => setOpenDeleteModal(false)}
+                      >
+                        <Modal.Header>Xác nhận</Modal.Header>
+                        <Modal.Body>
+                          <p>
+                            Bạn có chắc chắn muốn xóa vĩnh viên ngành{' '}
+                            <span className="text-primary_color">
+                              {major.name}
+                            </span>{' '}
+                            và tất cả các thông tin liên quan không?
+                          </p>
+                          <div className="flex gap-6 justify-end mt-8">
+                            <button
+                              onClick={() => {
+                                setOpenDeleteModal(false)
+                              }}
+                              className="bg-slate-50 hover:bg-slate-100 py-1 px-3 rounded-md border border-primary_color text-primary_color"
+                            >
+                              Hủy
+                            </button>
+                            <button
+                              onClick={handleDeleteMajor}
+                              className="bg-red-500 hover:bg-red-600 py-1 px-3 rounded-md text-white flex gap-[6px] items-center"
                             >
                               {isLoading && <Spinner size="sm" />}
                               Đồng ý

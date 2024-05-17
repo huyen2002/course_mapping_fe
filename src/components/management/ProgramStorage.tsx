@@ -199,7 +199,7 @@ const ProgramStorage = ({ universityId }: { universityId?: number }) => {
                         <Modal.Header>Xác nhận</Modal.Header>
                         <Modal.Body>
                           <p>
-                            Bạn có chắc chắn muốn xóa vĩnh viên trường{' '}
+                            Bạn có chắc chắn muốn xóa vĩnh viên chương trình{' '}
                             <span className="text-primary_color">
                               {program.name}
                             </span>{' '}

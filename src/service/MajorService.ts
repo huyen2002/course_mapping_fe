@@ -43,7 +43,37 @@ export const MajorService = {
         status: response.status,
         message: response.message,
       },
-      data: MajorUtils.toEntities(response.data),
+      data: MajorUtils.toEntity(response.data),
+    }
+  },
+  update: async (id: number, data: any) => {
+    const response = (await http.put(MajorAPIs.UPDATE(id), data)).data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: MajorUtils.toEntity(response.data),
+    }
+  },
+  create: async (data: any) => {
+    const response = (await http.post(MajorAPIs.CREATE, data)).data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: MajorUtils.toEntity(response.data),
+    }
+  },
+  delete: async (id: number) => {
+    const response = (await http.delete(MajorAPIs.DELETE(id))).data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+      data: response.data,
     }
   },
 }

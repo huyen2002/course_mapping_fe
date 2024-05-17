@@ -42,7 +42,7 @@ const SidebarAdmin = () => {
             Người dùng
           </Sidebar.Item>
           <Sidebar.Item
-            href={Paths.ADMIN_PROGRAM_EDUCATION_MANAGE}
+            href={Paths.ADMIN_MAJOR_MANAGE}
             icon={FaAlignLeft}
           >
             Ngành học

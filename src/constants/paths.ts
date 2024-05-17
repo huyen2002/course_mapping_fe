@@ -23,6 +23,7 @@ const Paths = {
 
   ADMIN_HOME: '/admin/home',
   ADMIN_NEW_PROGRAM_EDUCATION: '/admin/new_program_education',
+  ADMIN_MAJOR_MANAGE: '/admin/majors',
   ADMIN_PROGRAM_EDUCATION_MANAGE: '/admin/program_educations',
   ADMIN_UNIVERSITIES: '/admin/universities',
   ADMIN_STORAGE: '/admin/storage',

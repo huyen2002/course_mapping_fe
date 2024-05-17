@@ -13,6 +13,9 @@ export const MajorAPIs = {
   SEARCH: 'majors/search',
   GET_LIST: 'majors/list',
   UPDATE_ENABLED: (id: number) => `major/update_enabled/${id}`,
+  CREATE: 'major/create',
+  UPDATE: (id: number) => `major/update/${id}`,
+  DELETE: (id: number) => `major/delete/${id}`,
 }
 export const ProgramEducationAPIs = {
   SEARCH: 'program_educations/search',
