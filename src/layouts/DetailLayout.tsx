@@ -5,7 +5,7 @@ const DetailLayout = () => {
   return (
     <div className=" px-4 py-2 w-full h-full">
       <Navbar />
-      <div className="w-full h-[calc(100vh-150px)] pb-8 overflow-y-scroll no-scrollbar">
+      <div className="w-full h-[calc(100vh-150px)] pb-8 overflow-y-scroll no-scrollbar px-10">
         <Outlet />
       </div>
     </div>

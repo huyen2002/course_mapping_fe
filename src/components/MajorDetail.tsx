@@ -25,14 +25,6 @@ const MajorDetail = ({ major }: { major: Major }) => {
             {`Chương trình đào tạo (${major.numberOfProgramEducations})`}
           </button>
         </div>
-        <div>
-          <a
-            href="/"
-            className="font-montserrat text-primary_color hover:text-primary_color_hover hover:underline "
-          >
-            Trường đào tạo (50)
-          </a>
-        </div>
       </div>
     </div>
   )

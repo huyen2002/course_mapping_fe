@@ -3,7 +3,7 @@ import { Avatar } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { CiLogout } from 'react-icons/ci'
 import { IoPersonOutline } from 'react-icons/io5'
-import { RiAdminLine } from 'react-icons/ri'
+import { RiAdminLine, RiLockPasswordLine } from 'react-icons/ri'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import SidebarUniversity from '../components/university/SidebarUniversity'
@@ -21,8 +21,8 @@ const UniversityLayout = () => {
   const fetchData = async () => {
     try {
       if (!AuthUtils.isAuthorized()) {
-        toast.error('Bạn cần đăng nhập để truy cập trang này')
         navigate(Paths.LOGIN)
+        toast.error('Bạn cần đăng nhập để truy cập trang này')
       } else {
         const user = (await AuthService.me()).data
         const university = (await UniversityService.getById(Number(id))).data
@@ -77,11 +77,14 @@ const UniversityLayout = () => {
                 <h1 className="text-primary_color font-semibold ml-4 mt-4 mb-3">
                   {university.name}
                 </h1>
-                <MenuItem onClick={handleCloseMenu}>
+                <MenuItem onClick={() => navigate(Paths.ACCOUNT_INFO)}>
                   <IoPersonOutline size={20} />
                   <span className="ml-2"> Thông tin tài khoản</span>
                 </MenuItem>
-
+                <MenuItem onClick={() => navigate(Paths.CHANGE_PASSWORD)}>
+                  <RiLockPasswordLine size={20} />
+                  <span className="ml-2"> Đổi mật khẩu</span>
+                </MenuItem>
                 <MenuItem onClick={() => navigate(Paths.HOME)}>
                   <RiAdminLine size={20} />
                   <span className="ml-2">Trang chính</span>

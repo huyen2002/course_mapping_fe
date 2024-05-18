@@ -57,36 +57,39 @@ const Navbar = () => {
 
   return (
     <div className="flex items-center border-b-[1px] border-gray-200 mb-10">
-      <a
-        href="/"
-        className="flex-none"
-      >
-        <img
-          src="/logo.png"
-          alt="logo"
-          width={120}
-          height={100}
-        />
-      </a>
-      <div className="flex gap-4 flex-1 text-lg ml-8">
-        <Link
-          to={Paths.HOME}
-          className="font-semibold font-montserrat text-primary_color hover:text-primary_color_hover"
+      <div className="flex-1 flex items-center gap-4">
+        <a
+          href="/"
+          className="flex-none"
         >
-          Ngành đào tạo
-        </Link>
-        <Link
-          to={Paths.PROGRAM_EDUCATIONS}
-          className="font-semibold font-montserrat  text-primary_color hover:text-primary_color_hover"
-        >
-          Chương trình đào tạo
-        </Link>
-        <Link
-          to={Paths.UNIVERSITIES}
-          className="font-semibold font-montserrat text-primary_color hover:text-primary_color_hover"
-        >
-          Đơn vị đào tạo
-        </Link>
+          <img
+            src="/logo.png"
+            alt="logo"
+            width={120}
+            height={100}
+          />
+        </a>
+
+        <div className="text-lg flex gap-4">
+          <Link
+            to={Paths.HOME}
+            className="font-semibold font-montserrat text-primary_color hover:text-primary_color_hover"
+          >
+            Ngành đào tạo
+          </Link>
+          <Link
+            to={Paths.PROGRAM_EDUCATIONS}
+            className="font-semibold font-montserrat  text-primary_color hover:text-primary_color_hover"
+          >
+            Chương trình đào tạo
+          </Link>
+          <Link
+            to={Paths.UNIVERSITIES}
+            className="font-semibold font-montserrat text-primary_color hover:text-primary_color_hover"
+          >
+            Đơn vị đào tạo
+          </Link>
+        </div>
       </div>
       {user ? (
         <div className="mr-10">

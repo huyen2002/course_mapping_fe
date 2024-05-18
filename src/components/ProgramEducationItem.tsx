@@ -1,6 +1,8 @@
 import { Tooltip } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { LevelOfEducation, ProgramEducation } from '../models/ProgramEducation'
+import { AuthUtils } from '../utils/AuthUtils'
 const ProgramEducationItem = ({
   programEducation,
   hideInfo,
@@ -12,6 +14,17 @@ const ProgramEducationItem = ({
   hideUniversity?: boolean
   comparedProgramEducationId?: number
 }) => {
+  const navigate = useNavigate()
+  const handleToComparePage = () => {
+    if (!AuthUtils.isAuthorized()) {
+      toast.error('Bạn cần đăng nhập để sử dụng tính năng này')
+      return
+    } else {
+      navigate(
+        `/compare_program_educations/${programEducation.id}/and/${comparedProgramEducationId}`
+      )
+    }
+  }
   return (
     <div className="shadow-md rounded-md p-4 flex flex-col gap-2">
       <div className="flex justify-between items-center">
@@ -76,12 +89,12 @@ const ProgramEducationItem = ({
           >
             Chi tiết
           </Link>
-          <Link
-            to={`/compare_program_educations/${programEducation.id}/and/${comparedProgramEducationId}`}
+          <button
+            onClick={handleToComparePage}
             className="text-primary_color hover:text-primary_color_hover hover:underline font-montserrat"
           >
             So sánh
-          </Link>
+          </button>
         </div>
       )}
     </div>

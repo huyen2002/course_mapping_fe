@@ -45,7 +45,7 @@ const UniversityDetail = () => {
   }, [university])
 
   return (
-    <div className="px-10">
+    <div>
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-8">
           <Avatar
