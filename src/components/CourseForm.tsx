@@ -1,3 +1,4 @@
+import { HttpStatusCode } from 'axios'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { Label, Select, Spinner, TextInput } from 'flowbite-react'
 import { useEffect, useState } from 'react'
@@ -57,10 +58,13 @@ const CourseForm = ({
       const filesFolderRef = ref(storage, `courses/${fileUpload.name}`)
 
       try {
+        setIsFetching(true)
         await uploadBytes(filesFolderRef, fileUpload)
         outlineUrl = await getDownloadURL(filesFolderRef)
       } catch (err) {
         console.error(err)
+      } finally {
+        setIsFetching(false)
       }
     }
     if (course) {
@@ -76,20 +80,16 @@ const CourseForm = ({
         toast.error('Không có thông tin cần cập nhật')
         return
       }
-      if (newObject?.code) {
-        const checkCode = (
-          await CourseService.checkExistedByCode(newObject.code)
-        ).data
-        if (checkCode) {
-          toast.error('Mã môn học đã tồn tại')
-          return
-        }
-      }
+
       try {
         setIsFetching(true)
         const response = await CourseService.update(course.id, newObject)
         console.log('update course', response.data)
-        toast.success('Cập nhật môn học thành công')
+        if (response.meta.status === HttpStatusCode.Ok) {
+          toast.success('Cập nhật môn học thành công')
+        } else {
+          toast.error(response.meta.message)
+        }
       } catch (e: any) {
         console.log('Error: ', e)
         toast.error('Cập nhật môn học thất bại')
@@ -97,22 +97,19 @@ const CourseForm = ({
         setIsFetching(false)
       }
     } else {
-      const checkCode = (await CourseService.checkExistedByCode(data.code)).data
-      if (checkCode) {
-        toast.error('Mã môn học đã tồn tại')
-        return
-      }
       try {
         setIsFetching(true)
 
-        const response = (
-          await CourseService.create({
-            ...data,
-            outline: outlineUrl,
-            universityId: university?.value,
-          })
-        ).data
-        toast.success('Thêm mới môn học thành công')
+        const response = await CourseService.create({
+          ...data,
+          outline: outlineUrl,
+          universityId: university?.value,
+        })
+        if (response.meta.status === HttpStatusCode.Ok) {
+          toast.success('Thêm mới môn học thành công')
+        } else {
+          toast.error(response.meta.message)
+        }
 
         if (AuthUtils.isAdmin()) {
           navigate(`/admin/university/${university?.value}/courses`)

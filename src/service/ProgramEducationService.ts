@@ -2,7 +2,6 @@ import { ProgramEducationAPIs } from '../constants/APIs'
 import { ComparableProgramEducationUtils } from '../models/ComparableProgramEducation'
 import { FilterParams } from '../models/FilterParams'
 import { SearchProgramParams } from '../models/SearchProgramParams'
-import { SortParam } from '../models/SortParam'
 import { http } from '../server/http'
 import {
   ProgramEducationDto,
@@ -42,14 +41,10 @@ const ProgramEducationService = {
     }
   },
 
-  getSimilarPrograms: async (
-    id: number,
-    sortParam: SortParam,
-    filterParams: FilterParams
-  ) => {
+  getSimilarPrograms: async (id: number, filterParams: FilterParams) => {
     const response = (
       await http().get(ProgramEducationAPIs.GET_SIMILAR_PROGRAMS(id), {
-        params: { ...sortParam, ...filterParams },
+        params: { ...filterParams },
       })
     ).data
     return {
@@ -109,7 +104,9 @@ const ProgramEducationService = {
         status: response.status,
         message: response.message,
       },
-      data: ProgramEducationUtils.toEntity(response.data),
+      data: response.data
+        ? ProgramEducationUtils.toEntity(response.data)
+        : null,
     }
   },
   update: async (id: number, data: ProgramEducationDto) => {
@@ -120,7 +117,9 @@ const ProgramEducationService = {
         status: response.status,
         message: response.message,
       },
-      data: ProgramEducationUtils.toEntity(response.data),
+      data: response.data
+        ? ProgramEducationUtils.toEntity(response.data)
+        : null,
     }
   },
   delete: async (id: number) => {

@@ -12,7 +12,6 @@ import {
   FilterType,
 } from '../models/FilterParams'
 import { ProgramEducation } from '../models/ProgramEducation'
-import { SortType } from '../models/SortParam'
 import ProgramEducationService from '../service/ProgramEducationService'
 
 const ProgramEducationDetail = () => {
@@ -21,7 +20,6 @@ const ProgramEducationDetail = () => {
     useState<ProgramEducation | null>(null)
   const [isFetching, setIsFetching] = useState<boolean>(false)
   const [similarPrograms, setSimilarPrograms] = useState<any[]>([])
-  const [sortType, setSortType] = useState<SortType>(SortType.SIMILARITY_DESC)
   const [filterParams, setFilterParams] = useState<FilterParams>({})
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -32,13 +30,7 @@ const ProgramEducationDetail = () => {
       const response = await ProgramEducationService.getById(idValue)
       setProgramEducation(response.data)
       const similarProgramsResponse =
-        await ProgramEducationService.getSimilarPrograms(
-          idValue,
-          {
-            sortType: sortType as SortType,
-          },
-          filterParams
-        )
+        await ProgramEducationService.getSimilarPrograms(idValue, filterParams)
       setSimilarPrograms(similarProgramsResponse.data)
       // console.log('similarProgramsResponse: ', similarProgramsResponse)
     } catch (e: any) {
@@ -63,9 +55,7 @@ const ProgramEducationDetail = () => {
     })
     setIsOpen(false)
   }
-  const updateSortType = (sortType: SortType) => {
-    setSortType(sortType)
-  }
+
   const resetFilter = () => {
     setCountry(FilterType.ALL)
     setLanguage(FilterType.ALL)
@@ -74,7 +64,7 @@ const ProgramEducationDetail = () => {
 
   useEffect(() => {
     fetchData()
-  }, [id, sortType, filterParams])
+  }, [id, filterParams])
 
   useEffect(() => {
     if (!isOpen) {
@@ -225,8 +215,6 @@ const ProgramEducationDetail = () => {
             <SimilarPrograms
               programEducation={programEducation}
               similarPrograms={similarPrograms}
-              sortType={sortType}
-              setSortType={updateSortType}
             />
           </div>
         </div>

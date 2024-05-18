@@ -66,18 +66,4 @@ export const CourseService = {
       data: response.data,
     }
   },
-  checkExistedByCode: async (code: string) => {
-    const response = (
-      await http().get(CourseAPIs.CHECK_EXISTED_BY_CODE, {
-        params: { code: code },
-      })
-    ).data
-    return {
-      meta: {
-        message: response.message,
-        status: response.status,
-      },
-      data: response.data,
-    }
-  },
 }

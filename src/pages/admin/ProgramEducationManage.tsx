@@ -70,6 +70,8 @@ const ProgramEducationManage = () => {
               <Table.HeadCell>STT</Table.HeadCell>
               <Table.HeadCell>ID</Table.HeadCell>
               <Table.HeadCell>Chương trình đào tạo</Table.HeadCell>
+              <Table.HeadCell>Mã tuyển sinh</Table.HeadCell>
+
               <Table.HeadCell>Ngành đào tạo</Table.HeadCell>
               <Table.HeadCell>Trường đào tạo</Table.HeadCell>
               <Table.HeadCell></Table.HeadCell>
@@ -81,6 +83,8 @@ const ProgramEducationManage = () => {
                     <Table.Cell>{index + 1 + (page - 1) * 10}</Table.Cell>
                     <Table.Cell>{program.id}</Table.Cell>
                     <Table.Cell>{program.name}</Table.Cell>
+                    <Table.Cell>{program.code}</Table.Cell>
+
                     <Table.Cell>{program.major.name}</Table.Cell>
                     <Table.Cell>{program.university.name}</Table.Cell>
                     <Table.Cell>

@@ -53,7 +53,7 @@ export const MajorService = {
         status: response.status,
         message: response.message,
       },
-      data: MajorUtils.toEntity(response.data),
+      data: response.data ? MajorUtils.toEntity(response.data) : null,
     }
   },
   create: async (data: any) => {
@@ -63,7 +63,7 @@ export const MajorService = {
         status: response.status,
         message: response.message,
       },
-      data: MajorUtils.toEntity(response.data),
+      data: response.data ? MajorUtils.toEntity(response.data) : null,
     }
   },
   delete: async (id: number) => {

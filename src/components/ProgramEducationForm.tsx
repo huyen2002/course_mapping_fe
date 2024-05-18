@@ -1,3 +1,4 @@
+import { HttpStatusCode } from 'axios'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { Label, Select, TextInput, Textarea } from 'flowbite-react'
 import { useEffect, useState } from 'react'
@@ -70,10 +71,13 @@ const ProgramEducationForm = ({
       )
 
       try {
+        setIsFetching(true)
         await uploadBytes(filesFolderRef, fileUpload)
         outlineUrl = await getDownloadURL(filesFolderRef)
       } catch (err) {
         console.error(err)
+      } finally {
+        setIsFetching(false)
       }
     }
     console.log('sourceLinks', sourceLinks)
@@ -101,9 +105,12 @@ const ProgramEducationForm = ({
           programEducation.id,
           newObject
         )
-        console.log('update response', response)
-        toast.success('Cập nhật chương trình đào tạo thành công')
-        navigate(`/university/program_education/${programEducation.id}`)
+        if (response.meta.status === HttpStatusCode.Ok) {
+          toast.success('Cập nhật chương trình đào tạo thành công')
+          navigate(`/university/program_education/${programEducation.id}`)
+        } else {
+          toast.error(response.meta.message)
+        }
       } catch (e: any) {
         console.log('Error', e)
         toast.error('Cập nhật chương trình đào tạo thất bại')
@@ -113,22 +120,21 @@ const ProgramEducationForm = ({
     } else {
       try {
         setIsFetching(true)
-        const response = (
-          await ProgramEducationService.create({
-            ...data,
-            majorId: major?.value,
-            universityId: university?.value,
-            outline: outlineUrl,
-            sourceLinks:
-              sourceLinks.length > 0 ? JSON.stringify(sourceLinks) : null,
-            enabled: true,
-          })
-        ).data
-        console.log('create response', response)
-
-        toast.success('Thêm mới chương trình đào tạo thành công')
-
-        navigate(`/university/program_education/${response.id}`)
+        const response = await ProgramEducationService.create({
+          ...data,
+          majorId: major?.value,
+          universityId: university?.value,
+          outline: outlineUrl,
+          sourceLinks:
+            sourceLinks.length > 0 ? JSON.stringify(sourceLinks) : null,
+          enabled: true,
+        })
+        if (response.meta.status === HttpStatusCode.Ok) {
+          toast.success('Thêm mới chương trình đào tạo thành công')
+          navigate(`/university/program_education/${response.id}`)
+        } else {
+          toast.error(response.meta.message)
+        }
       } catch (e: any) {
         console.log('Error', e)
         toast.error('Thêm mới chương trình đào tạo thất bại')

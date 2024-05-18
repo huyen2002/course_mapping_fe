@@ -1,9 +1,10 @@
-import { Table } from 'flowbite-react'
+import { Modal, Table } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import LoadingScreen from '../components/common/LoadingScreen'
 import { ComparableProgramEducation } from '../models/ComparableProgramEducation'
 import { ComparedCourses } from '../models/ComparedCourses'
+import { Course } from '../models/Course'
 import { LevelOfEducation, ProgramEducation } from '../models/ProgramEducation'
 import ProgramEducationService from '../service/ProgramEducationService'
 
@@ -15,6 +16,16 @@ const CompareProgramEducations = () => {
   const [comparablePrograms, setComparablePrograms] =
     useState<ComparableProgramEducation>()
   const [comparedCourses, setComparedCourses] = useState<ComparedCourses[]>([])
+  const [openDetailModal, setOpenDetailModal] = useState<boolean>(false)
+
+  const [firstCourse, setFirstCourse] = useState<Course>()
+  const [secondCourse, setSecondCourse] = useState<Course>()
+
+  const handleOpenDetailModal = (item: ComparedCourses) => {
+    setFirstCourse(item.firstCourse as Course)
+    setSecondCourse(item.secondCourse as Course)
+    setOpenDetailModal(true)
+  }
 
   const fetchData = async () => {
     try {
@@ -28,13 +39,11 @@ const CompareProgramEducations = () => {
         parseInt(id_2)
       )
       setSecondProgram(secondProgramResponse.data)
-      console.log('compareCourseLists', id_1, id_2)
       const comparedProgramsResponse =
         await ProgramEducationService.compareTwoPrograms(
           parseInt(id_1),
           parseInt(id_2)
         )
-      console.log('comparedCoursesResponse', comparedProgramsResponse)
       setComparablePrograms(comparedProgramsResponse.data)
       setComparedCourses(comparedProgramsResponse.data.coursesMapping)
     } catch (e: any) {
@@ -68,11 +77,18 @@ const CompareProgramEducations = () => {
                   Độ tương đồng
                   <p className="text-primary_color">(0 - 100%)</p>
                 </Table.HeadCell>
+                <Table.HeadCell />
               </Table.Head>
               <Table.Body className="divide-y text-text_color">
-                <Table.Cell className="text-xl font-semibold my-2">
-                  1. Thông tin chung
-                </Table.Cell>
+                <Table.Row>
+                  <Table.Cell className="text-xl font-semibold my-2">
+                    1. Thông tin chung
+                  </Table.Cell>
+                  <Table.Cell />
+                  <Table.Cell />
+                  <Table.Cell />
+                  <Table.Cell />
+                </Table.Row>
 
                 <Table.Row className="bg-white">
                   <Table.Cell className="whitespace-nowrap font-semibold ">
@@ -118,6 +134,7 @@ const CompareProgramEducations = () => {
                       ? '100%'
                       : '_'}
                   </Table.Cell>
+                  <Table.Cell />
                 </Table.Row>
                 <Table.Row className="bg-white">
                   <Table.Cell className="whitespace-nowrap font-semibold ">
@@ -130,6 +147,7 @@ const CompareProgramEducations = () => {
                       ? '100%'
                       : '_'}
                   </Table.Cell>
+                  <Table.Cell />
                 </Table.Row>
                 <Table.Row className="bg-white">
                   <Table.Cell className="whitespace-nowrap font-semibold ">
@@ -142,6 +160,7 @@ const CompareProgramEducations = () => {
                       ? '100%'
                       : '_'}
                   </Table.Cell>
+                  <Table.Cell />
                 </Table.Row>
                 <Table.Row className="bg-white">
                   <Table.Cell className="whitespace-nowrap font-semibold ">
@@ -153,6 +172,7 @@ const CompareProgramEducations = () => {
                   <Table.Cell>
                     {secondProgram?.startYear} - {secondProgram?.endYear}
                   </Table.Cell>
+                  <Table.Cell />
                 </Table.Row>
                 <Table.Row className="bg-white">
                   <Table.Cell className="whitespace-nowrap font-semibold ">
@@ -166,6 +186,7 @@ const CompareProgramEducations = () => {
                       ? `${comparablePrograms?.introductionSimilarity}%`
                       : '-'}
                   </Table.Cell>
+                  <Table.Cell />
                 </Table.Row>
                 <Table.Row className="bg-white">
                   <Table.Cell className="whitespace-nowrap font-semibold ">
@@ -207,11 +228,16 @@ const CompareProgramEducations = () => {
                       ? `${comparablePrograms?.outlineSimilarity}%`
                       : '-'}
                   </Table.Cell>
+                  <Table.Cell />
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell className="text-xl font-semibold pt-8 pb-2">
                     2. Danh sách học phần
                   </Table.Cell>
+                  <Table.Cell />
+                  <Table.Cell />
+                  <Table.Cell />
+                  <Table.Cell />
                 </Table.Row>
 
                 {comparedCourses.map((item, index) => (
@@ -235,6 +261,101 @@ const CompareProgramEducations = () => {
 
                     <Table.Cell className="font-semibold text-center">
                       {item.similarity > 0 ? `${item.similarity}%` : '_'}
+                    </Table.Cell>
+
+                    <Table.Cell>
+                      {item.similarity > 0 && (
+                        <button
+                          onClick={() => handleOpenDetailModal(item)}
+                          className="text-primary_color"
+                        >
+                          Chi tiết
+                        </button>
+                      )}
+                      <Modal
+                        show={
+                          item.firstCourse?.id === firstCourse?.id &&
+                          item.secondCourse?.id === secondCourse?.id &&
+                          openDetailModal
+                        }
+                        onClose={() => setOpenDetailModal(false)}
+                      >
+                        <Modal.Header>Thông tin ánh xạ môn học</Modal.Header>
+                        <Modal.Body>
+                          <Table className="font-montserrat">
+                            <Table.Head className="text-primary_color font-extrabold text-sm">
+                              <Table.HeadCell></Table.HeadCell>
+                              <Table.HeadCell>
+                                {firstProgram?.name} - (
+                                {firstProgram?.university.name})
+                              </Table.HeadCell>
+                              <Table.HeadCell>
+                                {secondProgram?.name} - (
+                                {secondProgram?.university.name})
+                              </Table.HeadCell>
+                              <Table.HeadCell>
+                                Độ tương đồng
+                                <p className="text-primary_color">(0 - 100%)</p>
+                              </Table.HeadCell>
+                            </Table.Head>
+                            <Table.Row>
+                              <Table.Cell className="font-semibold">
+                                Tên môn học
+                              </Table.Cell>
+                              <Table.Cell>{firstCourse?.name}</Table.Cell>
+                              <Table.Cell>{secondCourse?.name}</Table.Cell>
+                              <Table.Cell>{item.nameSimilarity}%</Table.Cell>
+                            </Table.Row>
+                            <Table.Row>
+                              <Table.Cell className="font-semibold">
+                                Đề cương môn học
+                              </Table.Cell>
+                              <Table.Cell>
+                                {' '}
+                                {!firstCourse?.outline ? (
+                                  <span>Chưa có thông tin</span>
+                                ) : (
+                                  <span className="flex gap-4 items-center">
+                                    <a
+                                      href={firstCourse?.outline}
+                                      target="_blank"
+                                      className="text-primary_color hover:underline font-montserrat "
+                                    >
+                                      Xem chi tiết
+                                    </a>
+                                  </span>
+                                )}
+                              </Table.Cell>
+                              <Table.Cell>
+                                {' '}
+                                {!secondCourse?.outline ? (
+                                  <span>Chưa có thông tin</span>
+                                ) : (
+                                  <span className="flex gap-4 items-center">
+                                    <a
+                                      href={secondCourse?.outline}
+                                      target="_blank"
+                                      className="text-primary_color hover:underline font-montserrat "
+                                    >
+                                      Xem chi tiết
+                                    </a>
+                                  </span>
+                                )}
+                              </Table.Cell>
+                              <Table.Cell>
+                                {item.outlineSimilarity > 0
+                                  ? `${item.outlineSimilarity}`
+                                  : '-'}
+                              </Table.Cell>
+                            </Table.Row>
+                          </Table>
+                          <div className="mt-4">
+                            <span>
+                              Đánh giá độ tương đồng: {item.similarity}%
+                            </span>
+                          </div>
+                        </Modal.Body>
+                      </Modal>
                     </Table.Cell>
                   </Table.Row>
                 ))}

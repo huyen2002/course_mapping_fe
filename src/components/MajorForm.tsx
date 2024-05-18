@@ -1,3 +1,4 @@
+import { HttpStatusCode } from 'axios'
 import { Label, Spinner, TextInput } from 'flowbite-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -31,11 +32,11 @@ const MajorForm = ({ major }: { major?: Major }) => {
       try {
         setIsFetching(true)
         const response = await MajorService.update(major.id, newObject)
-        console.log('update course', response.data)
-        toast.success('Cập nhật ngành đào tạo thành công')
-      } catch (e: any) {
-        console.log('Error: ', e)
-        toast.error('Mã ngành học đã tồn tại')
+        if (response.meta.status === HttpStatusCode.Ok) {
+          toast.success('Cập nhật ngành đào tạo thành công')
+        } else {
+          toast.error(response.meta.message)
+        }
       } finally {
         setIsFetching(false)
       }
@@ -43,10 +44,14 @@ const MajorForm = ({ major }: { major?: Major }) => {
       try {
         setIsFetching(true)
         const response = await MajorService.create(data)
-        toast.success('Thêm mới ngành đào tạo thành công')
+        if (response.meta.status === HttpStatusCode.Ok) {
+          toast.success('Thêm mới ngành đào tạo thành công')
+        } else {
+          toast.error(response.meta.message)
+        }
       } catch (e: any) {
-        console.log('Error: ', e)
-        toast.error('Mã ngành đào tạo đã tồn tại')
+        console.log(e)
+        toast.error('Thêm mới ngành đào tạo thất bại')
       } finally {
         setIsFetching(false)
       }

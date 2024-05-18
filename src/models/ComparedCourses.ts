@@ -3,6 +3,8 @@ import { Course } from './Course'
 export interface ComparedCourses {
   firstCourse: Course | null
   secondCourse: Course | null
+  nameSimilarity: number
+  outlineSimilarity: number
   similarity: number
 }
 export const ComparedCoursesUtils = {
@@ -10,6 +12,8 @@ export const ComparedCoursesUtils = {
     return {
       firstCourse: dto.firstCourse,
       secondCourse: dto.secondCourse,
+      nameSimilarity: dto.nameSimilarity,
+      outlineSimilarity: dto.outlineSimilarity,
       similarity: dto.similarity,
     } as ComparedCourses
   },

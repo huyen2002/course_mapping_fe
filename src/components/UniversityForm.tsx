@@ -1,3 +1,4 @@
+import { HttpStatusCode } from 'axios'
 import { Label, Spinner, TextInput, Textarea, Tooltip } from 'flowbite-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -45,7 +46,6 @@ const UniversityForm = ({ university }: { university?: University }) => {
       district: address?.district,
       detail: detailAddress.trim() !== '' ? detailAddress.trim() : undefined,
     } as Address
-    console.log('addressObj', addressObj)
 
     if (university) {
       if (ObjectUtils.isAllUndefined(addressObj)) {
@@ -63,9 +63,6 @@ const UniversityForm = ({ university }: { university?: University }) => {
         setIsLoading(true)
         if (university) {
           const changeObj = ObjectUtils.getUpdatedObject(newObj, university)
-          console.log('new', newObj)
-          console.log('old', university)
-          console.log('change', changeObj)
           if (Object.keys(changeObj).length === 0) {
             toast.error('Không có thông tin cần cập nhật')
             return
@@ -75,8 +72,11 @@ const UniversityForm = ({ university }: { university?: University }) => {
             ...changeObj,
             address: addressObj,
           })
-          console.log(response)
-          toast.success('Cập nhật thông tin thành công')
+          if (response.meta.status === HttpStatusCode.Ok) {
+            toast.success('Cập nhật thông tin thành công')
+          } else {
+            toast.error(response.meta.message)
+          }
         }
       } catch (e) {
         console.log(e)
@@ -99,6 +99,11 @@ const UniversityForm = ({ university }: { university?: University }) => {
             ...data,
             address: addressObj,
           })
+          if (response.meta.status === HttpStatusCode.Ok) {
+            toast.success('Thêm trường đại học thành công')
+          } else {
+            toast.error(response.meta.message)
+          }
         } catch (e) {
           console.log(e)
         } finally {

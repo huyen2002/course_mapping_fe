@@ -61,7 +61,7 @@ export const UniversityService = {
         status: response.status,
         message: response.message,
       },
-      data: UniversityUtils.toEntity(response.data),
+      data: response.data ? UniversityUtils.toEntity(response.data) : null,
     }
   },
   create: async (data: any) => {
@@ -71,7 +71,7 @@ export const UniversityService = {
         status: response.status,
         message: response.message,
       },
-      data: UniversityUtils.toEntity(response.data),
+      data: response.data ? UniversityUtils.toEntity(response.data) : null,
     }
   },
   delete: async (id: number) => {
