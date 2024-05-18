@@ -10,7 +10,7 @@ export const CourseService = {
     params?: QueryParams
   ) => {
     const response = (
-      await http.get(CourseAPIs.SEARCH, {
+      await http().get(CourseAPIs.SEARCH, {
         params: { ...searchCourseParams, ...params },
       })
     ).data
@@ -26,7 +26,7 @@ export const CourseService = {
     }
   },
   create: async (data: Course) => {
-    const response = (await http.post(CourseAPIs.CREATE, data)).data
+    const response = (await http().post(CourseAPIs.CREATE, data)).data
     return {
       meta: {
         message: response.message,
@@ -36,7 +36,7 @@ export const CourseService = {
     }
   },
   getList: async (id: number) => {
-    const response = (await http.get(CourseAPIs.GET_LIST(id))).data
+    const response = (await http().get(CourseAPIs.GET_LIST(id))).data
     return {
       meta: {
         total: response.total,
@@ -47,7 +47,7 @@ export const CourseService = {
     }
   },
   update: async (id: number, data: Course) => {
-    const response = (await http.put(CourseAPIs.UPDATE(id), data)).data
+    const response = (await http().put(CourseAPIs.UPDATE(id), data)).data
     return {
       meta: {
         message: response.message,
@@ -57,7 +57,7 @@ export const CourseService = {
     }
   },
   delete: async (id: number) => {
-    const response = (await http.delete(CourseAPIs.DELETE(id))).data
+    const response = (await http().delete(CourseAPIs.DELETE(id))).data
     return {
       meta: {
         message: response.message,
@@ -68,7 +68,7 @@ export const CourseService = {
   },
   checkExistedByCode: async (code: string) => {
     const response = (
-      await http.get(CourseAPIs.CHECK_EXISTED_BY_CODE, {
+      await http().get(CourseAPIs.CHECK_EXISTED_BY_CODE, {
         params: { code: code },
       })
     ).data

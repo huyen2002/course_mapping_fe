@@ -6,7 +6,7 @@ import { http } from '../server/http'
 
 export const UserService = {
   update: async (id: number, data: any) => {
-    const response = (await http.put(UserAPIs.UPDATE(id), data)).data
+    const response = (await http().put(UserAPIs.UPDATE(id), data)).data
     return {
       meta: {
         status: response.status,
@@ -16,7 +16,7 @@ export const UserService = {
     }
   },
   changePassword: async (id: number, data: any) => {
-    const response = (await http.put(UserAPIs.CHANGE_PASSWORD(id), data)).data
+    const response = (await http().put(UserAPIs.CHANGE_PASSWORD(id), data)).data
     return {
       meta: {
         status: response.status,
@@ -30,7 +30,7 @@ export const UserService = {
     searchParams?: SearchUserParams
   ) => {
     const response = (
-      await http.get(UserAPIs.SEARCH, {
+      await http().get(UserAPIs.SEARCH, {
         params: { ...queryParams, ...searchParams },
       })
     ).data

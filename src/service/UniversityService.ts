@@ -6,7 +6,7 @@ import { UniversityAPIs } from './../constants/APIs'
 
 export const UniversityService = {
   getList: async () => {
-    const response = (await http.get(UniversityAPIs.GET_LIST)).data
+    const response = (await http().get(UniversityAPIs.GET_LIST)).data
     return {
       meta: {
         status: response.status,
@@ -16,7 +16,7 @@ export const UniversityService = {
     }
   },
   getByUser: async () => {
-    const response = (await http.get(UniversityAPIs.GET_BY_USER)).data
+    const response = (await http().get(UniversityAPIs.GET_BY_USER)).data
     return {
       meta: {
         status: response.status,
@@ -26,7 +26,7 @@ export const UniversityService = {
     }
   },
   getById: async (id: number) => {
-    const response = (await http.get(UniversityAPIs.GET_BY_ID(id))).data
+    const response = (await http().get(UniversityAPIs.GET_BY_ID(id))).data
     return {
       meta: {
         status: response.status,
@@ -37,7 +37,7 @@ export const UniversityService = {
   },
   search: async (searchParams: SearchUniversityParams, params: QueryParams) => {
     const response = (
-      await http.get(UniversityAPIs.SEARCH, {
+      await http().get(UniversityAPIs.SEARCH, {
         params: { ...searchParams, ...params },
       })
     ).data
@@ -54,7 +54,7 @@ export const UniversityService = {
   },
 
   updateById: async (id: number, data: any) => {
-    const response = (await http.put(UniversityAPIs.UPDATE_BY_ID(id), data))
+    const response = (await http().put(UniversityAPIs.UPDATE_BY_ID(id), data))
       .data
     return {
       meta: {
@@ -65,7 +65,7 @@ export const UniversityService = {
     }
   },
   create: async (data: any) => {
-    const response = (await http.post(UniversityAPIs.CREATE, data)).data
+    const response = (await http().post(UniversityAPIs.CREATE, data)).data
     return {
       meta: {
         status: response.status,
@@ -75,7 +75,7 @@ export const UniversityService = {
     }
   },
   delete: async (id: number) => {
-    const response = (await http.delete(UniversityAPIs.DELETE(id))).data
+    const response = (await http().delete(UniversityAPIs.DELETE(id))).data
     return {
       meta: {
         status: response.status,
@@ -85,7 +85,7 @@ export const UniversityService = {
     }
   },
   updateEnabled: async (id: number, data: any) => {
-    const response = (await http.put(UniversityAPIs.UPDATE_ENABLED(id), data))
+    const response = (await http().put(UniversityAPIs.UPDATE_ENABLED(id), data))
       .data
     return {
       meta: {

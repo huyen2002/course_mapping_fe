@@ -4,14 +4,14 @@ import { http } from '../server/http'
 
 export const AuthService = {
   login: async (data: UserLoginInput) => {
-    const response = (await http.post(AuthAPIs.LOGIN, data)).data
+    const response = (await http().post(AuthAPIs.LOGIN, data)).data
     localStorage.setItem('accessToken', response.accessToken)
     localStorage.setItem('tokenType', response.tokenType)
     localStorage.setItem('role', response.user.role)
     return UserUtils.toEntity(response.user)
   },
   me: async () => {
-    const response = (await http.get(AuthAPIs.ME)).data
+    const response = (await http().get(AuthAPIs.ME)).data
     return {
       meta: {
         message: response.message,
@@ -21,7 +21,7 @@ export const AuthService = {
     }
   },
   register: async (data: UserCreateInput) => {
-    const response = (await http.post(AuthAPIs.REGISTER, data)).data
+    const response = (await http().post(AuthAPIs.REGISTER, data)).data
     return {
       meta: {
         message: response.message,

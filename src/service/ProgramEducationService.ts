@@ -16,7 +16,7 @@ const ProgramEducationService = {
     searchParams?: SearchProgramParams
   ) => {
     const response = (
-      await http.get(ProgramEducationAPIs.SEARCH, {
+      await http().get(ProgramEducationAPIs.SEARCH, {
         params: { ...queryParams, ...searchParams },
       })
     ).data
@@ -32,7 +32,7 @@ const ProgramEducationService = {
     }
   },
   getById: async (id: number) => {
-    const response = (await http.get(ProgramEducationAPIs.GET_BY_ID(id))).data
+    const response = (await http().get(ProgramEducationAPIs.GET_BY_ID(id))).data
     return {
       meta: {
         status: response.status,
@@ -48,7 +48,7 @@ const ProgramEducationService = {
     filterParams: FilterParams
   ) => {
     const response = (
-      await http.get(ProgramEducationAPIs.GET_SIMILAR_PROGRAMS(id), {
+      await http().get(ProgramEducationAPIs.GET_SIMILAR_PROGRAMS(id), {
         params: { ...sortParam, ...filterParams },
       })
     ).data
@@ -70,7 +70,7 @@ const ProgramEducationService = {
     secondProgramId: number
   ) => {
     const response = (
-      await http.get(
+      await http().get(
         ProgramEducationAPIs.COMPARE_TWO_PROGRAMS(
           firstProgramId,
           secondProgramId
@@ -87,7 +87,7 @@ const ProgramEducationService = {
   },
   getAllByUser: async (params?: QueryParams) => {
     const response = (
-      await http.get(ProgramEducationAPIs.GET_ALL_BY_USER, {
+      await http().get(ProgramEducationAPIs.GET_ALL_BY_USER, {
         params,
       })
     ).data
@@ -103,7 +103,7 @@ const ProgramEducationService = {
     }
   },
   create: async (data: ProgramEducationDto) => {
-    const response = (await http.post(ProgramEducationAPIs.CREATE, data)).data
+    const response = (await http().post(ProgramEducationAPIs.CREATE, data)).data
     return {
       meta: {
         status: response.status,
@@ -113,7 +113,7 @@ const ProgramEducationService = {
     }
   },
   update: async (id: number, data: ProgramEducationDto) => {
-    const response = (await http.put(ProgramEducationAPIs.UPDATE(id), data))
+    const response = (await http().put(ProgramEducationAPIs.UPDATE(id), data))
       .data
     return {
       meta: {
@@ -124,7 +124,7 @@ const ProgramEducationService = {
     }
   },
   delete: async (id: number) => {
-    const response = (await http.delete(ProgramEducationAPIs.DELETE(id))).data
+    const response = (await http().delete(ProgramEducationAPIs.DELETE(id))).data
     return {
       meta: {
         status: response.status,
@@ -134,7 +134,7 @@ const ProgramEducationService = {
   },
   // checkExistedByCode: async (code: string) => {
   //   const response = (
-  //     await http.get(ProgramEducationCourseAPIs.CHECK_EXISTED_BY_CODE, {
+  //     await http().get(ProgramEducationCourseAPIs.CHECK_EXISTED_BY_CODE, {
   //       params: { code: code },
   //     })
   //   ).data
@@ -148,7 +148,7 @@ const ProgramEducationService = {
   // },
   updateEnabled: async (id: number, data: any) => {
     const response = (
-      await http.put(ProgramEducationAPIs.UPDATE_ENABLED(id), data)
+      await http().put(ProgramEducationAPIs.UPDATE_ENABLED(id), data)
     ).data
     return {
       meta: {

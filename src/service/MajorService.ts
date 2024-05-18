@@ -10,7 +10,7 @@ export const MajorService = {
     searchParams?: SearchMajorParams
   ) => {
     const response = (
-      await http.get(MajorAPIs.SEARCH, {
+      await http().get(MajorAPIs.SEARCH, {
         params: { ...queryParams, ...searchParams },
       })
     ).data
@@ -26,7 +26,7 @@ export const MajorService = {
     }
   },
   getList: async () => {
-    const response = (await http.get(MajorAPIs.GET_LIST)).data
+    const response = (await http().get(MajorAPIs.GET_LIST)).data
     return {
       meta: {
         status: response.status,
@@ -37,7 +37,7 @@ export const MajorService = {
   },
 
   updateEnabled: async (id: number, data: any) => {
-    const response = (await http.put(MajorAPIs.UPDATE_ENABLED(id), data)).data
+    const response = (await http().put(MajorAPIs.UPDATE_ENABLED(id), data)).data
     return {
       meta: {
         status: response.status,
@@ -47,7 +47,7 @@ export const MajorService = {
     }
   },
   update: async (id: number, data: any) => {
-    const response = (await http.put(MajorAPIs.UPDATE(id), data)).data
+    const response = (await http().put(MajorAPIs.UPDATE(id), data)).data
     return {
       meta: {
         status: response.status,
@@ -57,7 +57,7 @@ export const MajorService = {
     }
   },
   create: async (data: any) => {
-    const response = (await http.post(MajorAPIs.CREATE, data)).data
+    const response = (await http().post(MajorAPIs.CREATE, data)).data
     return {
       meta: {
         status: response.status,
@@ -67,7 +67,7 @@ export const MajorService = {
     }
   },
   delete: async (id: number) => {
-    const response = (await http.delete(MajorAPIs.DELETE(id))).data
+    const response = (await http().delete(MajorAPIs.DELETE(id))).data
     return {
       meta: {
         status: response.status,

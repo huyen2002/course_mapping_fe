@@ -13,7 +13,7 @@ export const ProgramEducationCourseService = {
     searchCourseParams?: SearchCourseParams
   ) => {
     const response = (
-      await http.get(ProgramEducationCourseAPIs.SEARCH, {
+      await http().get(ProgramEducationCourseAPIs.SEARCH, {
         params: { ...searchCourseParams, ...params },
       })
     ).data
@@ -30,8 +30,9 @@ export const ProgramEducationCourseService = {
   },
 
   create: async (data: ProgramEducationCourse) => {
-    const response = (await http.post(ProgramEducationCourseAPIs.CREATE, data))
-      .data
+    const response = (
+      await http().post(ProgramEducationCourseAPIs.CREATE, data)
+    ).data
     return {
       meta: {
         message: response.message,
@@ -42,7 +43,7 @@ export const ProgramEducationCourseService = {
   },
   update: async (id: number, data: ProgramEducationCourse) => {
     const response = (
-      await http.put(ProgramEducationCourseAPIs.UPDATE(id), data)
+      await http().put(ProgramEducationCourseAPIs.UPDATE(id), data)
     ).data
     return {
       meta: {
@@ -53,8 +54,9 @@ export const ProgramEducationCourseService = {
     }
   },
   delete: async (id: number) => {
-    const response = (await http.delete(ProgramEducationCourseAPIs.DELETE(id)))
-      .data
+    const response = (
+      await http().delete(ProgramEducationCourseAPIs.DELETE(id))
+    ).data
     return {
       meta: {
         message: response.message,

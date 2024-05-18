@@ -7,7 +7,7 @@ export const DocumentService = {
     secondDocument: string
   ) => {
     const response = (
-      await http.post(DocumentAPIs.COMPARE_TWO_DOCUMENTS, {
+      await http().post(DocumentAPIs.COMPARE_TWO_DOCUMENTS, {
         document_1: firstDocument,
         document_2: secondDocument,
       })
