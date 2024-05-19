@@ -1,3 +1,4 @@
+import { HttpStatusCode } from 'axios'
 import { Spinner } from 'flowbite-react'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -24,7 +25,7 @@ const Login = () => {
     try {
       setIsFetching(true)
       const response = await AuthService.login(data)
-      switch (response.role) {
+      switch (response.data?.role) {
         case Role.UNIVERSITY: {
           const university = (await UniversityService.getByUser()).data
           navigate(`/university/${university.id}/info`)
@@ -37,10 +38,13 @@ const Login = () => {
           navigate(Paths.HOME)
           break
         default:
-          window.location.reload()
           break
       }
-      toast.success('Đăng nhập thành công')
+      if (response.meta.status === HttpStatusCode.Ok) {
+        toast.success('Đăng nhập thành công')
+      } else {
+        toast.error(response.meta.message)
+      }
     } catch (e) {
       console.log('Error: ', e)
       toast.error('Tài khoản hoặc mật khẩu chưa đúng')
@@ -173,12 +177,12 @@ const Login = () => {
                 </button>
                 <p className=" font-light text-gray-500 dark:text-gray-400">
                   Bạn chưa có tài khoản?{' '}
-                  <a
-                    href="#"
+                  <button
+                    onClick={() => navigate(Paths.CHOOSE_ROLE)}
                     className="font-medium text-primary_color hover:underline "
                   >
                     Đăng ký
-                  </a>
+                  </button>
                 </p>
               </form>
             </div>

@@ -5,10 +5,18 @@ import { http } from '../server/http'
 export const AuthService = {
   login: async (data: UserLoginInput) => {
     const response = (await http().post(AuthAPIs.LOGIN, data)).data
-    localStorage.setItem('accessToken', response.accessToken)
-    localStorage.setItem('tokenType', response.tokenType)
-    localStorage.setItem('role', response.user.role)
-    return UserUtils.toEntity(response.user)
+    if (response.data) {
+      localStorage.setItem('accessToken', response.data.accessToken)
+      localStorage.setItem('tokenType', response.data.tokenType)
+      localStorage.setItem('role', response.data.user.role)
+    }
+    return {
+      meta: {
+        message: response.message,
+        status: response.status,
+      },
+      data: response.data ? UserUtils.toEntity(response.data.user) : null,
+    }
   },
   me: async () => {
     const response = (await http().get(AuthAPIs.ME)).data
