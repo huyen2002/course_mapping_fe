@@ -3,12 +3,11 @@ import { useState } from 'react'
 import { FaEye } from 'react-icons/fa'
 import { IoBanOutline } from 'react-icons/io5'
 import { MdOutlineSettingsBackupRestore } from 'react-icons/md'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import LoadingScreen from '../../components/common/LoadingScreen'
 import Pagination from '../../components/common/Pagination'
 import { useFetchPagination } from '../../hooks/useFetchPagination'
-import { RoleLabel, User } from '../../models/User'
+import { Role, RoleLabel, User } from '../../models/User'
 import { UserService } from '../../service/UserService'
 import { DateRender } from '../../utils/ObjectRender'
 
@@ -19,10 +18,7 @@ const UserManagement = () => {
   const [openEnableModal, setOpenEnableModal] = useState<boolean>(false)
   const [selectedUser, setSelectedUser] = useState<User>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [openAddModal, setOpenAddModal] = useState<boolean>(false)
   const [openDetailModal, setOpenDetailModal] = useState<boolean>(false)
-
-  const navigate = useNavigate()
 
   const handleOpenDisableModal = (user: User) => {
     setSelectedUser(user)
@@ -114,31 +110,34 @@ const UserManagement = () => {
                           <FaEye size="18" />
                         </button>
                       </Tooltip>
-
-                      {user.enabled ? (
-                        <Tooltip
-                          placement="top"
-                          content="Vô hiệu hóa"
-                        >
-                          <button
-                            onClick={() => handleOpenDisableModal(user)}
-                            className="text-red-500"
-                          >
-                            <IoBanOutline size={20} />
-                          </button>
-                        </Tooltip>
-                      ) : (
-                        <Tooltip
-                          placement="top"
-                          content="Khôi phục"
-                        >
-                          <button
-                            onClick={() => handleOpenEnableModal(user)}
-                            className="text-red-500"
-                          >
-                            <MdOutlineSettingsBackupRestore size={20} />
-                          </button>
-                        </Tooltip>
+                      {user.role !== Role.ADMIN && (
+                        <div>
+                          {user.enabled ? (
+                            <Tooltip
+                              placement="top"
+                              content="Vô hiệu hóa"
+                            >
+                              <button
+                                onClick={() => handleOpenDisableModal(user)}
+                                className="text-red-500"
+                              >
+                                <IoBanOutline size={20} />
+                              </button>
+                            </Tooltip>
+                          ) : (
+                            <Tooltip
+                              placement="top"
+                              content="Khôi phục"
+                            >
+                              <button
+                                onClick={() => handleOpenEnableModal(user)}
+                                className="text-yellow-300"
+                              >
+                                <MdOutlineSettingsBackupRestore size={22} />
+                              </button>
+                            </Tooltip>
+                          )}
+                        </div>
                       )}
 
                       <Modal

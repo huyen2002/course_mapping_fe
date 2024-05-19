@@ -4,7 +4,7 @@ import { BiHide } from 'react-icons/bi'
 import { CiEdit } from 'react-icons/ci'
 import { FaEye } from 'react-icons/fa'
 import { IoMdAdd } from 'react-icons/io'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import LoadingScreen from '../../components/common/LoadingScreen'
 import Pagination from '../../components/common/Pagination'
@@ -72,7 +72,7 @@ const ProgramEducationManage = () => {
               <Table.HeadCell>Chương trình đào tạo</Table.HeadCell>
               <Table.HeadCell>Mã tuyển sinh</Table.HeadCell>
 
-              <Table.HeadCell>Ngành đào tạo</Table.HeadCell>
+              <Table.HeadCell>Ngành học</Table.HeadCell>
               <Table.HeadCell>Trường đào tạo</Table.HeadCell>
               <Table.HeadCell></Table.HeadCell>
             </Table.Head>
@@ -86,7 +86,14 @@ const ProgramEducationManage = () => {
                     <Table.Cell>{program.code}</Table.Cell>
 
                     <Table.Cell>{program.major.name}</Table.Cell>
-                    <Table.Cell>{program.university.name}</Table.Cell>
+                    <Table.Cell>
+                      <Link
+                        to={`/university/${program.university.id}`}
+                        className="text-primary_color hover:text-primary_color_hover hover:underline font-montserrat"
+                      >
+                        {program.university.name}
+                      </Link>
+                    </Table.Cell>
                     <Table.Cell>
                       <div className="flex justify-center gap-6 items-center">
                         <Tooltip content="Xem chi tiết">

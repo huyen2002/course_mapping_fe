@@ -131,7 +131,7 @@ const ProgramEducationForm = ({
         })
         if (response.meta.status === HttpStatusCode.Ok) {
           toast.success('Thêm mới chương trình đào tạo thành công')
-          navigate(`/university/program_education/${response.id}`)
+          navigate(`/university/program_education/${response?.data?.id}`)
         } else {
           toast.error(response.meta.message)
         }

@@ -3,7 +3,7 @@ import { Avatar } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { CiLogout } from 'react-icons/ci'
 import { IoPersonOutline } from 'react-icons/io5'
-import { RiAdminLine } from 'react-icons/ri'
+import { RiAdminLine, RiLockPasswordLine } from 'react-icons/ri'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import SidebarAdmin from '../components/admin/SidebarAdmin'
@@ -11,6 +11,7 @@ import Paths from '../constants/paths'
 import { Role, User } from '../models/User'
 import { AuthService } from '../service/AuthService'
 import { AuthUtils } from '../utils/AuthUtils'
+
 const AdminLayout = () => {
   const [user, setUser] = useState<User>()
   const fetchData = async () => {
@@ -66,11 +67,14 @@ const AdminLayout = () => {
             <h1 className="text-primary_color font-semibold ml-4 mt-4 mb-3">
               {user?.username}
             </h1>
-            <MenuItem onClick={handleCloseMenu}>
+            <MenuItem onClick={() => navigate(Paths.ACCOUNT_INFO)}>
               <IoPersonOutline size={20} />
               <span className="ml-2"> Thông tin tài khoản</span>
             </MenuItem>
-
+            <MenuItem onClick={() => navigate(Paths.CHANGE_PASSWORD)}>
+              <RiLockPasswordLine size={20} />
+              <span className="ml-2"> Đổi mật khẩu</span>
+            </MenuItem>
             <MenuItem onClick={() => navigate(Paths.HOME)}>
               <RiAdminLine size={20} />
               <span className="ml-2">Trang chính</span>
