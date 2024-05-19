@@ -50,8 +50,9 @@ const UniversityDetail = () => {
         <div className="flex items-center gap-8">
           <Avatar
             size="xl"
-            className="block"
             rounded
+            img={university?.feature}
+            className="object-cover"
           />
           <h1 className="text-primary_color font-semibold text-xl">
             {university?.name}
@@ -88,7 +89,7 @@ const UniversityDetail = () => {
         ) : (
           <div>
             <div className="mt-8">
-              <Table className="font-montserrat">
+              <Table className="font-montserrat overflow-auto">
                 <Table.Head className="text-primary_color font-extrabold text-sm">
                   <Table.HeadCell>STT</Table.HeadCell>
                   <Table.HeadCell>Tên chương trình đào tạo</Table.HeadCell>
@@ -104,7 +105,14 @@ const UniversityDetail = () => {
                   {data.map((program, index) => (
                     <Table.Row key={program.id}>
                       <Table.Cell>{index + 1 + (page - 1) * 10}</Table.Cell>
-                      <Table.Cell>{program.name}</Table.Cell>
+                      <Table.Cell>
+                        <Link
+                          to={`/program_education/${program.id}`}
+                          className="text-primary_color hover:text-primary_color_hover underline font-montserrat"
+                        >
+                          {program.name}
+                        </Link>
+                      </Table.Cell>
 
                       <Table.Cell>{program.code}</Table.Cell>
                       <Table.Cell>{program.major.name}</Table.Cell>

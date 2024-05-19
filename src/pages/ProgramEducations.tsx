@@ -21,10 +21,10 @@ const ProgramEducations = () => {
         searchParams[key as keyof SearchProgramParams] == null &&
         delete searchParams[key as keyof SearchProgramParams]
     )
+
     const searchStr = new URLSearchParams(searchParams as any).toString()
     navigate(`/${Paths.SEARCH_PROGRAM_RESULT}?${searchStr}`)
     console.log(searchParams)
-    fetchData()
   }
 
   return (

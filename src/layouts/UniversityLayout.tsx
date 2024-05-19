@@ -66,7 +66,11 @@ const UniversityLayout = () => {
                 type="button"
                 onClick={handleClick}
               >
-                <Avatar rounded />
+                <Avatar
+                  rounded
+                  img={AuthUtils.isUniversity() ? university?.feature : ''}
+                  className="object-cover"
+                />
               </button>
               <Menu
                 id="basic-menu"

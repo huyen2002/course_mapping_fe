@@ -99,15 +99,7 @@ const UniversityManagement = () => {
                       ? university.user.id
                       : 'Chưa có tài khoản'}
                   </Table.Cell>
-                  <Table.Cell>
-                    <button
-                      onClick={() =>
-                        navigate(`/university/${university.id}/info`)
-                      }
-                    >
-                      {university.name}
-                    </button>
-                  </Table.Cell>
+                  <Table.Cell>{university.name}</Table.Cell>
 
                   <Table.Cell>{university.code}</Table.Cell>
 

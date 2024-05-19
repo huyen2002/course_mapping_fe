@@ -32,7 +32,7 @@ const Home = () => {
     fetchData()
   }
   return (
-    <main className="flex gap-10 h-full">
+    <main className="flex flex-col lg:flex-row gap-10 h-full overflow-auto no-scrollbar lg:overflow-hidden">
       <div>
         <h1 className="font-semibold text-primary_color">Tìm kiếm</h1>
         <form className="flex flex-col gap-8 mt-4">
@@ -87,9 +87,9 @@ const Home = () => {
         <h1 className="text-2xl text-primary_color ml-4 font-bold">
           Ngành đào tạo
         </h1>
-        <div className=" h-[500px]">
+        <div className="h-full lg:h-[500px]">
           {!isFetching ? (
-            <div className="relative flex flex-col gap-8 mt-4 pb-8 overflow-y-scroll h-[500px] no-scrollbar">
+            <div className="relative flex flex-col gap-8 mt-4 pb-8 lg:overflow-y-scroll lg:h-[500px] no-scrollbar">
               <div>
                 {data.map((major) => {
                   return (

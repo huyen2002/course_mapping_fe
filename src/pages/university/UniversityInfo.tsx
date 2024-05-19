@@ -46,7 +46,8 @@ const UniversityInfo = () => {
         <div className="flex items-center gap-8">
           <Avatar
             size="xl"
-            className="block"
+            className="block object-cover"
+            img={university?.feature}
             rounded
           />
           <h1 className="text-primary_color font-semibold text-xl">

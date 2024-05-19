@@ -21,6 +21,7 @@ const Universities = () => {
     console.log('country', country)
 
     console.log('search params', searchParams)
+    changePage(1)
     fetchData()
   }
   useEffect(() => {

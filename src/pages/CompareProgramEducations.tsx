@@ -344,7 +344,7 @@ const CompareProgramEducations = () => {
                               </Table.Cell>
                               <Table.Cell>
                                 {item.outlineSimilarity > 0
-                                  ? `${item.outlineSimilarity}`
+                                  ? `${item.outlineSimilarity}%`
                                   : '-'}
                               </Table.Cell>
                             </Table.Row>

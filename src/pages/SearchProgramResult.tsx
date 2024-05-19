@@ -76,6 +76,7 @@ const SearchProgramResult = () => {
         delete searchParams[key as keyof SearchProgramParams]
     )
     const searchStr = new URLSearchParams(searchParams as any).toString()
+    changePage(1)
     navigate(`/${Paths.SEARCH_PROGRAM_RESULT}?${searchStr}`)
     fetchData()
   }

@@ -3,6 +3,7 @@ import { Avatar } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { CiLogout } from 'react-icons/ci'
 import { IoPersonOutline } from 'react-icons/io5'
+import { LuMenu } from 'react-icons/lu'
 import { RiAdminLine, RiLockPasswordLine } from 'react-icons/ri'
 import { Link, useNavigate } from 'react-router-dom'
 import Paths from '../../constants/paths'
@@ -16,12 +17,21 @@ const Navbar = () => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
+  const [signInAnchorEl, setSignInAnchorEl] = useState<null | HTMLElement>(null)
+  const signInOpen = Boolean(signInAnchorEl)
+
+  const handleSignInClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setSignInAnchorEl(event.currentTarget)
+  }
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
 
   const navigate = useNavigate()
 
+  const handleCloseSignIn = () => {
+    setSignInAnchorEl(null)
+  }
   const handleCloseMenu = () => {
     setAnchorEl(null)
   }
@@ -70,7 +80,7 @@ const Navbar = () => {
           />
         </a>
 
-        <div className="text-lg flex gap-4">
+        <div className="lg:text-lg flex gap-4">
           <Link
             to={Paths.HOME}
             className="font-semibold font-montserrat text-primary_color hover:text-primary_color_hover"
@@ -131,17 +141,40 @@ const Navbar = () => {
           </Menu>
         </div>
       ) : (
-        <div className="flex-2 flex gap-4 mr-10">
-          <Link to={Paths.CHOOSE_ROLE}>
-            <button className=" hover:bg-white_hover text-primary_color rounded-3xl py-1 px-2  border-primary_color border-button">
-              Đăng ký
+        <div>
+          <div className="flex-2 gap-4 mr-10 hidden lg:flex">
+            <Link to={Paths.CHOOSE_ROLE}>
+              <button className=" hover:bg-white_hover text-primary_color rounded-3xl py-1 px-2  border-primary_color border-button">
+                Đăng ký
+              </button>
+            </Link>
+            <Link to={Paths.LOGIN}>
+              <button className=" bg-primary_color text-white py-1 rounded-3xl px-2 hover:bg-primary_color_hover ">
+                Đăng nhập
+              </button>
+            </Link>
+          </div>
+          <div className="block lg:hidden mr-4">
+            <button
+              onClick={handleSignInClick}
+              className="bg-primary_color text-white rounded-3xl px-2 py-1 hover:bg-primary_color_hover"
+            >
+              <LuMenu size={20} />
             </button>
-          </Link>
-          <Link to={Paths.LOGIN}>
-            <button className=" bg-primary_color text-white py-1 rounded-3xl px-2 hover:bg-primary_color_hover ">
-              Đăng nhập
-            </button>
-          </Link>
+            <Menu
+              id="basic-menu"
+              open={signInOpen}
+              onClose={handleCloseSignIn}
+              anchorEl={signInAnchorEl}
+            >
+              <MenuItem>
+                <Link to={Paths.LOGIN}>Đăng nhập</Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to={Paths.CHOOSE_ROLE}>Đăng ký</Link>
+              </MenuItem>
+            </Menu>
+          </div>
         </div>
       )}
     </div>

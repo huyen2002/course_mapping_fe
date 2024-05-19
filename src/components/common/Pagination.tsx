@@ -28,7 +28,7 @@ const Pagination = ({
   return (
     <div className="float-right flex items-center gap-2">
       <h1>{`Tổng: ${total}`}</h1>
-      <nav aria-label="Page navigation example">
+      <nav>
         <ul className="flex items-center -space-x-px h-10 text-base">
           <li>
             <button
