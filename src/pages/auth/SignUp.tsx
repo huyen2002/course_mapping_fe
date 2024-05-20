@@ -1,3 +1,4 @@
+import { HttpStatusCode } from 'axios'
 import { Spinner } from 'flowbite-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -27,8 +28,6 @@ const SignUp = () => {
   const navigate = useNavigate()
 
   const onSubmit = async (data: UserCreateInput) => {
-    console.log('submit', data)
-    console.log('role', role)
     try {
       if (role === Role.UNIVERSITY.toLocaleLowerCase()) {
         if (!universityName || !universityCode) {
@@ -39,7 +38,7 @@ const SignUp = () => {
           toast.error('Vui lòng nhập quốc gia và địa chỉ chi tiết')
           return
         }
-        await AuthService.register({
+        const response = await AuthService.register({
           ...data,
           role: Role.UNIVERSITY,
           university: {
@@ -51,26 +50,25 @@ const SignUp = () => {
             },
           },
         })
-        console.log('data', {
-          ...data,
-          role: Role.UNIVERSITY,
-          university: {
-            name: universityName,
-            code: universityCode,
-            address: {
-              ...address,
-              detail: detailAddress,
-            },
-          },
-        })
+        if (response.meta.status === HttpStatusCode.Ok) {
+          toast.success('Đăng ký tài khoản thành công')
+          navigate(Paths.LOGIN)
+        } else {
+          toast.error(response.meta.message)
+        }
       } else {
-        await AuthService.register({
+        const response = await AuthService.register({
           ...data,
           role: Role.USER,
         })
+
+        if (response.meta.status === HttpStatusCode.Ok) {
+          toast.success('Đăng ký tài khoản thành công')
+          navigate(Paths.LOGIN)
+        } else {
+          toast.error(response.meta.message)
+        }
       }
-      toast.success('Đăng ký tài khoản thành công')
-      navigate(Paths.LOGIN)
     } catch (e) {
       console.log(e)
       toast.error('Email hoặc tên đăng nhập đã tồn tại')
@@ -264,7 +262,10 @@ const SignUp = () => {
                     type="password"
                     id="password"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
-                    {...register('password', { required: true })}
+                    {...register('password', {
+                      required: true,
+                      minLength: 8,
+                    })}
                   />
                   <div className="mt-2">
                     {errors.password && errors.password.type === 'required' && (
@@ -272,6 +273,12 @@ const SignUp = () => {
                         Vui lòng nhập vào trường này
                       </span>
                     )}
+                    {errors.password &&
+                      errors.password.type === 'minLength' && (
+                        <span className="text-red-500">
+                          Mật khẩu phải có ít nhất 8 ký tự
+                        </span>
+                      )}
                   </div>
                 </div>
                 <div>

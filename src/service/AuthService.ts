@@ -35,7 +35,7 @@ export const AuthService = {
         message: response.message,
         status: response.status,
       },
-      data: UserUtils.toEntity(response.data),
+      data: response.data ? UserUtils.toEntity(response.data) : null,
     }
   },
 }

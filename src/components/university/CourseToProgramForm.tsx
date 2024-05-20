@@ -1,4 +1,5 @@
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material'
+import { HttpStatusCode } from 'axios'
 import { Label, TextInput } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { FaAsterisk } from 'react-icons/fa6'
@@ -68,8 +69,11 @@ const CourseToProgramForm = ({
       setIsFetching(true)
       if (!programCourse) {
         const response = await ProgramEducationCourseService.create(data)
-        console.log(response)
-        toast.success('Thêm môn học thành công')
+        if (response.meta.status === HttpStatusCode.Ok) {
+          toast.success('Thêm môn học thành công')
+        } else {
+          toast.error(response.meta.message)
+        }
       } else {
         const newData = ObjectUtils.getUpdatedObject(data, programCourse)
         if (!newData || Object.keys(newData).length === 0) {
@@ -80,6 +84,7 @@ const CourseToProgramForm = ({
           programCourse.id as number,
           newData
         )
+
         toast.success('Cập nhật môn học thành công')
       }
     } catch (e: any) {

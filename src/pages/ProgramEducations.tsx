@@ -12,8 +12,10 @@ import ProgramEducationService from '../service/ProgramEducationService'
 const ProgramEducations = () => {
   const [searchParams, setSearchParams] = useState<SearchProgramParams>({})
   const navigate = useNavigate()
-  const { data, page, total, isFetching, fetchData, changePage } =
-    useFetchPagination(ProgramEducationService.search, searchParams)
+  const { data, page, total, isFetching, changePage } = useFetchPagination(
+    ProgramEducationService.search,
+    searchParams
+  )
 
   const onSubmit = () => {
     Object.keys(searchParams).forEach(

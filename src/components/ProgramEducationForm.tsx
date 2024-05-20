@@ -61,8 +61,6 @@ const ProgramEducationForm = ({
   }
 
   const onSubmit = async (data: ProgramEducation) => {
-    console.log('on submit')
-    console.log(data)
     let outlineUrl: string | null = null
     if (fileUpload) {
       const filesFolderRef = ref(
@@ -80,7 +78,6 @@ const ProgramEducationForm = ({
         setIsFetching(false)
       }
     }
-    console.log('sourceLinks', sourceLinks)
     if (programEducation) {
       const newObject = ObjectUtils.getUpdatedObject(
         {
@@ -94,7 +91,6 @@ const ProgramEducationForm = ({
         ProgramEducationUtils.toDto(programEducation)
       )
 
-      console.log('newObject', newObject)
       if (Object.keys(newObject).length === 0) {
         toast.error('Không có thông tin nào thay đổi')
         return
@@ -236,7 +232,6 @@ const ProgramEducationForm = ({
                     options={universityOptions}
                     value={university}
                     onChange={(selectedOption: any) => {
-                      console.log(selectedOption)
                       setUniversity(selectedOption)
                     }}
                   />
@@ -281,7 +276,6 @@ const ProgramEducationForm = ({
                   options={majorOptions}
                   value={major}
                   onChange={(selectedOption: any) => {
-                    console.log(selectedOption)
                     setMajor(selectedOption)
                   }}
                 />

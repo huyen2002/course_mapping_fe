@@ -38,7 +38,9 @@ export const ProgramEducationCourseService = {
         message: response.message,
         status: response.status,
       },
-      data: ProgramEducationCourseUtils.toEntity(response.data),
+      data: response.data
+        ? ProgramEducationCourseUtils.toEntity(response.data)
+        : null,
     }
   },
   update: async (id: number, data: ProgramEducationCourse) => {
@@ -50,7 +52,9 @@ export const ProgramEducationCourseService = {
         message: response.message,
         status: response.status,
       },
-      data: ProgramEducationCourseUtils.toEntity(response.data),
+      data: response.data
+        ? ProgramEducationCourseUtils.toEntity(response.data)
+        : null,
     }
   },
   delete: async (id: number) => {

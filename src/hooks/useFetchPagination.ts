@@ -12,7 +12,6 @@ export const useFetchPagination = (
   const [total, setTotal] = useState<number>(0)
 
   const fetchData = async () => {
-    console.log('search', searchParams)
     try {
       setIsFetching(true)
       const response = await fetchAPI(

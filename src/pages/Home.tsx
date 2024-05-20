@@ -17,7 +17,8 @@ const Home = () => {
     e.preventDefault()
     setNameParam('')
     setCodeParam('')
-    fetchData()
+    changePage(1)
+    // fetchData()
   }
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const Home = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault()
+    changePage(1)
     fetchData()
   }
   return (

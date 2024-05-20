@@ -1,12 +1,14 @@
 import { Modal, Table } from 'flowbite-react'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import LoadingScreen from '../components/common/LoadingScreen'
+import Paths from '../constants/paths'
 import { ComparableProgramEducation } from '../models/ComparableProgramEducation'
 import { ComparedCourses } from '../models/ComparedCourses'
 import { Course } from '../models/Course'
 import { LevelOfEducation, ProgramEducation } from '../models/ProgramEducation'
 import ProgramEducationService from '../service/ProgramEducationService'
+import { AuthUtils } from '../utils/AuthUtils'
 
 const CompareProgramEducations = () => {
   const { id_1, id_2 } = useParams()
@@ -26,6 +28,7 @@ const CompareProgramEducations = () => {
     setSecondCourse(item.secondCourse as Course)
     setOpenDetailModal(true)
   }
+  const navigate = useNavigate()
 
   const fetchData = async () => {
     try {
@@ -56,6 +59,12 @@ const CompareProgramEducations = () => {
   useEffect(() => {
     fetchData()
   }, [id_1, id_2])
+
+  useEffect(() => {
+    if (!AuthUtils.isAuthorized()) {
+      navigate(Paths.LOGIN)
+    }
+  })
 
   return (
     <div>
