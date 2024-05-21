@@ -27,7 +27,6 @@ const ManagementLayout = () => {
       }
       const response = await AuthService.me()
       setUser(response.data)
-      console.log(response.data)
       if (response.data.role === Role.USER) {
         toast.error('Bạn không có quyền truy cập vào trang này')
       } else if (response.data.role === Role.UNIVERSITY) {

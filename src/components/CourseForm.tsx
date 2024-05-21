@@ -167,6 +167,7 @@ const CourseForm = ({
 
           <TextInput
             id="name"
+            type="text"
             {...register('name', {
               required: true,
             })}
@@ -210,6 +211,7 @@ const CourseForm = ({
           </div>
 
           <TextInput
+            type="text"
             id="code"
             {...register('code', {
               required: true,
@@ -249,7 +251,7 @@ const CourseForm = ({
           <button
             type="button"
             onClick={handleResetForm}
-            className="text-red-500 border py-2 px-4 rounded-lg font-semibold hover:bg-red-500 hover:text-white transition duration-200 text-sm"
+            className="text-red-500 border py-2 px-4 rounded-lg border-red-500 hover:bg-red-500 hover:text-white transition duration-200 text-sm"
           >
             Hủy
           </button>

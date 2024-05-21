@@ -209,6 +209,7 @@ const ProgramEducationForm = ({
 
                 <TextInput
                   id="name"
+                  type="text"
                   placeholder="Công nghệ thông tin"
                   {...register('name', {
                     required: true,

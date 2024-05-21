@@ -1,6 +1,6 @@
 export interface SearchUserParams {
-  username: string
-  createMonth: number
-  createYear: number
-  role: string
+  username?: string
+  createMonth?: number
+  createYear?: number
+  role?: string
 }

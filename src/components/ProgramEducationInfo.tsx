@@ -39,6 +39,7 @@ const ProgramEducationInfo = ({
   const fetchCourseList = async () => {
     try {
       setIsLoading(true)
+      if (!programEducation) return
       const response = await CourseService.getList(
         programEducation.university.id
       )
@@ -259,6 +260,7 @@ const ProgramEducationInfo = ({
                         <Table.Cell>{programCourse.course.code}</Table.Cell>
                         <Table.Cell>{programCourse.course.name}</Table.Cell>
                         <Table.Cell>{programCourse.numCredits}</Table.Cell>
+
                         <Table.Cell>
                           {programCourse.compulsory ? 'Bắt buộc' : 'Tự chọn'}
                         </Table.Cell>

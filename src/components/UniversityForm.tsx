@@ -131,6 +131,7 @@ const UniversityForm = ({ university }: { university?: University }) => {
 
           <TextInput
             id="name"
+            type="text"
             {...register('name', {
               required: true,
             })}
@@ -150,6 +151,7 @@ const UniversityForm = ({ university }: { university?: University }) => {
             </div>
             <TextInput
               id="code"
+              type="text"
               {...register('code', {
                 required: true,
               })}
@@ -196,6 +198,7 @@ const UniversityForm = ({ university }: { university?: University }) => {
               <div>
                 <AddressSelection setAddress={setAddress} />
                 <TextInput
+                  type="text"
                   id="detailAddress"
                   value={detailAddress}
                   onChange={(e) => setDetailAddress(e.target.value)}
@@ -210,6 +213,7 @@ const UniversityForm = ({ university }: { university?: University }) => {
                 <AddressSelection setAddress={setAddress} />
                 <div className="flex gap-4 items-center">
                   <TextInput
+                    type="text"
                     id="detailAddress"
                     value={detailAddress}
                     onChange={(e) => setDetailAddress(e.target.value)}

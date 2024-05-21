@@ -6,7 +6,7 @@ import {
   Table,
   Tooltip,
 } from 'flowbite-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BiHide } from 'react-icons/bi'
 import { CiEdit } from 'react-icons/ci'
 import { FaEye } from 'react-icons/fa'
@@ -16,13 +16,19 @@ import { toast } from 'react-toastify'
 import UniversityForm from '../../components/UniversityForm'
 import LoadingScreen from '../../components/common/LoadingScreen'
 import Pagination from '../../components/common/Pagination'
+import SearchInput from '../../components/university/SearchInput'
 import { useFetchPagination } from '../../hooks/useFetchPagination'
+import { SearchUniversityParams } from '../../models/SearchUniversityParams'
 import { University } from '../../models/University'
 import { UniversityService } from '../../service/UniversityService'
 
 const UniversityManagement = () => {
+  const [searchName, setSearchName] = useState<string>()
+  const [searchParams, setSearchParams] = useState<SearchUniversityParams>({})
+
   const { data, isFetching, page, changePage, fetchData, total } =
-    useFetchPagination(UniversityService.search, {}, 10)
+    useFetchPagination(UniversityService.search, searchParams, 10)
+
   const [openDeleteModal, setOpenDisableModal] = useState<boolean>(false)
   const [openEditModal, setOpenEditModal] = useState<boolean>(false)
   const [selectedUniversity, setSelectedUniversity] = useState<University>()
@@ -56,13 +62,27 @@ const UniversityManagement = () => {
       setOpenDisableModal(false)
     }
   }
+  useEffect(() => {
+    setSearchParams({
+      name: searchName,
+    })
+  }, [searchName])
+
+  useEffect(() => {
+    changePage(1)
+    fetchData()
+  }, [searchParams])
   return (
     <div className="overflow-y-auto">
-      <h1 className="text-2xl font-bold">Trường đại học</h1>
-      <div className="flex justify-end">
+      <h1 className="text-2xl font-bold mb-8">Trường đại học</h1>
+      <div className="flex justify-between">
+        <SearchInput
+          setSearchName={setSearchName}
+          placeholder="Tên trường đại học"
+        />
         <button
           onClick={() => setOpenAddModal(true)}
-          className=" flex text-white  bg-primary_color hover:bg-primary_color_hover text-sm  focus:outline-none font-medium rounded-lg  px-2 py-2 "
+          className=" flex text-white  bg-primary_color hover:bg-primary_color_hover text-sm items-center  focus:outline-none font-medium rounded-lg  px-2 py-1 "
         >
           <IoIosAdd size={20} />
           Thêm mới

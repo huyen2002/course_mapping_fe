@@ -1,24 +1,28 @@
 import { Modal, Spinner, Table, Tooltip } from 'flowbite-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaEye } from 'react-icons/fa'
 import { IoBanOutline } from 'react-icons/io5'
 import { MdOutlineSettingsBackupRestore } from 'react-icons/md'
 import { toast } from 'react-toastify'
 import LoadingScreen from '../../components/common/LoadingScreen'
 import Pagination from '../../components/common/Pagination'
+import SearchInput from '../../components/university/SearchInput'
 import { useFetchPagination } from '../../hooks/useFetchPagination'
+import { SearchUserParams } from '../../models/SearchUserParams'
 import { Role, RoleLabel, User } from '../../models/User'
 import { UserService } from '../../service/UserService'
 import { DateRender } from '../../utils/ObjectRender'
 
 const UserManagement = () => {
-  const { data, isFetching, page, changePage, fetchData, total } =
-    useFetchPagination(UserService.search, {}, 10)
   const [openDeleteModal, setOpenDisableModal] = useState<boolean>(false)
   const [openEnableModal, setOpenEnableModal] = useState<boolean>(false)
   const [selectedUser, setSelectedUser] = useState<User>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [openDetailModal, setOpenDetailModal] = useState<boolean>(false)
+  const [searchName, setSearchName] = useState<string>()
+  const [searchParams, setSearchParams] = useState<SearchUserParams>({})
+  const { data, isFetching, page, changePage, fetchData, total } =
+    useFetchPagination(UserService.search, searchParams, 10)
 
   const handleOpenDisableModal = (user: User) => {
     setSelectedUser(user)
@@ -64,14 +68,30 @@ const UserManagement = () => {
       setOpenDisableModal(false)
     }
   }
+
+  useEffect(() => {
+    setSearchParams({
+      username: searchName,
+    })
+  }, [searchName])
+
+  useEffect(() => {
+    changePage(1)
+    fetchData()
+  }, [searchParams])
+
   return (
     <div className="overflow-y-auto">
-      <h1 className="text-2xl font-bold">Người dùng</h1>
+      <h1 className="text-2xl font-bold mb-8">Người dùng</h1>
+      <SearchInput
+        setSearchName={setSearchName}
+        placeholder="Tên người dùng"
+      />
 
       {isFetching ? (
         <LoadingScreen />
       ) : (
-        <div className="mt-8">
+        <div className="mt-4">
           <Table className="font-montserrat">
             <Table.Head className="text-primary_color font-extrabold text-sm">
               <Table.HeadCell>STT</Table.HeadCell>

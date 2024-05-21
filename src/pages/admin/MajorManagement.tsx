@@ -67,8 +67,8 @@ const MajorManagement = () => {
         <LoadingScreen />
       ) : (
         <div>
-          <h1 className="text-2xl font-semibold">Ngành đào tạo</h1>
-          <div className="flex justify-between mt-8">
+          <h1 className="text-2xl font-semibold mb-8">Ngành đào tạo</h1>
+          <div className="flex justify-between mb-4">
             <SearchInput
               setSearchName={setSearchName}
               placeholder="Tên ngành đào tạo"

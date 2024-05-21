@@ -22,7 +22,6 @@ const AdminLayout = () => {
       }
       const response = await AuthService.me()
       setUser(response.data)
-      console.log(response.data)
       if (response.data.role !== Role.ADMIN) {
         toast.error('Bạn không có quyền truy cập vào trang này')
       }

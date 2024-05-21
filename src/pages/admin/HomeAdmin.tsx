@@ -20,7 +20,7 @@ const HomeAdmin = () => {
       {/* <UniversityChart /> */}
       <h1 className="text-2xl font-semibold">Thống kê</h1>
       <div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-8">
           <div className="bg-orange-200 p-8 rounded-md shadow-md">
             <h2 className="text-lg font-semibold text-text_color">Tài khoản</h2>
             <p className="text-5xl font-semibold text-orange-500">

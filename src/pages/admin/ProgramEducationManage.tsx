@@ -1,5 +1,5 @@
 import { Button, Modal, Spinner, Table, Tooltip } from 'flowbite-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BiHide } from 'react-icons/bi'
 import { CiEdit } from 'react-icons/ci'
 import { FaEye } from 'react-icons/fa'
@@ -8,17 +8,18 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import LoadingScreen from '../../components/common/LoadingScreen'
 import Pagination from '../../components/common/Pagination'
+import SearchInput from '../../components/university/SearchInput'
 import Paths from '../../constants/paths'
 import { useFetchPagination } from '../../hooks/useFetchPagination'
 import { ProgramEducation } from '../../models/ProgramEducation'
+import { SearchProgramParams } from '../../models/SearchProgramParams'
 import ProgramEducationService from '../../service/ProgramEducationService'
 
 const ProgramEducationManage = () => {
-  const { data, isFetching, page, changePage, total } = useFetchPagination(
-    ProgramEducationService.search,
-    {},
-    10
-  )
+  const [searchName, setSearchName] = useState<string>()
+  const [searchParams, setSearchParams] = useState<SearchProgramParams>({})
+  const { data, isFetching, page, changePage, total, fetchData } =
+    useFetchPagination(ProgramEducationService.search, searchParams, 10)
   const [openModal, setOpenModal] = useState<boolean>(false)
   const navigate = useNavigate()
   const [selectedProgram, setSelectedProgram] = useState<ProgramEducation>()
@@ -46,18 +47,32 @@ const ProgramEducationManage = () => {
       setOpenModal(false)
     }
   }
+  useEffect(() => {
+    setSearchParams({
+      name: searchName,
+    })
+  }, [searchName])
 
+  useEffect(() => {
+    changePage(1)
+    fetchData()
+  }, [searchParams])
   return (
     <div>
       {isFetching ? (
         <LoadingScreen />
       ) : (
         <div>
-          <h1 className="text-2xl font-semibold">Chương trình đào tạo</h1>
-          <div className="flex justify-end">
+          <h1 className="text-2xl font-semibold mb-8">Chương trình đào tạo</h1>
+          <div className="flex justify-between mb-4">
+            <SearchInput
+              setSearchName={setSearchName}
+              placeholder="Tên chương trình đào tạo"
+            />
             <Button
               className="bg-primary_color text-white hover:bg-primary_color_hover mb-4
             "
+              size="sm"
               onClick={() => navigate(Paths.ADMIN_NEW_PROGRAM_EDUCATION)}
             >
               <IoMdAdd size={18} />

@@ -30,7 +30,6 @@ const UniversityProgramDetail = () => {
     }
   }
   const handleControlProgram = async () => {
-    console.log('id', id)
     try {
       setIsLoading(true)
       if (!programEducation?.enabled) {
