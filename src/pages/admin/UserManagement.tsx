@@ -1,6 +1,6 @@
 import { Modal, Spinner, Table, Tooltip } from 'flowbite-react'
 import { useEffect, useState } from 'react'
-import { FaEye } from 'react-icons/fa'
+import { FaEye, FaRegTrashAlt } from 'react-icons/fa'
 import { IoBanOutline } from 'react-icons/io5'
 import { MdOutlineSettingsBackupRestore } from 'react-icons/md'
 import { toast } from 'react-toastify'
@@ -14,8 +14,9 @@ import { UserService } from '../../service/UserService'
 import { DateRender } from '../../utils/ObjectRender'
 
 const UserManagement = () => {
-  const [openDeleteModal, setOpenDisableModal] = useState<boolean>(false)
+  const [openDisableModal, setOpenDisableModal] = useState<boolean>(false)
   const [openEnableModal, setOpenEnableModal] = useState<boolean>(false)
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const [selectedUser, setSelectedUser] = useState<User>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [openDetailModal, setOpenDetailModal] = useState<boolean>(false)
@@ -31,6 +32,10 @@ const UserManagement = () => {
   const handleOpenDetailModal = (user: User) => {
     setSelectedUser(user)
     setOpenDetailModal(true)
+  }
+  const handleOpenDeleteModal = (user: User) => {
+    setSelectedUser(user)
+    setOpenDeleteModal(true)
   }
   const handleOpenEnableModal = (user: User) => {
     setSelectedUser(user)
@@ -68,7 +73,20 @@ const UserManagement = () => {
       setOpenDisableModal(false)
     }
   }
-
+  const handleDeleteUser = async () => {
+    try {
+      setIsLoading(true)
+      await UserService.delete(selectedUser?.id as number)
+      toast.success('Xóa tài khoản thành công')
+      fetchData()
+    } catch (e) {
+      console.log(e)
+      toast.error('Xóa tài khoản không thành công')
+    } finally {
+      setIsLoading(false)
+      setOpenDeleteModal(false)
+    }
+  }
   useEffect(() => {
     setSearchParams({
       username: searchName,
@@ -131,32 +149,46 @@ const UserManagement = () => {
                         </button>
                       </Tooltip>
                       {user.role !== Role.ADMIN && (
-                        <div>
-                          {user.enabled ? (
+                        <div className="flex gap-4 items-center">
+                          <div>
+                            {user.enabled ? (
+                              <Tooltip
+                                placement="top"
+                                content="Vô hiệu hóa"
+                              >
+                                <button
+                                  onClick={() => handleOpenDisableModal(user)}
+                                  className="text-red-500"
+                                >
+                                  <IoBanOutline size={20} />
+                                </button>
+                              </Tooltip>
+                            ) : (
+                              <Tooltip
+                                placement="top"
+                                content="Khôi phục"
+                              >
+                                <button
+                                  onClick={() => handleOpenEnableModal(user)}
+                                  className="text-yellow-300"
+                                >
+                                  <MdOutlineSettingsBackupRestore size={22} />
+                                </button>
+                              </Tooltip>
+                            )}
+                          </div>
+                          <div>
                             <Tooltip
                               placement="top"
-                              content="Vô hiệu hóa"
+                              content="Xóa tài khoản"
                             >
                               <button
-                                onClick={() => handleOpenDisableModal(user)}
-                                className="text-red-500"
+                                onClick={() => handleOpenDeleteModal(user)}
                               >
-                                <IoBanOutline size={20} />
+                                <FaRegTrashAlt size={18} />
                               </button>
                             </Tooltip>
-                          ) : (
-                            <Tooltip
-                              placement="top"
-                              content="Khôi phục"
-                            >
-                              <button
-                                onClick={() => handleOpenEnableModal(user)}
-                                className="text-yellow-300"
-                              >
-                                <MdOutlineSettingsBackupRestore size={22} />
-                              </button>
-                            </Tooltip>
-                          )}
+                          </div>
                         </div>
                       )}
 
@@ -209,7 +241,7 @@ const UserManagement = () => {
                         </Modal.Body>
                       </Modal>
                       <Modal
-                        show={openDeleteModal && selectedUser?.id === user.id}
+                        show={openDisableModal && selectedUser?.id === user.id}
                         onClose={() => setOpenDisableModal(false)}
                       >
                         <Modal.Header>Cảnh báo</Modal.Header>
@@ -270,6 +302,43 @@ const UserManagement = () => {
                             <button
                               onClick={handleEnableUser}
                               className="bg-primary_color hover:bg-primary_color_hover py-1 px-3 rounded-md text-white flex gap-[6px] items-center"
+                            >
+                              {isLoading && (
+                                <Spinner
+                                  color="failure"
+                                  size="sm"
+                                />
+                              )}
+                              Đồng ý
+                            </button>
+                          </div>
+                        </Modal.Body>
+                      </Modal>
+                      <Modal
+                        show={openDeleteModal && selectedUser?.id === user.id}
+                        onClose={() => setOpenDeleteModal(false)}
+                      >
+                        <Modal.Header>Cảnh báo</Modal.Header>
+                        <Modal.Body>
+                          <p>
+                            Bạn có chắc chắn muốn xóa tài khoản{' '}
+                            <span className="text-primary_color">
+                              {user.username}
+                            </span>{' '}
+                            ?
+                          </p>
+                          <div className="flex gap-6 justify-end mt-8">
+                            <button
+                              onClick={() => {
+                                setOpenDeleteModal(false)
+                              }}
+                              className="bg-slate-50 hover:bg-slate-100 py-1 px-3 rounded-md border border-primary_color text-primary_color"
+                            >
+                              Hủy
+                            </button>
+                            <button
+                              onClick={handleDeleteUser}
+                              className="bg-red-500 hover:bg-red-600 py-1 px-3 rounded-md text-white flex gap-[6px] items-center"
                             >
                               {isLoading && (
                                 <Spinner

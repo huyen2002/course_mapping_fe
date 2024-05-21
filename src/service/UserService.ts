@@ -45,4 +45,13 @@ export const UserService = {
       data: UserUtils.toEntities(response.data),
     }
   },
+  delete: async (id: number) => {
+    const response = (await http().delete(UserAPIs.DELETE(id))).data
+    return {
+      meta: {
+        status: response.status,
+        message: response.message,
+      },
+    }
+  },
 }
